@@ -1,0 +1,33 @@
+{
+  "name": "CSE 136 Team 5 Page",
+  "homepage": "https://github.com/Kyly/cse136-team-5-page",
+  "authors": [
+    "Kyly <kylyvass@gmail.com>"
+  ],
+  "description": "Team 5 introduction page. Here you can find anything you would ever want to know about team five!",
+  "main": "index.html",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "Team",
+    "5",
+    "cse",
+    "136"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.2"
+  }
+}

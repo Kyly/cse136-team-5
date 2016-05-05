@@ -1,0 +1,50 @@
+<!-- TODO Add Delete Confirmation Form -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Postback Version</title>
+    <!-- Including CSS in page for example clarity -->
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+        }
+        a { cursor: pointer; color: blue; }
+        a:hover,a.hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<a href="/logout">Logout</a><br><br>
+
+<table>
+<tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Price</th>
+    <th></th>
+</tr>
+<% books.forEach(function(book) { %>
+<tr>
+    <!-- Useful for testing purposed to show ID.  Remove in practice. -->
+    <td><%= book.id %></td>
+    <td><%= book.title %></td>
+    <td><%= book.author %></td>
+    <td>$<%= book.price %></td>
+    <td><a href="/books/confirmdelete/<%= book.id %>"><img src='/images/trash.gif' alt='delete' title='Delete' border='0'></a>
+    &nbsp;<a href="/books/edit/<%= book.id %>"><img src='/images/pencil.gif' alt='edit' title='Edit' border='0'></a>
+    </td>
+</tr>
+<% }); %>
+
+</table>
+<br>
+<a href="/books/add">Add Row</a>
+</body>
+</html>
+

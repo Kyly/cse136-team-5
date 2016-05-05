@@ -1,0 +1,866 @@
+/*
+    1. Grid
+    2. Layout
+    3. Page header
+    4. Upload Dialog
+    5. Search Bar
+    6. Sort Dropdown
+    7. Bookmark explorer
+    8. Forms
+*/
+
+/* 1. Grid */
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+html, body {
+    font-size: 10px;
+    font-family: "Titillium Web";
+}
+
+a {
+    text-decoration: none;
+    color: #39789F;
+}
+
+a:hover, a:active {
+    color: #7AB1DF;
+}
+
+a:visited {
+    color: #6154A1;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 1.4rem;
+    max-width: 72em;
+}
+
+.container:after, .row:after, .u-cf {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -0.7rem;
+    margin-left: -0.7rem;
+}
+
+.row.align-middle {
+    align-items: center;
+}
+
+.row.align-bottom {
+    align-items: flex-end;
+}
+
+.row.align-left {
+    justify-content: flex-start;
+}
+
+.row.align-center {
+    justify-content: center;
+}
+
+.row.align-right {
+    justify-content: flex-end;
+}
+
+[class*="col"] {
+    width: 100%;
+    padding: 0 0.7rem;
+}
+
+.col-xs-1 {
+    flex-basis: 8.333%;
+    max-width: 8.333%;
+}
+
+.col-xs-2 {
+    flex-basis: 16.667%;
+    max-width: 16.667%;
+}
+
+.col-xs-3 {
+    flex-basis: 25%;
+    max-width: 25%;
+}
+
+.col-xs-4 {
+    flex-basis: 33.333%;
+    max-width: 33.333%;
+}
+
+.col-xs-5 {
+    flex-basis: 41.667%;
+    max-width: 41.667%;
+}
+
+.col-xs-6 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+
+.col-xs-7 {
+    flex-basis: 58.333%;
+    max-width: 58.333%;
+}
+
+.col-xs-8 {
+    flex-basis: 66.667%;
+    max-width: 66.667%;
+}
+
+.col-xs-9 {
+    flex-basis: 75%;
+    max-width: 75%;
+}
+
+.col-xs-10 {
+    flex-basis: 83.333%;
+    max-width: 83.333%;
+}
+
+.col-xs-11 {
+    flex-basis: 91.667%;
+    max-width: 91.667%;
+}
+
+.col-xs-12 {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+@media screen and (min-width: 35.5em) {
+    html, body {
+        font-size: 12px;
+    }
+
+    .col-sm-1 {
+        flex-basis: 8.333%;
+        max-width: 8.333%;
+    }
+
+    .col-sm-2 {
+        flex-basis: 16.667%;
+        max-width: 16.667%;
+    }
+
+    .col-sm-3 {
+        flex-basis: 25%;
+        max-width: 25%;
+    }
+
+    .col-sm-4 {
+        flex-basis: 33.333%;
+        max-width: 33.333%;
+    }
+
+    .col-sm-5 {
+        flex-basis: 41.667%;
+        max-width: 41.667%;
+    }
+
+    .col-sm-6 {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+
+    .col-sm-7 {
+        flex-basis: 58.333%;
+        max-width: 58.333%;
+    }
+
+    .col-sm-8 {
+        flex-basis: 66.667%;
+        max-width: 66.667%;
+    }
+
+    .col-sm-9 {
+        flex-basis: 75%;
+        max-width: 75%;
+    }
+
+    .col-sm-10 {
+        flex-basis: 83.333%;
+        max-width: 83.333%;
+    }
+
+    .col-sm-11 {
+        flex-basis: 91.667%;
+        max-width: 91.667%;
+    }
+
+    .col-sm-12 {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 48em) {
+    html, body {
+        font-size: 14px;
+    }
+
+    .col-md-1 {
+        flex-basis: 8.333%;
+        max-width: 8.333%;
+    }
+
+    .col-md-2 {
+        flex-basis: 16.667%;
+        max-width: 16.667%;
+    }
+
+    .col-md-3 {
+        flex-basis: 25%;
+        max-width: 25%;
+    }
+
+    .col-md-4 {
+        flex-basis: 33.333%;
+        max-width: 33.333%;
+    }
+
+    .col-md-5 {
+        flex-basis: 41.667%;
+        max-width: 41.667%;
+    }
+
+    .col-md-6 {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+
+    .col-md-7 {
+        flex-basis: 58.333%;
+        max-width: 58.333%;
+    }
+
+    .col-md-8 {
+        flex-basis: 66.667%;
+        max-width: 66.667%;
+    }
+
+    .col-md-9 {
+        flex-basis: 75%;
+        max-width: 75%;
+    }
+
+    .col-md-10 {
+        flex-basis: 83.333%;
+        max-width: 83.333%;
+    }
+
+    .col-md-11 {
+        flex-basis: 91.667%;
+        max-width: 91.667%;
+    }
+
+    .col-md-12 {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 64em) {
+    .col-lg-1 {
+        flex-basis: 8.333%;
+        max-width: 8.333%;
+    }
+
+    .col-lg-2 {
+        flex-basis: 16.667%;
+        max-width: 16.667%;
+    }
+
+    .col-lg-3 {
+        flex-basis: 25%;
+        max-width: 25%;
+    }
+
+    .col-lg-4 {
+        flex-basis: 33.333%;
+        max-width: 33.333%;
+    }
+
+    .col-lg-5 {
+        flex-basis: 41.667%;
+        max-width: 41.667%;
+    }
+
+    .col-lg-6 {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+
+    .col-lg-7 {
+        flex-basis: 58.333%;
+        max-width: 58.333%;
+    }
+
+    .col-lg-8 {
+        flex-basis: 66.667%;
+        max-width: 66.667%;
+    }
+
+    .col-lg-9 {
+        flex-basis: 75%;
+        max-width: 75%;
+    }
+
+    .col-lg-10 {
+        flex-basis: 83.333%;
+        max-width: 83.333%;
+    }
+
+    .col-lg-11 {
+        flex-basis: 91.667%;
+        max-width: 91.667%;
+    }
+
+    .col-lg-12 {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* 2. Layout */
+html, body {
+    font-size: 16px;
+    background-color: #c1bdba;
+    color: #918e8d;
+}
+
+h1 {
+    color: #4b4b60;
+}
+
+#app-content {
+    margin: 0 auto;
+}
+
+bm-app {
+    display: block;
+}
+
+#bookmark-explorer {
+    background-color: #4b4b60;
+    height: 55em;
+}
+
+#bookmark-dialog {
+
+}
+
+.dialog {
+    color: #c1bdba;
+    margin-bottom: 1.4rem;
+    padding: 1em;
+    background-color: #4b4b60;
+    box-shadow: .1em .1em .6em rgba(82, 78, 75, 0.59);
+}
+
+.dialog-header {
+    display: flex;
+    width: 100%;
+}
+
+.dialog-header .dialog-title {
+    min-width: 50%;
+    font-size: larger;
+}
+
+#bookmark-dialog div:first-child {
+    margin-top: 0;
+}
+
+/* 3. Page header */
+header, header.container {
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
+
+header .sub-header {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+header h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 3em;
+}
+
+/* 4. Bookmark Upload Dialog */
+bm-dialog-close {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    flex: 1 100%;
+}
+
+bm-dialog-close span[onclick] {
+    cursor: pointer;
+}
+
+bm-dialog-body {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 1em;
+    width: 100%;
+}
+
+bm-dialog-close .span {
+    margin: 0;
+}
+
+bm-app {
+    display: block;
+}
+
+bm-create-dialog,
+bm-edit-dialog,
+bm-upload-file-dialog,
+bm-create-folder-dialog {
+    display: flex;
+    flex-flow: row wrap;
+    height: auto;
+}
+
+bm-upload-file-dialog {
+    height: 28em;
+}
+
+bm-upload-file-dialog .drag-and-drop-inner p {
+    margin: .2em;
+}
+
+bm-upload-file-dialog .drag-and-drop-container .drag-and-drop-inner {
+    border: 3px dashed #c1bdba;
+    width: 100%;
+    height: 100%;
+    border-radius: .5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+bm-upload-file-dialog .drag-and-drop-container .drag-and-drop-inner span.fa {
+    font-size: 4em;
+}
+
+bm-upload-file-dialog .drag-and-drop-container {
+    flex-basis: 100%;
+    max-width: 100%;
+    height: 90%;
+    background-color: rgba(193, 189, 186, 0.50);
+    padding: 1em;
+    border-radius: .5em;
+}
+
+/* 5. Search Bar */
+.search-bar {
+    width: 100%;
+    padding: 0.5em 0.5em;
+    position: relative;
+}
+
+.search-bar input {
+    width: 100%;
+    padding-right: 15%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-color: rgba(57, 120, 159, 100);
+    background-color: rgba(75, 75, 96, 100);
+    color: #c1bdba;
+    font-size: 1em;
+    line-height: 1;
+}
+
+.search-bar input:hover {
+    background-color: rgba(97, 84, 161, 100);
+}
+
+.search-bar input:focus {
+    background-color: rgba(75, 75, 96, 100);
+}
+
+.search-bar i {
+    position: absolute;
+    bottom: 0.80em;
+    cursor: pointer;
+    padding-right: 1.5em;
+    color: rgba(122, 177, 223, 100);
+    right: 0;
+}
+
+/* 6. Sort Dropdown */
+.sort-dropdown {
+    position: relative;
+    width: 50%;
+    padding: 0.5em 0.5em;
+}
+
+.sort-dropdown select {
+    width: 100%;
+    background-color: rgba(75, 75, 96, 100);
+    color: rgba(122, 177, 223, 100);
+    border-bottom-color: rgba(57, 120, 159, 100);
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 1em;
+    line-height: 1;
+    border-bottom-width: 2px;
+    color: #c1bdba;
+    height: 1.3em;
+}
+
+.sort-dropdown select:hover {
+    background-color: rgba(97, 84, 161, 100);
+}
+
+.sort-dropdown select:focus {
+    background-color: rgba(75, 75, 96, 100);
+}
+
+.sort-dropdown i {
+    position: absolute;
+    right: 0.5em;
+    bottom: 0.80em;
+    color: rgba(122, 177, 223, 100);
+    cursor: default;
+}
+
+/*colors {*/
+/*color: rgba(97, 84, 161, 100);*/
+/*color: rgba(107, 196, 165, 100);*/
+/*color: rgba(75, 75, 96, 100);*/
+/*color: rgba(122, 177, 223, 100);*/
+/*color: rgba(57, 120, 159, 100);*/
+/*}*/
+
+/* 7. Bookmark explorer */
+
+#bookmark-explorer {
+    box-shadow: .1em .1em .6em rgba(82, 78, 75, 0.59);
+}
+
+#bookmark-actions {
+    margin: 0 auto;
+    padding: .7em 1.4rem 0;
+}
+
+#bookmark-actions .action-button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+#bookmark-actions .title {
+    display: flex;
+    align-self: center;
+}
+
+#bookmark-actions .title h2 {
+    margin: 0;
+}
+
+.bookmark:hover {
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Titillium Web'), local('TitilliumWeb-Regular'), url(../fonts/Titillium_Web.woff) format('woff');
+}
+
+/* 8. Forms */
+::-webkit-input-placeholder {
+    font-size: larger;
+}
+
+:-moz-placeholder {
+    font-size: larger;
+}
+
+:-ms-input-placeholder {
+    font-size: larger;
+}
+
+bm-create-dialog, bm-edit-dialog {
+    display: flex;
+    width: 80%;
+    /*text-align: center;*/
+}
+
+bm-create-dialog bm-dialog-body,
+bm-edit-dialog bm-dialog-body {
+    flex-grow: 1;
+}
+
+form.dialog-form .name, form.dialog-form .keywords {
+    margin-left: 0;
+    margin-right: 0;
+    padding-right: 0;
+    padding-left: 0;
+    width: 100%;
+}
+
+.dialog-form {
+    width: 100%;
+}
+
+form.dialog-form .dialog-input {
+    color: #3c3c3c;
+    font-family: "Titillium Web";
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 0;
+    line-height: 22px;
+    background-color: rgba(193, 189, 186, 0.50);
+    padding: 13px 13px 13px 54px;
+    margin-bottom: 10px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid rgba(193, 189, 186, 0.50);
+}
+
+form.dialog-form .dialog-input:focus {
+    background: #c1bdba;
+    box-shadow: 0;
+    border: 3px solid rgba(193, 189, 186, 0.50);
+    color: #3c3c3c;
+    outline: none;
+    padding: 13px 13px 13px 54px;
+}
+
+form.dialog-form .name {
+    background-image: url(../img/at.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .name:focus {
+    background-image: url(../img/at.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .keywords {
+    background-image: url(../img/flag.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .keywords:focus {
+    background-image: url(../img/flag.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .url {
+    background-image: url(../img/link.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .url:focus {
+    background-image: url(../img/link.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .description {
+    background-image: url(../img/pencil.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form .description:focus {
+    background-image: url(../img/pencil.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+form.dialog-form textarea {
+    width: 100%;
+    height: 150px;
+    line-height: 150%;
+    resize: vertical;
+}
+
+form.dialog-form select {
+    background-image: url(../img/folder.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    outline: 0;
+    -webkit-transition: 0.3s ease all;
+    -moz-transition: 0.3s ease all;
+    -ms-transition: 0.3s ease all;
+    -o-transition: 0.3s ease all;
+    transition: 0.3s ease all;
+}
+
+form.dialog-form select.dialog-select {
+    width: 50%;
+}
+
+form.dialog-form input:hover, form.dialog-form textarea:hover,
+form.dialog-form input:focus, form.dialog-form textarea:focus {
+    background-color: rgba(193, 189, 186, 0.7);
+}
+
+button, .button {
+    display: inline-block;
+    margin: 0 10px 0 0;
+    padding: .2em .7em;
+    font-size: 1.35em;
+    font-family: "Titillium Web";
+    line-height: 1.8;
+}
+
+button:focus, .button:focus {
+    outline: none
+}
+
+section.press button,
+section.press .button {
+    color: #fff;
+    background-color: #6496c8;
+    border: none;
+    border-radius: .1em;
+    box-shadow: .1em .2em #27496d;
+}
+
+section.press button:hover,
+section.press .button:hover,
+section.press button.hover,
+section.press .button.hover {
+    background-color: #417cb8
+}
+
+section.press button:active,
+section.press .button:active,
+section.press button.active
+section.press .button.active {
+    background-color: #417cb8;
+    box-shadow: 0 5px #27496d;
+    transform: translateY(1px);
+}
+
+.dialog section.press {
+    display: flex;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+/* Bookmark Explorer */
+
+#bookmark-list {
+    background-color: #414152;
+    margin-top: 0;
+    padding-left: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+hr {
+    margin: 0;
+}
+
+.list-item-style {
+    border-bottom: 1px solid #c1bdba;
+    /*position: relative;*/
+    padding: 0;
+    min-height: 20px;
+}
+
+a.bookmark-link:link {
+    color: #c1bdba;
+}
+
+a.bookmark-link:visited {
+    color: #c1bdba;
+}
+
+a.bookmark-link:hover {
+    color: #dbd7d4;
+}
+
+.bookmark-item {
+    padding: .5em;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.bookmark-icons {
+    padding-right: 1em;
+    color: rgba(57, 120, 159, 100);
+}
+
+.edit-favorite-icons {
+    padding-left: 1em;
+}
+
+.folder-text {
+    color: #c1bdba;
+}
+
+.split-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.button {
+    cursor: pointer;
+}
+
+/* Create Folder */
+bm-create-folder-dialog {
+    width: 75%;
+}
+
+bm-create-folder-dialog .button {
+    margin-right: 0;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fun with Forms</title>
+</head>
+
+<body>
+
+
+<!-- GET -->
+<form id="form1" action="processdata.cgi" method="get">
+	GET <br>
+  <label>Username</label><br>
+  <input type="text" name="username" value="Username" required><br>
+
+  <label>Userpassword</label><br>
+  <input type="text" name="userpassword" value="Userpassword" required><br>
+
+  <label>Magicnumber</label><br>
+  <input type="number" name="magicnumber" value="1" required><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<br><br><br>
+
+<!-- POST -->
+<form id="form2" action="processdata.cgi" method="post">
+	POST<br>
+  <label>Username</label><br>
+  <input type="text" name="username" value="Username" required><br>
+
+  <label>Userpassword</label><br>
+  <input type="text" name="userpassword" value="Userpassword" required><br>
+
+  <label>Magicnumber</label><br>
+  <input type="number" name="magicnumber" value="1" required><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "cse136",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kyly/cse136-pa2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kyly/cse136-pa2/issues"
+  },
+  "homepage": "https://github.com/Kyly/cse136-pa2#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-handlebars": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-w3c-html-validation": "^0.1.8"
+  },
+  "dependencies": {
+    "bower": "^1.7.9",
+    "handlebars": "^4.0.5"
+  }
+}
