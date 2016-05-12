@@ -1,12 +1,14 @@
-var db         = require('./database/db');
-var config     = require('./config');
-var bookmarks  = require('./controllers/bookmarks');
-var users      = require('./controllers/users');
-var express    = require('express');
-var bodyParser = require('body-parser');
-var session    = require('express-session');
-var handlebars = require('express-handlebars');
-var path       = require('path');
+var db              = require('./database/db');
+var config          = require('./config');
+var bookmarks       = require('./controllers/bookmarks');
+var users           = require('./controllers/users');
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var session         = require('express-session');
+var handlebars      = require('express-handlebars');
+var path            = require('path');
+var errorhandler    = require('errorhandler');
+var morgan          = require('morgan');
 
 db.init();
 var mySession = session(
@@ -34,6 +36,11 @@ app.use(mySession);
 // app.set('view engine', 'ejs');
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(bodyParser.urlencoded({extended: true}));
+
+/* Error handler set up*/
+app.use(errorhandler({log: false}));
+/* Logging set up */
+app.use(morgan('common'));
 
 /* Routes - consider putting in routes.js */
 app.get('/login', users.loginForm);

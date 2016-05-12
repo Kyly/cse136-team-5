@@ -3,7 +3,7 @@ module.exports = {
   DATABASE_USER: 'root',
   DATABASE_PASSWORD: 'onramp',
   DATABASE_NAME: 'cse136',
-  PORT: 3000,
+  PORT: 2016,
   USERNAME: '',
   PASSWORD: ''
 };
