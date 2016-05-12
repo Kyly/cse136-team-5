@@ -7,8 +7,8 @@
 
     <title>Your page title</title>
 
-    <link rel="stylesheet" href="assets/style/style.css">
-    <link rel="stylesheet" href="assets/lib/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="/lib/components-font-awesome/css/font-awesome.min.css">
     <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
 
 </head>
@@ -24,17 +24,16 @@
     <div class="row">
         <div class="col-md-4">
             <div id="bookmark-explorer">
-                <a class="box" href="javascript: void(0);" onclick="window.open('bookmarks/add')">
+                <!--<a class="box" href="javascript: void(0);" onclick="window.open('bookmarks/add')">-->
                 <div id="bookmark-actions">
                     <div class="action-button-group">
-                        <h1>Looking fo this</h1>
-                        <a class="box" href="javascript: void(0);" onclick="window.open('books/add')">
+                        <a class="box" href="javascript: void(0);" onclick="window.open('bookmarks/add')">
                             <span class="fa fa-plus-square-o"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="show('bm-create-folder-dialog')">
+                        <a class="box" href="javascript: void(0);" onclick="window.open('bookmarks/addFolder')">
                             <span class="fa fa-folder-o"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="show('bm-upload-file-dialog')">
+                        <a class="box" href="javascript: void(0);" onclick="window.open('bookmarks/import')">
                             <span class="fa fa-cloud-upload"></span>
                         </a>
                         <a class="box" href="bookmark-export.csv" download="">
@@ -67,13 +66,33 @@
                 <hr>
                 <div>
                     <ul id="bookmark-list">
-
-
-
+                        <% bookmarks.forEach(function(bookmark) { %>
+                        <li class="list-item-style">
+                            <div class="bookmark-item split-list">
+                                <div>
+                                    <a class="bookmark-link"
+                                       href=" <%= bookmark.url %> "
+                                       target="_blank">
+                                        <span class="fa fa-bookmark bookmark-icons hand"></span>
+                                        <%= bookmark.name %>
+                                    </a>
+                                </div>
+                                <div>
+                                    <span class="fa fa-star edit-favorite-icons hand"
+                                          onclick="toggleFavorite(this)"></span>
+                                    <span class="fa fa-edit edit-favorite-icons hand"
+                                          onclick="window.open('bookmarks/edit/<%= bookmark.id %>')"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <% }); %>
                     </ul>
                 </div>
+
+
             </div>
         </div>
+        <!--
         <div id="bookmark-dialog" class="col-md-8">
             <bm-edit-dialog class="dialog">
                 <div class="dialog-header">
@@ -196,6 +215,7 @@
                 </bm-dialog-body>
             </bm-create-dialog>
         </div>
+        -->
     </div>
 </bm-app>
 
@@ -258,7 +278,7 @@
 </script>
 
 <!-- Shims for registerElements -->
-<script src="assets/lib/document-register-element/build/document-register-element.js"></script>
+<script src="/lib/document-register-element/build/document-register-element.js"></script>
 
 <!-- Register elements -->
 <script>

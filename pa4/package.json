@@ -1,22 +1,36 @@
 {
-  "name": "ejs",
+  "name": "cse136",
   "version": "1.0.0",
-  "description": "Express CRUD using EJS",
+  "description": "",
   "main": "server.js",
+  "scripts": {
+    "test": "grunt",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kyly/cse136-pa2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kyly/cse136-pa2/issues"
+  },
+  "homepage": "https://github.com/Kyly/cse136-pa2#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-handlebars": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-w3c-html-validation": "^0.1.8"
+  },
   "dependencies": {
+    "bower": "^1.7.9",
+    "handlebars": "^4.0.5",
     "body-parser": "^1.15.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "install": "^0.7.3",
-    "mysql": "^2.10.2",
-    "npm": "^3.8.8"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "author": "Christie Sorenson",
-  "license": "MIT"
+    "mysql": "^2.10.2"
+  }
 }
