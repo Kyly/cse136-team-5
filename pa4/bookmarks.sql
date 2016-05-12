@@ -73,10 +73,10 @@ LOCK TABLES `Bookmarks` WRITE;
 INSERT INTO `Bookmarks` (`id`, `url`, `folderId`, `name`, `description`, `keywords`, `favorite`)
 
 VALUES
-	(1, 'https://mail.google.com'  ,1, 'Google',NULL ,NULL ,0 ),
-	(2, 'https://www.facebook.com/',1, 'Facebook',NULL ,NULL ,0 ),
-	(3, 'https://angularjs.org/'   ,1, 'Angular',NULL ,NULL ,0 ),
-	(4, 'https://github.com/'      ,1, 'Github',NULL ,NULL ,0 );
+	(1, 'https://mail.google.com'  ,1, 'Gmail','electronic mail' ,'social' ,0 ),
+	(2, 'https://www.facebook.com/',1, 'Facebook','waste of time' ,'social' ,0 ),
+	(3, 'https://angularjs.org/'   ,1, 'Angular','pretty cool framework' ,'cs' ,0 ),
+	(4, 'https://github.com/'      ,1, 'Github','post code here' ,'cs' ,0 );
 
 
 
