@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Bookmark</title>
+
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="/lib/components-font-awesome/css/font-awesome.min.css">
+    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
+
+</head>
+<body>
+<bm-create-folder-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Create Folder</div>
+        <bm-dialog-close><span onclick="hide('bm-create-folder-dialog')" class="fa fa-times"></span>
+        </bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form">
+            <div class="row">
+                <input name="name" type="text" class="name dialog-input" placeholder="Folder name">
+            </div>
+            <div class="row text">
+                <textarea name="text" class="description dialog-input" placeholder="Description"></textarea>
+            </div>
+            <div class="row">
+                <div class="press">
+                    <button onclick="hide('bm-create-folder-dialog'); return false;">Create</button>
+                </div>
+            </div>
+        </form>
+    </bm-dialog-body>
+</bm-create-folder-dialog>
+</body>
+</html>

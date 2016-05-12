@@ -9,9 +9,10 @@
 <form action="/books/update/<%= book.id %>" method="post">
     <!--  Use CSS to be modern -->
     <table>
-        <tr><td>Title: </td><td><input type="text" name="title"  value="<%= book.title %>" ></td></tr>
-        <tr><td>Author: </td><td><input type="text" name="author" value="<%= book.author %>"></td></tr>
-        <tr><td>Price: </td><td><input type="text" name="price" value="<%= book.price %>"></td></tr>
+        <tr><td>URL: </td><td><input type="text" name="url"  value="<%= book.url %>" ></td></tr>
+        <tr><td>Name: </td><td><input type="text" name="name" value="<%= book.name %>"></td></tr>
+        <tr><td>Description: </td><td><input type="text" name="description" value="<%= book.description %>"></td></tr>
+        <tr><td>Keywords: </td><td><input type="text" name="keywords" value="<%= book.keywords %>"></td></tr>
         <tr><td colspan="2">
                 <input type='submit' value="Save">
                 &nbsp;
