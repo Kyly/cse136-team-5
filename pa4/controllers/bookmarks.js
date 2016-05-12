@@ -12,7 +12,7 @@ var validUrl = require('valid-url'); //npm install valid-url
 var list = module.exports.list = function(req, res) {
   db.query('SELECT * from Bookmarks ORDER BY id', function(err, Bookmarks) {
     if (err) throw err;
-    res.render('bookmarks/list', {bookmarks: Bookmarks});
+    res.render('index', {bookmarks: Bookmarks});
   });
 };
 
