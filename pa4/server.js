@@ -21,7 +21,17 @@ var mySession = session(
 var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', handlebars());
+app.engine('handlebars',
+           handlebars({
+                          helpers: {
+                              toJSON: function (object) {
+                                  return JSON.stringify(object);
+                              }
+                          }
+                      }
+           )
+);
+
 app.set('view engine', 'handlebars');
 // FIXME app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(express.logger('dev'));
