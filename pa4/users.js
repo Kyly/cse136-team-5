@@ -3,25 +3,50 @@
  */
 
 var config = require('./config');
+var db = require('./db');
 
 /**
  *
  * Attempt to login the user.  Redirect to /books on successful login and /login on unsuccessful attempt.
  */
 module.exports.login = function(req, res) {
-  if (req.body.username === config.USERNAME && req.body.password === config.PASSWORD) {
-    req.session.user = req.body.username;
-    res.redirect('/books');
+  var un = req.body.username;
+  var pw = req.body.password;
+
+  
+  if (un != "" && pw != "") {
+      db.query('SELECT password from Users WHERE username =  "' + un + '"', function(err, user) {
+    	if (err) throw err;
+
+		// if the user is in the database
+    	if(user != "") {
+    		var password = user[0].password;
+    		if(password == pw) {
+    			console.log("Valid login");
+    			req.session.user = req.body.username;
+    			res.redirect('/bookmarks');
+    		}
+    		else{
+    			res.redirect('/login');
+  			}
+    	}
+    	else {
+    		res.redirect('/login');
+    	}
+  	});
   }
-  else{
-    res.redirect('/login');
-  }
+ else {
+ 	res.redirect('/login');
+ }
+
+
 };
 
 /**
  * Render the login form
  */
 module.exports.loginForm = function(req, res){
+  req.session.user = undefined;
   res.render('users/login');
 };
 
@@ -37,9 +62,15 @@ module.exports.logout = function(req, res) {
  * Verify a user is logged in.  This middleware will be called before every request to the books directory.
  */
 module.exports.auth = function(req, res, next) {
+/*
   if (req.session && req.session.user === config.USERNAME) {
     return next();
   }
+  */
+  
+  if (req.session.user) {
+  	return next();
+  } 
   else {
     res.redirect('/login');
   }
