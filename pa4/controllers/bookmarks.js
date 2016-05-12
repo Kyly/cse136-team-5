@@ -3,6 +3,7 @@
  */
 
 var db = require('../database/db');
+var validUrl = require('valid-url'); //npm install valid-url
 
 /**
  *
@@ -86,7 +87,12 @@ module.exports.insert = function(req, res){
   var description = db.escape(req.body.description);
   var keywords = db.escape(req.body.keywords);
   var favorite = 0;
-    
+
+  if (validUrl.isUri(url)){
+    console.log('Looks like an URI');
+  } else {
+    console.log('Not a URI');
+  }
 
   var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ')';
   console.log(queryString);
@@ -106,6 +112,12 @@ module.exports.update = function(req, res){
   var name = db.escape(req.body.name);
   var description = db.escape(req.body.description);
   var keywords = db.escape(req.body.keywords);
+
+  if (validUrl.isUri(url)){
+    console.log('Looks like an URI');
+  } else {
+    console.log('Not a URI');
+  }
 
   var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
   db.query(queryString, function(err){
