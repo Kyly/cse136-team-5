@@ -3,6 +3,7 @@
  */
 
 var db = require('../database/db');
+var validUrl = require('valid-url'); //npm install valid-url
 
 /**
  *
@@ -86,7 +87,12 @@ module.exports.insert = function(req, res){
   var description = db.escape(req.body.description);
   var keywords = db.escape(req.body.keywords);
   var favorite = 0;
-    
+
+  if (validUrl.isUri(url)){
+    console.log('Looks like an URI');
+  } else {
+    console.log('Not a URI');
+  }
 
   var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ')';
   console.log(queryString);
@@ -107,6 +113,12 @@ module.exports.update = function(req, res){
   var description = db.escape(req.body.description);
   var keywords = db.escape(req.body.keywords);
 
+  if (validUrl.isUri(url)){
+    console.log('Looks like an URI');
+  } else {
+    console.log('Not a URI');
+  }
+
   var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
   db.query(queryString, function(err){
     if (err) throw err;
@@ -114,6 +126,23 @@ module.exports.update = function(req, res){
   });
 };
 
+module.exports.search = function(req, res){
+  var keywords = db.escape(req.body.keywords);
+
+  var queryString = 'SELECT * FROM Bookmarks WHERE keywords LIKE \'% ' + keywords +' %\'';
+  db.query(queryString, function(err){
+    if (err) throw err;
+    res.redirect('/bookmarks');
+  });
+}
+
+module.exports.sort = function(req, res){
+  var queryString = 'SELECT * FROM Bookmarks ORDER BY name ASC';
+  db.query(queryString, function(err){
+    if (err) throw err;
+    res.redirect('/bookmarks');
+  });
+}
 /**
  * Search:
  * SELECT * FROM Bookmarks WHERE keywords LIKE '% ' + keywords +' %';
