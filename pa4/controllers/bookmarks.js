@@ -126,6 +126,23 @@ module.exports.update = function(req, res){
   });
 };
 
+module.exports.search = function(req, res){
+  var keywords = db.escape(req.body.keywords);
+
+  var queryString = 'SELECT * FROM Bookmarks WHERE keywords LIKE \'% ' + keywords +' %\'';
+  db.query(queryString, function(err){
+    if (err) throw err;
+    res.redirect('/bookmarks');
+  });
+}
+
+module.exports.sort = function(req, res){
+  var queryString = 'SELECT * FROM Bookmarks ORDER BY name ASC';
+  db.query(queryString, function(err){
+    if (err) throw err;
+    res.redirect('/bookmarks');
+  });
+}
 /**
  * Search:
  * SELECT * FROM Bookmarks WHERE keywords LIKE '% ' + keywords +' %';
