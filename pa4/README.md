@@ -90,7 +90,7 @@ Running books.sql (While inside the mysql terminal) -
 
 
 Connect to the database through Node
-Once you have your MySQL set up, find out your database’s Host (i.e. IP Address), Port (Which you configured during setup or can find it in the config files), username (usually root/admin), password (the one you mentioned during setup) and database name (that you created or which was created using books.sql) . Add these values into the config-template.js file (for DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME) and rename it to config.js.
+Once you have your MySQL set up, find out your database’s Host (i.e. IP Address), Port (Which you configured during setup or can find it in the config files), username (usually root/admin), password (the one you mentioned during setup) and database name (that you created or which was created using books.sql) . Add these values into the config.js file (for DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME) and rename it to config.js.
 
 The code used to actually connect to the database is present in db.js [Please go through it!]
 
