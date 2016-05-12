@@ -19,21 +19,21 @@
             </bm-dialog-close>
         </div>
         <bm-dialog-body>
-            <form class="dialog-form">
+            <form class="dialog-form" action="/bookmarks/update/<%= bookmark.id %>" method="post">
                 <div class="row">
                     <div class="name col-xs-6">
-                        <input name="name" type="text" class="dialog-input name" placeholder="Name">
+                        <input name="name" type="text" class="dialog-input name" value="<%= bookmark.name %>">
                     </div>
                     <div class="keywords col-xs-6">
-                        <input name="keywords" type="text" class="dialog-input keywords" placeholder="Keywords">
+                        <input name="keywords" type="text" class="dialog-input keywords" value="<%= bookmark.keywords %>">
                     </div>
                 </div>
                 <div class="row">
-                    <input name="url" type="text" class="dialog-input url" placeholder="Url">
+                    <input name="url" type="text" class="dialog-input url" value="<%= bookmark.url %>">
                 </div>
 
                 <div class="row text">
-                    <textarea name="text" class="dialog-input description" placeholder="Description"></textarea>
+                    <textarea name="description" class="dialog-input description"><%= bookmark.description %></textarea>
                 </div>
                 <div class="row">
                     <select class="dialog-select dialog-input">

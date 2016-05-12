@@ -56,10 +56,10 @@ module.exports.import = function(req, res) {
  */
 module.exports.edit = function(req, res) {
   var id = req.params.book_id;
-  db.query('SELECT * from Bookmarks WHERE id =  ' + id, function(err, book) {
+  db.query('SELECT * from Bookmarks WHERE id =  ' + id, function(err, bookmark) {
     if (err) throw err;
 
-    res.render('bookmarks/edit', {book: book[0]});
+    res.render('bookmarks/edit', {bookmark: bookmark[0]});
   });
 };
 
@@ -82,10 +82,15 @@ module.exports.delete = function(req, res) {
 module.exports.insert = function(req, res){
   var url = db.escape(req.body.url);
   var name = db.escape(req.body.name);
+  var folderId = db.escape(req.body.folderId);
   var description = db.escape(req.body.description);
   var keywords = db.escape(req.body.keywords);
+  var favorite = 0;
+    
 
-  var queryString = 'INSERT INTO Bookmarks (url, name, description, keywords) VALUES (' + url + ', ' + name + ', ' + description + ', ' + keywords + ')';
+  var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ')';
+  console.log(queryString);
+
   db.query(queryString, function(err){
     res.redirect('/bookmarks');
   });
