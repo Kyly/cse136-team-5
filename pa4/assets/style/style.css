@@ -391,7 +391,7 @@ bm-app {
 /* 3. Page header */
 header, header.container {
     margin-top: 2em;
-    margin-bottom: 1em;
+    margin-bottom: 3em;
 }
 
 header .sub-header {
@@ -757,8 +757,8 @@ button:focus, .button:focus {
     outline: none
 }
 
-div.press button,
-div.press .button {
+section.press button,
+section.press .button {
     color: #fff;
     background-color: #6496c8;
     border: none;
@@ -766,23 +766,23 @@ div.press .button {
     box-shadow: .1em .2em #27496d;
 }
 
-div.press button:hover,
-div.press .button:hover,
-div.press button.hover,
-div.press .button.hover {
+section.press button:hover,
+section.press .button:hover,
+section.press button.hover,
+section.press .button.hover {
     background-color: #417cb8
 }
 
-div.press button:active,
-div.press .button:active,
-div.press button.active
-div.press .button.active {
+section.press button:active,
+section.press .button:active,
+section.press button.active
+section.press .button.active {
     background-color: #417cb8;
     box-shadow: 0 5px #27496d;
     transform: translateY(1px);
 }
 
-.dialog div.press {
+.dialog section.press {
     display: flex;
     align-self: flex-end;
     margin-left: auto;
@@ -864,12 +864,3 @@ bm-create-folder-dialog {
 bm-create-folder-dialog .button {
     margin-right: 0;
 }
-
-/*
-bm-create-dialog,
-bm-edit-dialog,
-bm-upload-file-dialog,
-bm-create-folder-dialog {
-	 display: none;
-}
-*/

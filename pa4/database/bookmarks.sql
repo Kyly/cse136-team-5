@@ -42,8 +42,8 @@ CREATE TABLE `Users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-LOCK TABLES `users` WRITE;
-INSERT INTO `users` (`id`, `username`, `password`)
+LOCK TABLES `Users` WRITE;
+INSERT INTO `Users` (`id`, `username`, `password`)
 
 VALUES
   (1, 'cse136User', 'cse136PW'),
