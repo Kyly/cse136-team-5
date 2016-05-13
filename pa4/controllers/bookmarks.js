@@ -10,7 +10,7 @@ var db = require('../database/db');
  */
 var list = module.exports.list = function(req, res) {
   db.query('SELECT * from Bookmarks ORDER BY id', function(err, bookmarks) {
-    if (err) {;
+    if (err) {
       res.render('index', {error: err}); 
       return;
     }
@@ -38,7 +38,14 @@ module.exports.confirmdelete = function(req, res){
  * Renders the add page with the add.ejs template
  */
 module.exports.add = function(req, res) {
-  res.render('bookmarks/addBookmark');
+  res.render('bookmarks/addBookmark', function(err, html) {
+    if (err) {
+      res.location('/bookmarks');
+      res.render('index', {error: err}); 
+      return;
+    }
+    res.send(html);
+  });
 };
 
 /**
