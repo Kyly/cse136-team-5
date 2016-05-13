@@ -30,10 +30,14 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
+    "express-query-int": "^1.0.1",
     "express-session": "^1.13.0",
     "handlebars": "^4.0.5",
     "install": "^0.7.3",
+    "lodash": "^4.12.0",
     "mysql": "^2.10.2",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "sql-query": "^0.1.26",
+    "squel": "^5.0.4"
   }
 }

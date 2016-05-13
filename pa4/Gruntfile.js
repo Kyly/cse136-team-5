@@ -15,7 +15,7 @@ module.exports = function (grunt) {
                     generateReport: false
                 },
                 files: {
-                    src: ['*.html', '!assets/templates/**/*.hbs.html']
+                    src: ['*.html', 'assets/templates/**/*.hbs.html']
                 }
             },
             watch: {
