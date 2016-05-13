@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var db              = require('./database/db');
 var config          = require('./config');
 var bookmarks       = require('./controllers/bookmarks');
@@ -9,21 +8,8 @@ var session         = require('express-session');
 var handlebars      = require('express-handlebars');
 var favicon         = require('serve-favicon');
 var path            = require('path');
+var queryParser     = require('express-query-int');
 var morgan          = require('morgan');
-
-=======
-var db          = require('./database/db');
-var config      = require('./config');
-var bookmarks   = require('./controllers/bookmarks');
-var users       = require('./controllers/users');
-var express     = require('express');
-var bodyParser  = require('body-parser');
-var session     = require('express-session');
-var handlebars  = require('express-handlebars');
-var favicon     = require('serve-favicon');
-var path        = require('path');
-var queryParser = require('express-query-int');
->>>>>>> 109bf916a2a5abffff4823e07594117d496b4509
 
 db.init();
 var mySession = session(
