@@ -135,15 +135,27 @@ module.exports.insert = function(req, res){
 
 
 module.exports.insertFolder = function(req, res){
+	var url = "NULL";
+	var folderId = 1;
+	var keywords = "NULL";
     var name = db.escape(req.body.name);
-    //var description = db.escape(req.body.description);
+    var description = db.escape(req.body.description);
+    var favorite = 0;
+    var folder = "TRUE";
     var parent = 1;
+    
     
     var queryString = 'INSERT INTO Folders (name, parent) VALUES (' + name + ', ' + parent + ')';
     console.log(queryString);
     db.query(queryString, function(err){
-        res.redirect('/bookmarks');
+        //res.redirect('/bookmarks');
     });
+    
+	var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+  	console.log(queryString);
+  	db.query(queryString, function(err){
+    	res.redirect('/bookmarks');
+  	});
 };
 
 /**
