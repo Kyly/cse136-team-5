@@ -6,9 +6,11 @@ var express         = require('express');
 var bodyParser      = require('body-parser');
 var session         = require('express-session');
 var handlebars      = require('express-handlebars');
+var favicon         = require('serve-favicon');
 var path            = require('path');
 var errorhandler    = require('errorhandler');
 var morgan          = require('morgan');
+
 
 db.init();
 var mySession = session(
@@ -23,8 +25,9 @@ var mySession = session(
 var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars',
+app.engine('.hbs',
            handlebars({
+                          extname: '.hbs',
                           helpers: {
                               toJSON: function (object) {
                                   return JSON.stringify(object);
@@ -34,8 +37,8 @@ app.engine('handlebars',
            )
 );
 
-app.set('view engine', 'handlebars');
-// FIXME app.use(favicon(__dirname + '/public/favicon.ico'));
+app.set('view engine', '.hbs');
+app.use(favicon(__dirname + '/assets/img/favicon.ico'));
 // app.use(express.logger('dev'));
 // app.use(express.json());
 // app.use(express.urlencoded());
