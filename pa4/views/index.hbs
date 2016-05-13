@@ -72,6 +72,9 @@
 
         </div>
         <div id="bookmark-dialog" class="col-md-8">
+            {{#if error}}
+                {{> bm-error-dialog}}
+            {{/if}}
             <!-- Your dialogs will get appended here -->
         </div>
 

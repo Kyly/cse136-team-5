@@ -8,7 +8,7 @@ var session         = require('express-session');
 var handlebars      = require('express-handlebars');
 var favicon         = require('serve-favicon');
 var path            = require('path');
-var errorhandler    = require('errorhandler');
+//var errorhandler    = require('errorhandler');
 var morgan          = require('morgan');
 
 
@@ -23,7 +23,6 @@ var mySession = session(
 );
 
 var app = express();
-app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs',
            handlebars({
@@ -51,7 +50,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(bodyParser.urlencoded({extended: true}));
 
 /* Error handler set up*/
-app.use(errorhandler({log: false}));
+//app.use(errorhandler({log: true}));
 /* Logging set up */
 app.use(morgan('common'));
 

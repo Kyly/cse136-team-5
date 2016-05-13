@@ -10,7 +10,10 @@ var db = require('../database/db');
  */
 var list = module.exports.list = function(req, res) {
   db.query('SELECT * from Bookmarks ORDER BY id', function(err, bookmarks) {
-    if (err) throw err;
+    if (err) {;
+      res.render('index', {error: err}); 
+      return;
+    }
     res.render('index', {bookmarks: bookmarks});
   });
 };
@@ -23,7 +26,9 @@ var list = module.exports.list = function(req, res) {
 module.exports.confirmdelete = function(req, res){
   var id = req.params.book_id;
   db.query('SELECT * from Bookmarks WHERE id =  ' + id, function(err, book) {
-    if (err) throw err;
+    if (err) {
+      res.render('index', {error: err}); 
+    }
     res.render('bookmarks/delete', {book: book[0]});
   });
 };
@@ -57,7 +62,9 @@ module.exports.import = function(req, res) {
 module.exports.edit = function(req, res) {
   var id = req.params.book_id;
   db.query('SELECT * from Bookmarks WHERE id =  ' + id, function(err, bookmark) {
-    if (err) throw err;
+    if (err) {
+      res.render('index', {error: err}); 
+    }
 
     res.render('bookmarks/edit', {bookmark: bookmark[0]});
   });
@@ -70,7 +77,9 @@ module.exports.edit = function(req, res) {
 module.exports.delete = function(req, res) {
   var id = req.params.book_id;
   db.query('DELETE from Bookmarks where id = ' + id, function(err){
-    if (err) throw err;
+    if (err) {
+      res.render('index', {error: err}); 
+    }
     res.redirect('/bookmarks');
   });
 };
@@ -92,6 +101,9 @@ module.exports.insert = function(req, res){
   console.log(queryString);
 
   db.query(queryString, function(err){
+    if (err) {
+      res.render('index', {error: err}); 
+    }
     res.redirect('/bookmarks');
   });
 };
@@ -109,7 +121,9 @@ module.exports.update = function(req, res){
 
   var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
   db.query(queryString, function(err){
-    if (err) throw err;
+    if (err) {
+      res.render('index', {error: err}); 
+    }
     res.redirect('/bookmarks');
   });
 };
