@@ -273,8 +273,9 @@
         this.template = App.templates['assets/templates/bm-edit-dialog.hbs.html'];
     }
 
-    BookmarkEdit.prototype.show = function showBookmarkEdit() {
-        show('bm-edit-dialog', this.template);
+    BookmarkEdit.prototype.show = function showBookmarkEdit(bookmark) {
+        console.log(bookmark);
+        show('bm-edit-dialog', this.template, bookmark);
     };
 
     BookmarkEdit.prototype.remove = function removeBookmarkEdit(event) {

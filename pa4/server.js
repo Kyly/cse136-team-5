@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var db              = require('./database/db');
 var config          = require('./config');
 var bookmarks       = require('./controllers/bookmarks');
@@ -10,6 +11,19 @@ var favicon         = require('serve-favicon');
 var path            = require('path');
 var morgan          = require('morgan');
 
+=======
+var db          = require('./database/db');
+var config      = require('./config');
+var bookmarks   = require('./controllers/bookmarks');
+var users       = require('./controllers/users');
+var express     = require('express');
+var bodyParser  = require('body-parser');
+var session     = require('express-session');
+var handlebars  = require('express-handlebars');
+var favicon     = require('serve-favicon');
+var path        = require('path');
+var queryParser = require('express-query-int');
+>>>>>>> 109bf916a2a5abffff4823e07594117d496b4509
 
 db.init();
 var mySession = session(
@@ -37,10 +51,7 @@ app.engine('.hbs',
 
 app.set('view engine', '.hbs');
 app.use(favicon(__dirname + '/assets/img/favicon.ico'));
-// app.use(express.logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded());
-// app.use(express.methodOverride());
+app.use(queryParser());
 app.use(mySession);
 
 /*  Not overwriting default views directory of 'views' */
@@ -60,14 +71,11 @@ app.get('/logout', users.logout);
 app.use(users.auth);
 
 app.get('/bookmarks', bookmarks.list);
-app.get('/bookmarks/add', bookmarks.add);
-app.get('/bookmarks/addFolder', bookmarks.addFolder);
-app.get('/bookmarks/import', bookmarks.import);
-app.get('/bookmarks/edit/:book_id(\\d+)', bookmarks.list);
-app.get('/bookmarks/confirmdelete/:book_id(\\d+)', bookmarks.confirmdelete);
-app.get('/bookmarks/delete/:book_id(\\d+)', bookmarks.delete);
-app.post('/bookmarks/update/:book_id(\\d+)', bookmarks.update);
-app.post('/bookmarks/insert', bookmarks.insert);
+app.post('/bookmarks', bookmarks.add);
+app.post('/bookmarks/folder', bookmarks.addFolder);
+app.post('/bookmarks/edit/:bookId(\\d+)', bookmarks.edit);
+app.post('/bookmarks/delete/:bookId(\\d+)', bookmarks.edit);
+app.post('/bookmarks/import', bookmarks.import);
 
 app.listen(config.PORT, function () {
     console.log('Example app listening on port ' + config.PORT + '!');
