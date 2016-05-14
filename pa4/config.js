@@ -1,8 +1,8 @@
 module.exports = {
   DATABASE_HOST: 'localhost',
   DATABASE_USER: 'root',
-  DATABASE_PASSWORD: 'onramp',
-  DATABASE_NAME: 'cse136',
+  DATABASE_PASSWORD: 'qqqq',
+  DATABASE_NAME: 'books',
   PORT: 3000,
   USERNAME: '',
   PASSWORD: ''

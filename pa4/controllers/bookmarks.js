@@ -117,6 +117,7 @@ module.exports.update = function(req, res){
     console.log('Looks like an URI');
   } else {
     console.log('Not a URI');
+    res.render('403', { status: 403, url: '/bookmarks' });
   }
 
   var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
@@ -150,4 +151,5 @@ module.exports.sort = function(req, res){
  * SELECT * FROM Bookmarks ORDER BY name ASC;
  * Visit: a href tag
  * add=insert edit=update delete list
+ * 403
  */
