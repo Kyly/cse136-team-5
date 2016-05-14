@@ -116,20 +116,46 @@ module.exports.delete = function (req, res) {
  * Adds a new book to the database
  * Does a redirect to the list page
  */
-module.exports.insert = function (req, res) {
-    var url         = db.escape(req.body.url);
-    var name        = db.escape(req.body.name);
-    var folderId    = db.escape(req.body.folderId);
+module.exports.insert = function(req, res){
+  var url = db.escape(req.body.url);
+  var name = db.escape(req.body.name);
+  var folderId = db.escape(req.body.folderId);
+  var description = db.escape(req.body.description);
+  var keywords = db.escape(req.body.keywords);
+  var favorite = 0;
+  var folder = "FALSE";
+
+  var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+  console.log(queryString);
+
+  db.query(queryString, function(err){
+    res.redirect('/bookmarks');
+  });
+};
+
+
+module.exports.insertFolder = function(req, res){
+	var url = "NULL";
+	var folderId = 1;
+	var keywords = "NULL";
+    var name = db.escape(req.body.name);
     var description = db.escape(req.body.description);
-    var keywords    = db.escape(req.body.keywords);
-    var favorite    = 0;
-
-    var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ')';
+    var favorite = 0;
+    var folder = "TRUE";
+    var parent = 1;
+    
+    
+    var queryString = 'INSERT INTO Folders (name, parent) VALUES (' + name + ', ' + parent + ')';
     console.log(queryString);
-
-    db.query(queryString, function (err) {
-        res.redirect('/bookmarks');
+    db.query(queryString, function(err){
+        //res.redirect('/bookmarks');
     });
+    
+	var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+  	console.log(queryString);
+  	db.query(queryString, function(err){
+    	res.redirect('/bookmarks');
+  	});
 };
 
 /**
