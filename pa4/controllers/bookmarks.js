@@ -29,13 +29,17 @@ function renderIndex(req, res) {
         }
         
         var folders = getFolders(bookmarks);
-        res.render('index', {bookmarks: bookmarks, showCreateDialog: req.showCreateDialog, folders: folders});
+        res.render('index', {
+            bookmarks: bookmarks, 
+            showCreateDialog: req.showCreateDialog,
+            showEditDialog: req.showEditDialog,
+            folders: folders
+        });
     });
 }
 
 function getFolders(bookmarks) {
     return bookmarks.filter(function(bookmark) {
-        console.log(bookmark);
         return bookmark.folder;
     });
 }
@@ -77,16 +81,17 @@ module.exports.import = function (req, res) {
     res.render('bookmarks/import');
 };
 
+
+
 module.exports.create = function (req, res) {
-    console.log(res, req);
-    
     req.showCreateDialog = true;
-    
     renderIndex(req, res);
 };
 
-
-
+module.exports.editBookmark = function(req, res) {
+    req.showEditDialog = true;
+    renderIndex(req, res);
+};
 
 /**
  *
@@ -181,6 +186,7 @@ module.exports.insertFolder = function(req, res){
   	});
 };
 
+
 /**
  * Updates a book in the database
  * Does a redirect to the list page
@@ -200,6 +206,13 @@ module.exports.update = function (req, res) {
         }
         res.redirect('/bookmarks');
     });
+};
+
+module.exports.favorite = function (req, res) {
+    var id  = req.params.id;
+    var fav = req.params.favorite;
+    var queryString = 'UPFDATE Bookmarks SET favorite = ' + fav  + 'WHERE id = '  + id; 
+    db.query()
 };
 
 
