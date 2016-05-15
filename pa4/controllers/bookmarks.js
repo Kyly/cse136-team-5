@@ -23,9 +23,6 @@ function parseCSVFile(buffer, onNewRecord, handleError, done){
     });
 }
 
-//We will call this once Multer's middleware processed the request
-//and stored file in req.files.fileFormFieldName
-
 module.exports.parseFile = function parseFile(req, res, next){
     var buffer = req.file.buffer;
     function onNewRecord(record){
@@ -315,12 +312,3 @@ module.exports.uploadFile = function (req, res, next) {
 module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
-
-/**
- * Search:
- * SELECT * FROM Bookmarks WHERE keywords LIKE '% ' + keywords +' %';
- * Sort:
- * SELECT * FROM Bookmarks ORDER BY name ASC;
- * Visit: a href tag
- * add=insert edit=update delete list
- */

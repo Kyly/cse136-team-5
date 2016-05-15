@@ -20,6 +20,7 @@ CREATE TABLE `Bookmarks` (
   `favorite`    INT(1) UNSIGNED  NOT NULL,
   `folder`      BOOLEAN          NOT NULL,
 
+  UNIQUE (`folderId`, `name`),
     PRIMARY KEY (`id`),
   KEY FK_FolderId (folderId),
   CONSTRAINT FK_Folder FOREIGN KEY (folderId) REFERENCES Bookmarks (id)
