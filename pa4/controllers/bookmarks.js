@@ -68,6 +68,7 @@ function renderIndex(req, res) {
         reportedError = null;
         return;
     }
+    
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';

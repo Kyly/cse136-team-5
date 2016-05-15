@@ -12,7 +12,7 @@ var queryParser     = require('express-query-int');
 var morgan          = require('morgan');
 var multer          = require('multer');
 var storage         = multer.memoryStorage();
-var upload          = multer({ storage: storage })
+var upload          = multer({ storage: storage });
 
 db.init();
 var mySession = session(
