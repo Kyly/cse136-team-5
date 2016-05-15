@@ -318,6 +318,7 @@ module.exports.defaultView = function (req, res) {
 };
 
 module.exports.createFolder = function (req, res) {
+    console.log('making a foler');
     req.showCreateFolderDialog = true;
     renderIndex(req, res);
 };

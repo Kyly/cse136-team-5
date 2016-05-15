@@ -57,6 +57,7 @@ app.get('/logout', users.logout);
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
 
+app.get('/bookmarks/createfolder', bookmarks.createFolder);
 app.get('/bookmarks', bookmarks.list);
 app.post('/bookmarks', bookmarks.add);
 app.post('/bookmarks/folder', bookmarks.addFolder);
@@ -71,7 +72,7 @@ app.post('/bookmarks/editbookmark', bookmarks.editBookmark);
 app.get('/bookmarks/editbookmark', bookmarks.editBookmark);
 app.get('/bookmarks/upload-dialog', bookmarks.uploadDialog);
 app.post('/bookmarks/upload', upload.single('csvFile'), bookmarks.parseFile);
-app.get('/bookmarks/createfoler', bookmarks.createFolder);
+
 
 app.listen(config.PORT, function () {
     console.log('Example app listening on port ' + config.PORT + '!');
