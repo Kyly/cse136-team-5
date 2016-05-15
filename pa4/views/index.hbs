@@ -8,8 +8,8 @@
 
     <title>Bookmarks</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css">
-    <link rel="stylesheet" href="../assets/lib/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
+    <link rel="stylesheet" href="/assets/lib/components-font-awesome/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -30,7 +30,7 @@
             <div id="bookmark-explorer">
                 <div id="bookmark-actions">
                     <div class="action-button-group">
-                        <a class="box" href="bookmarks/create">
+                        <a class="box" href="/bookmarks/create">
                             <span class="fa fa-plus-square-o"></span>
                         </a>
                         <a class="box" href="javascript: void(0);" onclick="App.createFolder.show()">
@@ -83,6 +83,9 @@
         </div>
         <div id="bookmark-dialog" class="col-md-8">
             <!-- Your dialogs will get appended here -->
+            {{#if error}}
+                {{> bm-error-dialog}}
+            {{/if}}
             {{#if showCreateDialog }}
                 {{> bookmarks/create-folders-dialog }}
             {{/if}}
@@ -100,9 +103,9 @@
 </bm-app>
 
 
-<script src="assets/lib/handlebars/handlebars.min.js"></script>
-<script src="assets/lib/dropzone/dist/min/dropzone.min.js"></script>
-<script src="assets/javascript/templates.js"></script>
-<script src="assets/javascript/script.js"></script>
+<script src="/assets/lib/handlebars/handlebars.min.js"></script>
+<script src="/assets/lib/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/assets/javascript/templates.js"></script>
+<script src="/assets/javascript/script.js"></script>
 </body>
 </html>

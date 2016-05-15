@@ -1,23 +1,16 @@
-/*  TODO: Add Function Blocks
-
- */
-var _ = require('lodash');
-var db = require('../database/db');
+var _         = require('lodash');
+var db        = require('../database/db');
+var sql       = require('sql-query'), sqlQuery = sql.Query();
+var converter = require('../services/csvToJson');
 var validUrl = require('valid-url'); //npm install valid-url
-var sql = require('sql-query'), sqlQuery = sql.Query();
-var Converter = require("csvtojson").Converter;
-var converter = new Converter({
-    noheader: true,
-    headers: ['url', 'folderId', 'name', 'description', 'keywords', 'favorite', 'folder'],
-    maxRowLength: '2000',
-    checkColumn: true
-});
+var reportedError = null;
 
-function parseCSVFile(buffer, onNewRecord, handleError, done){
+function parseCSVFile(buffer, onNewRecord, handleError, done) {
     var source = String.fromCharCode.apply(null, buffer);
 
-    converter.fromString(source, function(err,result){
-        if (err) {
+    converter.fromString(source, function (err, result) {
+        if (err)
+        {
             handleError(err)
         }
 
@@ -26,32 +19,32 @@ function parseCSVFile(buffer, onNewRecord, handleError, done){
     });
 }
 
-//We will call this once Multer's middleware processed the request
-//and stored file in req.files.fileFormFieldName
-
-module.exports.parseFile = function parseFile(req, res, next){
+module.exports.parseFile = function parseFile(req, res, next) {
     var buffer = req.file.buffer;
-    function onNewRecord(record){
-        for (var key in record) {
-            if (!record.hasOwnProperty(key)) {
+
+    function onNewRecord(record) {
+        for (var key in record)
+        {
+            if (!record.hasOwnProperty(key))
+            {
                 continue;
             }
 
-            insertBookmark(record[key], function(err) {
+            insertBookmark(record[key], function (err) {
                 console.error(err);
                 throw err;
-            }, function(el) {
+            }, function (el) {
                 console.log(`Successfully inserted ${JSON.stringify(el)}`);
             });
         }
     }
 
-    function onError(error){
-        req.message = error;
+    function onError(error) {
+        reportedError = error;
         renderIndex(req, res);
     }
 
-    function done(){
+    function done() {
         req.message = "Upload successful!";
         renderIndex(req, res);
     }
@@ -60,17 +53,28 @@ module.exports.parseFile = function parseFile(req, res, next){
 
 };
 
-
 var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
 function renderIndex(req, res) {
+    if (reportedError != null)
+    {
+        console.error(reportedError);
+        res.render('index', {error: err});
+        reportedError = null;
+        return;
+    }
+
     var search = req.query['search'] ? db.escape(req.query.search): null;
     var sql;
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy   = req.query['sortBy'] ? req.query.sortBy : 'name';
+
+    req.session.folderId = folderId;
+    req.session.sortBy = sortBy;
+
     if(search){
         search = '% ' + req.query['search'] ? db.escape(req.query.search): null + ' %';
         sql = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
@@ -82,7 +86,9 @@ function renderIndex(req, res) {
     db.query(sql, function (err, bookmarks) {
         if (err)
         {
-            throw err;
+            console.error(err);
+            res.render('index', {error: err});
+            return;
         }
 
         var folders = getFolders(bookmarks);
@@ -102,25 +108,27 @@ function getFolders(bookmarks) {
     });
 }
 
-
-
+/**
+ *
+ * Selects information about passed in book and then
+ * renders the delete confirmation page with the delete.ejs template
+ */
 module.exports.confirmdelete = function (req, res) {
     var id = req.params.book_id;
     db.query('SELECT * from Bookmarks WHERE id =  ' + id, function (err, book) {
         if (err)
         {
-            throw err;
+            reportedError = err;
+            res.redirect('/bookmarks');
+            return;
         }
         res.render('bookmarks/delete', {book: book[0]});
     });
 };
 
-
 module.exports.add = function (req, res) {
     res.render('bookmarks/addBookmark');
 };
-
-
 
 module.exports.addFolder = function (req, res) {
     res.render('bookmarks/addFolder');
@@ -140,11 +148,10 @@ module.exports.editBookmark = function (req, res) {
     renderEdit(req, res);
 };
 
-
 function renderEdit(req, res) {
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
-    var sortBy = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
+    var sortBy = req.query['sortBy'] ? req.query.sortBy : 'name';
     var id = req.query.id;
 
     db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
@@ -167,14 +174,15 @@ function renderEdit(req, res) {
 }
 
 function getFolders(bookmarks) {
-    return bookmarks.filter(function(bookmark) {
+    return bookmarks.filter(function (bookmark) {
         return bookmark.folder;
     });
 }
 
 function getBookmarkFromId(id, bookmarks) {
-    return bookmarks.filter(function(bookmark) {
-        if(bookmark.id == id) {
+    return bookmarks.filter(function (bookmark) {
+        if (bookmark.id == id)
+        {
             return bookmark;
         }
     });
@@ -201,22 +209,21 @@ module.exports.edit = function (req, res) {
     db.query(sql, function (err, response) {
         if (err)
         {
-            res.redirect('/bookmarks');
-            throw err;
+            reportedError = err;
+            console.error(err);
         }
-
         console.log(response);
         res.redirect('/bookmarks');
     });
 };
-
 
 module.exports.delete = function (req, res) {
     var id = req.params.book_id;
     db.query('DELETE from Bookmarks where id = ' + id, function (err) {
         if (err)
         {
-            throw err;
+            reportedError = err;
+            console.error(err);
         }
         res.redirect('/bookmarks');
     });
@@ -246,23 +253,31 @@ module.exports.insert = function (req, res) {
   console.log(queryString);
 
     db.query(queryString, function (err) {
+        if (err)
+        {
+            reportedError = err;
+            console.error(err);
+        }
         res.redirect('/bookmarks');
     });
 };
 
 function insertBookmark(bookmark, onError, done) {
     var sqlInsert = sqlQuery.insert();
-    var sql = sqlInsert.into('Bookmarks').set(bookmark).build();
+    var sql       = sqlInsert.into('Bookmarks').set(bookmark).build();
 
     db.query(sql, function (err) {
-        if (err) {
+        if (err)
+        {
             console.log(err);
             onError(err);
             return false;
         }
 
-        if ( done )
+        if (done)
+        {
             done(bookmark);
+        }
     });
 
 }
@@ -280,12 +295,23 @@ module.exports.insertFolder = function (req, res) {
     var queryString = 'INSERT INTO Folders (name, parent) VALUES (' + name + ', ' + parent + ')';
     console.log(queryString);
     db.query(queryString, function (err) {
+        if (err)
+        {
+            reportedError = err;
+            console.error(err);
+            res.redirect('/bookmarks');
+        }
         //res.redirect('/bookmarks');
     });
 
     var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
     console.log(queryString);
     db.query(queryString, function (err) {
+        if (err)
+        {
+            reportedError = err;
+            console.error(err);
+        }
         res.redirect('/bookmarks');
     });
 };
@@ -313,7 +339,8 @@ module.exports.update = function (req, res) {
     db.query(queryString, function (err) {
         if (err)
         {
-            throw err;
+            reportedError = err;
+            console.error(err);
         }
         res.redirect('/bookmarks');
     });
@@ -345,14 +372,18 @@ module.exports.search = function(req, res){
 };
 
 module.exports.favorite = function (req, res) {
-    var id  = req.params.id;
-    var fav = req.params.favorite;
-
-    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav  + 'WHERE id = '  + id;
-    db.query(queryString, function(err){
-        if (err) throw err;
-        res.redirect('/bookmarks');
+    var id          = req.query.id;
+    var fav         = req.query.fav;
+    fav             = (fav + 1) % 2;
+    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id;
+    db.query(queryString, function (err) {
+        if (err)
+        {
+            throw err;
+        }
+        renderIndex(req, res);
     });
+
 };
 
 module.exports.uploadDialog = function (req, res) {
@@ -361,8 +392,9 @@ module.exports.uploadDialog = function (req, res) {
 };
 
 module.exports.uploadFile = function (req, res, next) {
-    upload(req,res,function(err) {
-        if(err) {
+    upload(req, res, function (err) {
+        if (err)
+        {
             return res.end("Error uploading file.");
         }
         next();
