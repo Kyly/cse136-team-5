@@ -318,10 +318,18 @@ module.exports.update = function (req, res) {
 };
 
 module.exports.favorite = function (req, res) {
-    var id  = req.params.id;
-    var fav = req.params.favorite;
-    var queryString = 'UPFDATE Bookmarks SET favorite = ' + fav  + 'WHERE id = '  + id; 
-
+    var id  = req.query.id;
+    var fav = req.query.fav;
+    fav = (fav + 1) % 2;
+    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav  + ' WHERE id = '  + id;     
+    db.query(queryString, function (err){
+        if (err)
+        {
+            throw err;
+        }
+        renderIndex(req, res);
+    });
+    
 };
 
 module.exports.uploadDialog = function (req, res) {
