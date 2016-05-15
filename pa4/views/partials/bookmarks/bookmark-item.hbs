@@ -7,15 +7,17 @@
         </div>
        <div>
            <span class="fa fa-star edit-favorite-icons hand" onclick="App.bookmarkExplorer.toggleFavorite(this)"></span>
-           <span class="fa fa-edit edit-favorite-icons hand" onclick="App.bookmarkEdit.show({{toJSON this}})"></span>
-           <!--<a href="bookmarks/edit">-->
-                <!--<span class="fa fa-edit edit-favorite-icons hand"></span>-->
-           <!--</a>-->
-           <!--<form action="bookmarks/editbookmark" method="post">-->
-               <!--<button type="submit" name="" value="{{toJSON this}}" class="no-button">-->
-                   <!--<span class="fa fa-edit edit-favorite-icons hand"></span>-->
-               <!--</button>-->
-           <!--</form>-->
+           <!--<span class="fa fa-edit edit-favorite-icons hand" onclick="App.bookmarkEdit.show({{toJSON this}})"></span>-->
+
+           <script>
+               console.log('this is a loggggg ', {{id}});
+           </script>
+
+           <form action="bookmarks/editbookmark" method="post">
+               <button type="submit" name="id" value="{{id}}" class="no-button">
+                    <span class="fa fa-edit edit-favorite-icons hand"></span>
+               </button>
+           </form>
 
        </div>
     </div>
