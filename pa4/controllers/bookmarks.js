@@ -57,7 +57,8 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
-
+<<<<<<< HEAD
+<<<<<<< HEAD
 function renderIndex(req, res, saerch) {
     
 =======
@@ -354,7 +355,7 @@ module.exports.uploadFile = function (req, res, next) {
 module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
-
+<<<<<<< HEAD
 
 module.exports.createFolder = function (req, res) {
     console.log('making a foler');
@@ -370,4 +371,5 @@ module.exports.createFolder = function (req, res) {
  * Visit: a href tag
  * add=insert edit=update delete list
  */
-
+=======
+>>>>>>> a4b8213749cfe3897840f7751a67bf1c3ac229fa
