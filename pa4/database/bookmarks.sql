@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS `Bookmarks`;
 DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `Folders`;
@@ -12,8 +11,6 @@ CREATE TABLE `Bookmarks` (
   `keywords`    VARCHAR(256)              DEFAULT NULL,
   `favorite`    INT(1) UNSIGNED  NOT NULL,
   `folder`      BOOLEAN          NOT NULL,
-  `inserted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated`  TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
 
   UNIQUE (`folderId`, `name`),
     PRIMARY KEY (`id`),
