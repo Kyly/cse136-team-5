@@ -66,11 +66,20 @@ var list = module.exports.list = function (req, res) {
 };
 
 function renderIndex(req, res) {
+    var search = req.query['search'] ? db.escape(req.query.search): null;
+    var sql;
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
-    var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
-
-    db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
+    var sortBy   = req.query['sortBy'] ? req.query.sortBy : 'name';
+    if(search){
+        search = '% ' + req.query['search'] ? db.escape(req.query.search): null + ' %';
+        sql = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+    }
+    else{
+        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+    }
+    console.log(sql);
+    db.query(sql, function (err, bookmarks) {
         if (err)
         {
             throw err;
@@ -312,14 +321,27 @@ module.exports.update = function (req, res) {
 
 };
 
-module.exports.search = function(req, res){
-  var keywords = db.escape(req.body.keywords);
+function search(req, res) {
+    var keywords = req.query['keywords'] ? db.escape(req.query.keywords) : 'keywords';
+    var sql = sqlSelect.from('Bookmarks').where({ col: sql.like(' keywords ') }).build();
 
-  var queryString = 'SELECT * FROM Bookmarks WHERE keywords LIKE \'% ' + keywords +' %\'';
-  db.query(queryString, function(err){
-    if (err) throw err;
-    res.redirect('/bookmarks');
-  });
+    console.log(action, sql);
+    db.query(sql, function (err, response) {
+        if (err)
+        {
+            res.redirect('/bookmarks');
+            throw err;
+        }
+
+        console.log(response);
+        res.redirect('/bookmarks');
+    });
+}
+
+module.exports.search = function(req, res){
+  var search = req.body.keywords;
+  req.query.search = search;
+    renderIndex(req,res);
 };
 
 module.exports.favorite = function (req, res) {
@@ -352,12 +374,9 @@ module.exports.defaultView = function (req, res) {
 };
 
 module.exports.sort = function(req, res){
-    var option = req.params.option;
-  var queryString = 'SELECT * FROM Bookmarks ORDER BY '+ option + ' ASC';
-  db.query(queryString, function(err){
-    if (err) throw err;
-    res.redirect('/bookmarks');
-  });
+    var option = req.body.options;
+    req.query.sortBy = option;
+    renderIndex(req,res);
 }
 /**
  * Search:
