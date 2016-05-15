@@ -153,7 +153,6 @@ module.exports.insert = function(req, res){
   var keywords = db.escape(req.body.keywords);
   var favorite = 0;
   var folder = "FALSE";
-  var folder = "FALSE";
 
   if (validUrl.isUri(url)){
     console.log('Looks like an URI');
@@ -234,27 +233,22 @@ module.exports.search = function(req, res){
     if (err) throw err;
     res.redirect('/bookmarks');
   });
-}
-    var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
-    db.query(queryString, function (err) {
-        if (err)
-        {
-            throw err;
-        }
-        res.redirect('/bookmarks');
-    });
 };
 
 module.exports.favorite = function (req, res) {
     var id  = req.params.id;
     var fav = req.params.favorite;
-    var queryString = 'UPFDATE Bookmarks SET favorite = ' + fav  + 'WHERE id = '  + id;
-    db.query()
+    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav  + 'WHERE id = '  + id;
+    db.query(queryString, function(err){
+        if (err) throw err;
+        res.redirect('/bookmarks');
+    });
 };
 
 
 module.exports.sort = function(req, res){
-  var queryString = 'SELECT * FROM Bookmarks ORDER BY name ASC';
+    var option = req.params.option;
+  var queryString = 'SELECT * FROM Bookmarks ORDER BY '+ option + ' ASC';
   db.query(queryString, function(err){
     if (err) throw err;
     res.redirect('/bookmarks');
