@@ -14,19 +14,31 @@ var sql = require('sql-query'), sqlQuery = sql.Query();
  * Selects all Bookmarks and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function (req, res) {
+    renderIndex(req, res);
+};
+
+function renderIndex(req, res) {
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
-    
+
     db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
         if (err)
         {
             throw err;
         }
-
-        res.render('index', {bookmarks: bookmarks});
+        
+        var folders = getFolders(bookmarks);
+        res.render('index', {bookmarks: bookmarks, showCreateDialog: req.showCreateDialog, folders: folders});
     });
-};
+}
+
+function getFolders(bookmarks) {
+    return bookmarks.filter(function(bookmark) {
+        console.log(bookmark);
+        return bookmark.folder;
+    });
+}
 
 /**
  *
@@ -64,6 +76,17 @@ module.exports.addFolder = function (req, res) {
 module.exports.import = function (req, res) {
     res.render('bookmarks/import');
 };
+
+module.exports.create = function (req, res) {
+    console.log(res, req);
+    
+    req.showCreateDialog = true;
+    
+    renderIndex(req, res);
+};
+
+
+
 
 /**
  *
@@ -178,6 +201,7 @@ module.exports.update = function (req, res) {
         res.redirect('/bookmarks');
     });
 };
+
 
 /**
  * Search:
