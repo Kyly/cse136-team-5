@@ -15,6 +15,7 @@ CREATE TABLE `Bookmarks` (
   `inserted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated`  TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
 
+  UNIQUE (`folderId`, `name`),
     PRIMARY KEY (`id`),
   KEY FK_FolderId (folderId),
   CONSTRAINT FK_Folder FOREIGN KEY (folderId) REFERENCES Bookmarks (id)
@@ -36,7 +37,7 @@ CREATE TABLE `Folders` (
 CREATE TABLE `Users` (
   `id`       INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(32)      NOT NULL,
-  `password` VARCHAR(32)               DEFAULT NULL,
+  `password` VARCHAR(60)               DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
   ENGINE = MyISAM
@@ -47,8 +48,8 @@ LOCK TABLES `Users` WRITE;
 INSERT INTO `Users` (`id`, `username`, `password`)
 
 VALUES
-  (1, 'cse136User', 'cse136PW'),
-  (2, 'user', '123');
+  (1, 'cse136User', '$2a$10$klfx5Qy78NoRQ5A5zJ3Dou6UoqX5RuGNPrO/uK6358t5in8i./R0a'),
+  (2, 'user', '$2a$10$klfx5Qy78NoRQ5A5zJ3DourDK/MJ5bhwfSeeDmUW06M9mXNZJPUe6');
 
 UNLOCK TABLES;
 

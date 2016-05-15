@@ -52,6 +52,13 @@
     });
 
     document.body.appendChild(new bmCreateFolderDialog());
+    
+    var bmErrorDialog = document.registerElement('bm-error-dialog', {
+        prototype: Object.create(HTMLButtonElement.prototype),
+        extends: 'div'
+    })
+    
+    document.body.appendChild(new bmErrorDialog());
 
 })(window);
 
@@ -67,6 +74,7 @@
     App.bookmarkCreate   = new BookmarkCreate();
     App.bookmarkEdit     = new BookmarkEdit();
     App.createFolder     = new CreateFolder();
+    App.errorReport      = new ErrorReport();
 
     function CreateFolder() {
         this.template = App.templates['assets/templates/bm-create-folder.hbs.html'];
@@ -80,6 +88,18 @@
         hide('bm-create-folder-dialog');
     };
     
+    function ErrorReport() {
+        this.template = App.templates['assets/templates/bm-error-dialog.hbs.html'];
+    }
+
+    ErrorReport.prototype.show = function showErrorReport() {
+        show('bm-error-dialog', this.template);
+    };
+
+    ErrorReport.prototype.remove = function hideErrorReport() {
+        hide('bm-error-dialog');
+    };
+
     /* Code for bookmark explorer */
     function BookmarkExplorer() {
         this.container      = document.getElementById('bookmark-list');
