@@ -4,6 +4,7 @@
 
 var config = require('../config');
 var db     = require('../database/db');
+var bcrypt = require('bcrypt');
 
 /**
  *
@@ -27,8 +28,7 @@ module.exports.login = function (req, res) {
             console.debug(error);
             throw err;
         }
-
-        if (user.length >= 0 && user[0].password == pw)
+        if (user.length >= 0 && bcrypt.compareSync(pw, user[0].password))
         {
             console.log("Valid login");
             req.session.user = req.body.username;

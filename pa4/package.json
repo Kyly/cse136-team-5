@@ -24,6 +24,7 @@
     "grunt-w3c-html-validation": "^0.1.8"
   },
   "dependencies": {
+    "bcrypt": "^0.8.6",
     "body-parser": "^1.15.0",
     "bower": "^1.7.9",
     "compression": "^1.6.1",
