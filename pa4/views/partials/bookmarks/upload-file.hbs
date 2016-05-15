@@ -1,0 +1,22 @@
+<bm-upload-file-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Upload</div>
+        <bm-dialog-close><a href="/bookmarks"><span class="fa fa-times"></span></a></bm-dialog-close>
+    </div>
+    <bm-dialog-body class="drag-and-drop-container">
+        <div class="drag-and-drop-inner">
+            <form action="/bookmarks/upload"
+                  enctype="multipart/form-data"
+                  method="post">
+                <div class="text-center">
+                <span class="fa fa-cloud-upload"></span>
+                    <input type="file" class="upload" name="csvFile"/>
+                    <!--<p><span class="dz-message">Drop files here to upload</span></p>-->
+                    <section class="press" style="margin-top: 2em">
+                        <button type="submit" name="action">Send</button>
+                    </section>
+                </div>
+            </form>
+        </div>
+    </bm-dialog-body>
+</bm-upload-file-dialog>
