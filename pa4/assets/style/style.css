@@ -435,7 +435,8 @@ bm-app {
 bm-create-dialog,
 bm-edit-dialog,
 bm-upload-file-dialog,
-bm-create-folder-dialog {
+bm-create-folder-dialog,
+bm-error-dialog {
     display: flex;
     flex-flow: row wrap;
     height: auto;
@@ -617,10 +618,19 @@ bm-upload-file-dialog .drag-and-drop-container {
     font-size: larger;
 }
 
-bm-create-dialog, bm-edit-dialog {
+bm-create-dialog, bm-edit-dialog, bm-error-dialog {
     display: flex;
     width: 80%;
     /*text-align: center;*/
+}
+
+bm-error-dialog {
+    color: #dba100 !important;
+}
+bm-error-dialog bm-dialog-body {
+    display: initial;
+    padding: 1em;
+    width: 100%;
 }
 
 bm-create-dialog bm-dialog-body,
