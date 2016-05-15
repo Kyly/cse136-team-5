@@ -75,9 +75,14 @@
         </div>
         <div id="bookmark-dialog" class="col-md-8">
             <!-- Your dialogs will get appended here -->
+            {{#if showCreateFolderDialog }}
+                {{> bookmarks/create-folder-dialog }}
+            {{/if}}
+
             {{#if error}}
                 {{> bm-error-dialog}}
             {{/if}}
+
             {{#if showCreateDialog }}
                 {{> bookmarks/create-bookmark-dialog }}
             {{/if}}
@@ -88,10 +93,6 @@
 
             {{#if showUploadDialog }}
                 {{> bookmarks/upload-file }}
-            {{/if}}
-
-            {{#if showCreateFolderDialog }}
-                {{> bookmarks/create-folder-dialog }}
             {{/if}}
         </div>
 

@@ -57,15 +57,11 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-function renderIndex(req, res, saerch) {
+
     
-=======
-function renderIndex(req, res) {
-=======
+
 function renderIndex(req, res, scopeCallBack) {
->>>>>>> d833c0c59142cecb90df0b367a4a01c895c80537
+
     if (reportedError != null)
     {
         console.error(reportedError);
@@ -74,7 +70,7 @@ function renderIndex(req, res, scopeCallBack) {
         return;
     }
 
->>>>>>> a4b8213749cfe3897840f7751a67bf1c3ac229fa
+
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
     var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : req.session.sortBy ? req.session.sortBy : 'name';
@@ -96,6 +92,7 @@ function renderIndex(req, res, scopeCallBack) {
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
             showUploadDialog: req.showUploadDialog,
+            showCreateFolderDialog: req.showCreateFolderDialog,
             folders: folders
         };
 
@@ -355,7 +352,7 @@ module.exports.uploadFile = function (req, res, next) {
 module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
-<<<<<<< HEAD
+
 
 module.exports.createFolder = function (req, res) {
     console.log('making a foler');
@@ -371,5 +368,3 @@ module.exports.createFolder = function (req, res) {
  * Visit: a href tag
  * add=insert edit=update delete list
  */
-=======
->>>>>>> a4b8213749cfe3897840f7751a67bf1c3ac229fa
