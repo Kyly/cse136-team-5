@@ -1,5 +1,5 @@
 var mysql  = require('mysql');
-var config = require('../config');
+var config = require('../my_config');
 
 var MySQL = function () {
     var connection;

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Kyly/cse136-pa2#readme",
   "devDependencies": {
+    "font-awesome": "^4.6.1",
     "grunt": "^1.0.1",
     "grunt-contrib-handlebars": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
