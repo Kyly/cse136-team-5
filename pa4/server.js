@@ -1,18 +1,18 @@
-var db          = require('./database/db');
-var config      = require('./config');
-var bookmarks   = require('./controllers/bookmarks');
-var users       = require('./controllers/users');
-var express     = require('express');
-var bodyParser  = require('body-parser');
-var session     = require('express-session');
-var handlebars  = require('express-handlebars');
-var favicon     = require('serve-favicon');
-var path        = require('path');
-var queryParser = require('express-query-int');
-var multer      = require('multer');
-
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
+var db              = require('./database/db');
+var config          = require('./config');
+var bookmarks       = require('./controllers/bookmarks');
+var users           = require('./controllers/users');
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var session         = require('express-session');
+var handlebars      = require('express-handlebars');
+var favicon         = require('serve-favicon');
+var path            = require('path');
+var queryParser     = require('express-query-int');
+var morgan          = require('morgan');
+var multer          = require('multer');
+var storage         = multer.memoryStorage();
+var upload          = multer({ storage: storage })
 
 db.init();
 var mySession = session(
@@ -25,7 +25,6 @@ var mySession = session(
 );
 
 var app = express();
-app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs',
            handlebars(
@@ -49,6 +48,9 @@ app.use(mySession);
 // app.set('view engine', 'ejs');
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(bodyParser.urlencoded({extended: true}));
+
+/* Logging set up */
+app.use(morgan('common'));
 
 /* Routes - consider putting in routes.js */
 app.get('/login', users.loginForm);
