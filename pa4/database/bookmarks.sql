@@ -79,14 +79,15 @@ LOCK TABLES `Bookmarks` WRITE;
 /*!40000 ALTER TABLE `Bookmarks`
   DISABLE KEYS */;
 
-INSERT INTO `Bookmarks` (`url`, `folderId`, `name`, `description`, `keywords`, `favorite`, `folder`)
+INSERT INTO `Bookmarks` (`id`, `url`, `folderId`, `name`, `description`, `keywords`, `favorite`, `folder`)
 
 VALUES
-  ('https://mail.google.com', 1, 'Gmail', 'electronic mail', 'social', 0, FALSE),
-  ('https://www.facebook.com/', 1, 'Facebook', 'waste of time', 'social', 0, FALSE),
-  (NULL, 1, 'A folder', 'waste of time', 'social', 0, TRUE),
-  ('https://angularjs.org/', 1, 'Angular', 'pretty cool framework', 'cs', 0, FALSE),
-  ('https://github.com/', 1, 'Github', 'post code here', 'cs', 0, FALSE);
+  (1, NULL, 0, 'root', NULL , NULL, 0, TRUE),
+  (2, 'https://mail.google.com', 1, 'Gmail', 'electronic mail', 'social', 0, FALSE),
+  (3, 'https://www.facebook.com/', 1, 'Facebook', 'waste of time', 'social', 0, FALSE),
+  (4, NULL, 1, 'A folder', NULL, NULL, 1, TRUE),
+  (5, 'https://angularjs.org/', 4, 'Angular', 'pretty cool framework', 'cs', 0, FALSE),
+  (6, 'https://github.com/', 4, 'Github', 'post code here', 'cs', 0, FALSE);
 
 
 /*!40000 ALTER TABLE `Bookmarks`

@@ -32,7 +32,7 @@
                         <a class="box" href="javascript: void(0);" onclick="App.createFolder.show()">
                             <span class="fa fa-folder-o"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="App.bookmarkUploader.show()">
+                        <a class="box" href="/bookmarks/upload-dialog">
                             <span class="fa fa-cloud-upload"></span>
                         </a>
                         <a class="box" href="bookmark-export.csv" download>
@@ -82,6 +82,10 @@
             {{#if showEditDialog }}
                 {{> bookmarks/edit-bookmark }}
             {{/if}}
+
+            {{#if showUploadDialog }}
+                {{> bookmarks/upload-file }}
+            {{/if}}
         </div>
 
     </div>
@@ -89,6 +93,7 @@
 
 
 <script src="assets/lib/handlebars/handlebars.min.js"></script>
+<script src="assets/lib/dropzone/dist/min/dropzone.min.js"></script>
 <script src="assets/javascript/templates.js"></script>
 <script src="assets/javascript/script.js"></script>
 </body>
