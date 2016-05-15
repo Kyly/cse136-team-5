@@ -1,5 +1,4 @@
 
- */
 var _   = require('lodash');
 var db  = require('../database/db');
 var sql = require('sql-query'), sqlQuery = sql.Query();
@@ -134,7 +133,7 @@ function renderEdit(req, res) {
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
-    var id = req.body.id;
+    var id = req.query.id;
     
     db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
         if (err) { throw err; }
