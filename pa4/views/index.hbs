@@ -29,7 +29,7 @@
                         <a class="box" href="bookmarks/create">
                             <span class="fa fa-plus-square-o"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="App.createFolder.show()">
+                        <a class="box" href="/bookmarks/createfoler">
                             <span class="fa fa-folder-o"></span>
                         </a>
                         <a class="box" href="/bookmarks/upload-dialog">
@@ -76,7 +76,7 @@
         <div id="bookmark-dialog" class="col-md-8">
             <!-- Your dialogs will get appended here -->
             {{#if showCreateDialog }}
-                {{> bookmarks/create-folders-dialog }}
+                {{> bookmarks/create-bookmark-dialog }}
             {{/if}}
 
             {{#if showEditDialog }}
@@ -85,6 +85,10 @@
 
             {{#if showUploadDialog }}
                 {{> bookmarks/upload-file }}
+            {{/if}}
+
+            {{#if showFolderDialog }}
+                {{> bookmarks/create-folder-dialog }}
             {{/if}}
         </div>
 

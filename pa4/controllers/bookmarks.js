@@ -62,7 +62,8 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
-function renderIndex(req, res) {
+function renderIndex(req, res, saerch) {
+    
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
@@ -313,6 +314,11 @@ module.exports.uploadFile = function (req, res, next) {
 };
 
 module.exports.defaultView = function (req, res) {
+    renderIndex(req, res);
+};
+
+module.exports.createFolder = function (req, res) {
+    req.showCreateFolderDialog = true;
     renderIndex(req, res);
 };
 

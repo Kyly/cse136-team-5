@@ -71,6 +71,7 @@ app.post('/bookmarks/editbookmark', bookmarks.editBookmark);
 app.get('/bookmarks/editbookmark', bookmarks.editBookmark);
 app.get('/bookmarks/upload-dialog', bookmarks.uploadDialog);
 app.post('/bookmarks/upload', upload.single('csvFile'), bookmarks.parseFile);
+app.get('/bookmarks/createfoler', bookmarks.createFolder);
 
 app.listen(config.PORT, function () {
     console.log('Example app listening on port ' + config.PORT + '!');
