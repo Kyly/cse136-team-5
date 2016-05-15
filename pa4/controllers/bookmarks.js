@@ -1,23 +1,9 @@
-var _         = require('lodash');
-var db        = require('../database/db');
-var sql       = require('sql-query'), sqlQuery = sql.Query();
-var converter = require('../services/csvToJson');
+var _   = require('lodash');
+var db  = require('../database/db');
+var sql = require('sql-query'), sqlQuery = sql.Query();
+var csv = require('../services/csvToJson');
 
 var reportedError = null;
-
-function parseCSVFile(buffer, onNewRecord, handleError, done) {
-    var source = String.fromCharCode.apply(null, buffer);
-
-    converter.fromString(source, function (err, result) {
-        if (err)
-        {
-            handleError(err)
-        }
-
-        onNewRecord(result);
-        done();
-    });
-}
 
 module.exports.parseFile = function parseFile(req, res, next) {
     var buffer = req.file.buffer;
@@ -49,7 +35,7 @@ module.exports.parseFile = function parseFile(req, res, next) {
         renderIndex(req, res);
     }
 
-    parseCSVFile(buffer, onNewRecord, onError, done);
+    csv.parseCSVFile(buffer, onNewRecord, onError, done);
 
 };
 
@@ -71,7 +57,7 @@ function renderIndex(req, res, scopeCallBack) {
     var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
-    req.session.sortBy = sortBy;
+    req.session.sortBy   = sortBy;
 
     db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
         if (err)
@@ -82,7 +68,7 @@ function renderIndex(req, res, scopeCallBack) {
         }
 
         var folders = getFolders(bookmarks);
-        var scope = {
+        var scope   = {
             bookmarks: bookmarks,
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
@@ -90,7 +76,8 @@ function renderIndex(req, res, scopeCallBack) {
             folders: folders
         };
 
-        if (scopeCallBack) {
+        if (scopeCallBack)
+        {
             scopeCallBack(scope);
         }
 
@@ -145,13 +132,13 @@ module.exports.editBookmark = function (req, res) {
 };
 
 function renderEdit(req, res) {
-    var id       = req.query.id;
+    var id = req.query.id;
 
     function editDialogeScope(scope) {
-        scope.folders = getFolders(scope.bookmarks);
+        scope.folders      = getFolders(scope.bookmarks);
         scope.bookmarkItem = getBookmarkFromId(id, scope.bookmarks);
     }
-    
+
     renderIndex(req, res, editDialogeScope);
 }
 

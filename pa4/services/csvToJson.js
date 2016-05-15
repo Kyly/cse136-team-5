@@ -6,4 +6,19 @@ var converter = new Converter({
     checkColumn: true
 });
 
-module.exports = converter;
+function parseCSVFile(buffer, onNewRecord, handleError, done) {
+    var source = String.fromCharCode.apply(null, buffer);
+
+    converter.fromString(source, function (err, result) {
+        if (err)
+        {
+            handleError(err)
+        }
+
+        onNewRecord(result);
+        done();
+    });
+}
+
+module.exports.parseCSVFile = parseCSVFile;
+module.exports.converter = converter;
