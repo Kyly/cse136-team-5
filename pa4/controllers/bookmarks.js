@@ -179,14 +179,14 @@ function renderEdit(req, res) {
             bookmarkItem: bookmarkItem
         });
     });
-}
+
     function editDialogeScope(scope) {
         scope.folders = getFolders(scope.bookmarks);
         scope.bookmarkItem = getBookmarkFromId(id, scope.bookmarks);
     }
 
     renderIndex(req, res, editDialogeScope);
-
+}
 function getFolders(bookmarks) {
     return bookmarks.filter(function (bookmark) {
         return bookmark.folder;
