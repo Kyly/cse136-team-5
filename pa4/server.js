@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var db              = require('./database/db');
 var config          = require('./config');
 var bookmarks       = require('./controllers/bookmarks');
@@ -11,22 +10,9 @@ var favicon         = require('serve-favicon');
 var path            = require('path');
 var queryParser     = require('express-query-int');
 var morgan          = require('morgan');
-=======
-var db          = require('./database/db');
-var config      = require('./config');
-var bookmarks   = require('./controllers/bookmarks');
-var users       = require('./controllers/users');
-var express     = require('express');
-var bodyParser  = require('body-parser');
-var session     = require('express-session');
-var handlebars  = require('express-handlebars');
-var favicon     = require('serve-favicon');
-var path        = require('path');
-var queryParser = require('express-query-int');
-var multer      = require('multer');
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage })
->>>>>>> c04ffd7596528fae35f57ddc9e6df173213c4115
+var multer          = require('multer');
+var storage         = multer.memoryStorage();
+var upload          = multer({ storage: storage })
 
 db.init();
 var mySession = session(
