@@ -15,6 +15,10 @@ var sql = require('sql-query'), sqlQuery = sql.Query();
  * Selects all Bookmarks and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function (req, res) {
+    renderIndex(req, res);
+};
+
+function renderIndex(req, res) {
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
@@ -25,9 +29,21 @@ var list = module.exports.list = function (req, res) {
             throw err;
         }
 
-        res.render('index', {bookmarks: bookmarks});
+        var folders = getFolders(bookmarks);
+        res.render('index', {
+            bookmarks: bookmarks,
+            showCreateDialog: req.showCreateDialog,
+            showEditDialog: req.showEditDialog,
+            folders: folders
+        });
     });
-};
+}
+
+function getFolders(bookmarks) {
+    return bookmarks.filter(function(bookmark) {
+        return bookmark.folder;
+    });
+}
 
 /**
  *
@@ -66,6 +82,18 @@ module.exports.import = function (req, res) {
     res.render('bookmarks/import');
 };
 
+
+
+module.exports.create = function (req, res) {
+    req.showCreateDialog = true;
+    renderIndex(req, res);
+};
+
+module.exports.editBookmark = function(req, res) {
+    req.showEditDialog = true;
+    renderIndex(req, res);
+};
+
 /**
  *
  * Selects information about the passed in bood and then
@@ -77,8 +105,7 @@ module.exports.edit = function (req, res) {
     delete req.body.action;
 
     var sql;
-console.log(action);
-    console.log(req.body);
+
     if (action === 'Update') {
         var update = sqlQuery.update();
         sql = update.into('Bookmarks').set(req.body).where({id: id}).build();
@@ -126,6 +153,7 @@ module.exports.insert = function(req, res){
   var keywords = db.escape(req.body.keywords);
   var favorite = 0;
   var folder = "FALSE";
+  var folder = "FALSE";
 
   if (validUrl.isUri(url)){
     console.log('Looks like an URI');
@@ -167,6 +195,7 @@ module.exports.insertFolder = function(req, res){
   	});
 };
 
+
 /**
  * Updates a book in the database
  * Does a redirect to the list page
@@ -206,6 +235,23 @@ module.exports.search = function(req, res){
     res.redirect('/bookmarks');
   });
 }
+    var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
+    db.query(queryString, function (err) {
+        if (err)
+        {
+            throw err;
+        }
+        res.redirect('/bookmarks');
+    });
+};
+
+module.exports.favorite = function (req, res) {
+    var id  = req.params.id;
+    var fav = req.params.favorite;
+    var queryString = 'UPFDATE Bookmarks SET favorite = ' + fav  + 'WHERE id = '  + id;
+    db.query()
+};
+
 
 module.exports.sort = function(req, res){
   var queryString = 'SELECT * FROM Bookmarks ORDER BY name ASC';
