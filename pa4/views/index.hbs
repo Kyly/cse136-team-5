@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
+    <base href="/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Your page title</title>
+    <title>Bookmarks</title>
 
     <link rel="stylesheet" href="assets/style/style.css">
     <link rel="stylesheet" href="assets/lib/components-font-awesome/css/font-awesome.min.css">
@@ -73,8 +74,12 @@
         </div>
         <div id="bookmark-dialog" class="col-md-8">
             <!-- Your dialogs will get appended here -->
-            {{#if createFolderDialog }}
+            {{#if showCreateDialog }}
                 {{> bookmarks/create-folders-dialog }}
+            {{/if}}
+
+            {{#if showEditDialog }}
+                {{> bookmarks/edit-bookmark }}
             {{/if}}
         </div>
 

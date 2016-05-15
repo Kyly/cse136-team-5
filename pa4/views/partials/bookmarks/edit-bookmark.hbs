@@ -1,28 +1,29 @@
-<bm-create-dialog class="dialog">
-    <div class="dialog-header">
-        <div class="dialog-title">Create</div>
-        <bm-dialog-close><span onclick="App.bookmarkCreate.remove()" class="fa fa-times"></span></bm-dialog-close>
-    </div>
-    <bm-dialog-body>
-        <form class="dialog-form" method='post' action='/bookmarks/insert'>
+<bm-edit-dialog class="dialog">
+    <bm-dialog-close class="row">
+        <span id="trash" class="fa fa-trash-o col-lg-1 col-md-1"></span>
+        <div class="col-lg-10 col-md-10"></div>
+        <span id="x" onclick="App.bookMarkEdit.remove()" class="fa fa-times col-lg-1 col-md-1"></span>
+    </bm-dialog-close>
+    <bm-dialog-body class="drag-and-drop-container">
+        <form class="dialog-form" method='post' action='/bookmarks/edit'>
             <div class="row">
                 <div class="name col-xs-6">
                     <input name="name" type="text"
-                           class="name dialog-input" placeholder="Name">
+                           class="name dialog-input" placeholder="{{name}}">
                 </div>
                 <div class="keywords col-xs-6">
                     <input name="keywords" type="text" class="keywords dialog-input"
-                           placeholder="Keywords"/>
+                           placeholder="{{keywords}}"/>
                 </div>
             </div>
             <div class="row">
                 <input name="url" type="text" class="url dialog-input"
-                       placeholder="Url"/>
+                       placeholder="{{url}}"/>
             </div>
 
             <div class="row text">
                 <textarea name="description" class="description dialog-input" id="description"
-                          placeholder="Description"></textarea>
+                          placeholder="{{description}}"></textarea>
             </div>
             <div class="row">
                 <select required name="folderId" class="dialog-select dialog-input">
@@ -35,9 +36,9 @@
             </div>
             <div class="row">
                 <section class="press">
-                    <button>Create</button>
+                    <button>Edit</button>
                 </section>
             </div>
         </form>
     </bm-dialog-body>
-</bm-create-dialog>
+</bm-edit-dialog>

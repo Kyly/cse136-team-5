@@ -856,6 +856,17 @@ a.bookmark-link:hover {
     cursor: pointer;
 }
 
+.no-button {
+    display: inline-block;
+    padding: 0;
+    font-size: 1.35em;
+    font-family: "Titillium Web";
+    line-height: 0;
+    background-color: transparent;
+    border: none;
+    color: darkseagreen;
+}
+
 /* Create Folder */
 bm-create-folder-dialog {
     width: 75%;
