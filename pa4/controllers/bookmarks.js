@@ -77,7 +77,8 @@ module.exports.edit = function (req, res) {
     delete req.body.action;
 
     var sql;
-
+console.log(action);
+    console.log(req.body);
     if (action === 'Update') {
         var update = sqlQuery.update();
         sql = update.into('Bookmarks').set(req.body).where({id: id}).build();
@@ -130,6 +131,7 @@ module.exports.insert = function(req, res){
     console.log('Looks like an URI');
   } else {
     console.log('Not a URI');
+      res.render('403', { status: 403, bookmarks: bookmarks });
   }
 
   var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
@@ -176,6 +178,13 @@ module.exports.update = function (req, res) {
     var description = db.escape(req.body.description);
     var keywords    = db.escape(req.body.keywords);
 
+    if (validUrl.isUri(url)){
+        console.log('Looks like an URI');
+    } else {
+        console.log('Not a URI');
+        res.render('403', { status: 403, bookmarks: bookmarks });
+    }
+
     var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
     db.query(queryString, function (err) {
         if (err)
@@ -184,18 +193,8 @@ module.exports.update = function (req, res) {
         }
         res.redirect('/bookmarks');
     });
-  if (validUrl.isUri(url)){
-    console.log('Looks like an URI');
-  } else {
-    console.log('Not a URI');
-    res.render('403', { status: 403, url: '/bookmarks' });
-  }
 
-  var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
-  db.query(queryString, function(err){
-    if (err) throw err;
-    res.redirect('/bookmarks');
-  });
+
 };
 
 module.exports.search = function(req, res){
