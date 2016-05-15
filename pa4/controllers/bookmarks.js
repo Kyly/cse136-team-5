@@ -57,7 +57,7 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
-function renderIndex(req, res) {
+function renderIndex(req, res, scopeCallBack) {
     if (reportedError != null)
     {
         console.error(reportedError);
@@ -92,13 +92,19 @@ function renderIndex(req, res) {
         }
 
         var folders = getFolders(bookmarks);
-        res.render('index', {
+        var scope = {
             bookmarks: bookmarks,
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
             showUploadDialog: req.showUploadDialog,
             folders: folders
-        });
+        };
+
+        if (scopeCallBack) {
+            scopeCallBack(scope);
+        }
+
+        res.render('index', scope);
     });
 }
 
@@ -155,7 +161,9 @@ function renderEdit(req, res) {
     var id = req.query.id;
 
     db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
-        if (err) { throw err; }
+        if (err) {
+            throw err;
+        }
 
         var folders = getFolders(bookmarks);
         console.log('folders ', folders);
@@ -172,6 +180,12 @@ function renderEdit(req, res) {
         });
     });
 }
+    function editDialogeScope(scope) {
+        scope.folders = getFolders(scope.bookmarks);
+        scope.bookmarkItem = getBookmarkFromId(id, scope.bookmarks);
+    }
+
+    renderIndex(req, res, editDialogeScope);
 
 function getFolders(bookmarks) {
     return bookmarks.filter(function (bookmark) {
@@ -410,12 +424,3 @@ module.exports.sort = function(req, res){
     req.query.sortBy = option;
     renderIndex(req,res);
 }
-/**
- * Search:
- * SELECT * FROM Bookmarks WHERE keywords LIKE '% ' + keywords +' %';
- * Sort:
- * SELECT * FROM Bookmarks ORDER BY name ASC;
- * Visit: a href tag
- * add=insert edit=update delete list
- * 403
- */
