@@ -58,6 +58,7 @@ function renderIndex(req, res, scopeCallBack) {
 
 
     console.info('List request', req.query);
+    var parentFolderId = 0;
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
     var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : req.session.sortBy ? req.session.sortBy : 'name';
 
