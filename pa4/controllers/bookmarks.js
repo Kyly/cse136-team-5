@@ -43,7 +43,11 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
+
+    
+
 function renderIndex(req, res, scopeCallBack) {
+
     if (reportedError != null)
     {
         console.error(reportedError);
@@ -51,6 +55,7 @@ function renderIndex(req, res, scopeCallBack) {
         reportedError = null;
         return;
     }
+
 
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
@@ -73,6 +78,7 @@ function renderIndex(req, res, scopeCallBack) {
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
             showUploadDialog: req.showUploadDialog,
+            showCreateFolderDialog: req.showCreateFolderDialog,
             folders: folders
         };
 
@@ -333,3 +339,19 @@ module.exports.uploadFile = function (req, res, next) {
 module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
+
+
+module.exports.createFolder = function (req, res) {
+    console.log('making a foler');
+    req.showCreateFolderDialog = true;
+    renderIndex(req, res);
+};
+
+/**
+ * Search:
+ * SELECT * FROM Bookmarks WHERE keywords LIKE '% ' + keywords +' %';
+ * Sort:
+ * SELECT * FROM Bookmarks ORDER BY name ASC;
+ * Visit: a href tag
+ * add=insert edit=update delete list
+ */

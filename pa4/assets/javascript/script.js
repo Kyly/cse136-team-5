@@ -170,7 +170,7 @@
 
     /* Bookmark create */
     function BookmarkCreate() {
-        this.template = App.templates['assets/templates/create-folders-dialog.hbs.html'];
+        this.template = App.templates['assets/templates/create-bookmark-dialog.hbs.html'];
     }
 
     BookmarkCreate.prototype.show = function showBookmarkCreate(bookmarks) {
