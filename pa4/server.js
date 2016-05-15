@@ -1,51 +1,29 @@
-var db              = require('./database/db');
-var config          = require('./config');
-var bookmarks       = require('./controllers/bookmarks');
-var users           = require('./controllers/users');
-var express         = require('express');
-var bodyParser      = require('body-parser');
-var session         = require('express-session');
-var handlebars      = require('express-handlebars');
-var favicon         = require('serve-favicon');
-var path            = require('path');
-var queryParser     = require('express-query-int');
-var morgan          = require('morgan');
-var multer          = require('multer');
-var storage         = multer.memoryStorage();
-var upload          = multer({ storage: storage });
+var db          = require('./database/db');
+var config      = require('./config');
+var bookmarks   = require('./controllers/bookmarks');
+var users       = require('./controllers/users');
+var express     = require('express');
+var bodyParser  = require('body-parser');
+var session     = require('./services/session');
+var handlebars  = require('./services/handlebars');
+var favicon     = require('serve-favicon');
+var path        = require('path');
+var queryParser = require('express-query-int');
+var morgan      = require('morgan');
+var upload      = require('./services/fileUploader').upload;
 
 db.init();
-var mySession = session(
-    {
-        secret: 'N0deJS1sAw3some',
-        resave: true,
-        saveUninitialized: true,
-        cookie: {secure: false}
-    }
-);
 
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs',
-           handlebars(
-               {
-                   extname: '.hbs',
-                   helpers: {
-                       toJSON: function (object) {
-                           return JSON.stringify(object);
-                       }
-                   }
-               }
-           )
-);
+app.engine('.hbs', handlebars);
 
 app.set('view engine', '.hbs');
 app.use(favicon(__dirname + '/assets/img/favicon.ico'));
 app.use(queryParser());
-app.use(mySession);
+app.use(session);
 
 /*  Not overwriting default views directory of 'views' */
-// app.set('view engine', 'ejs');
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(bodyParser.urlencoded({extended: true}));
 

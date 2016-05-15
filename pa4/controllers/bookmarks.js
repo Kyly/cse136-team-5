@@ -70,6 +70,7 @@ function renderIndex(req, res) {
     }
     
     console.info('List request', req.query);
+    // var sessionFolderId = 
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
 
@@ -278,7 +279,6 @@ module.exports.insertFolder = function (req, res) {
             reportedError = err;
             console.error(err);
             res.redirect('/bookmarks');
-            return;
         }
         //res.redirect('/bookmarks');
     });
