@@ -14,19 +14,31 @@ var sql = require('sql-query'), sqlQuery = sql.Query();
  * Selects all Bookmarks and then renders the page with the list.ejs template
  */
 var list = module.exports.list = function (req, res) {
+    renderIndex(req, res);
+};
+
+function renderIndex(req, res) {
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
     var sortBy = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : 'name';
-    
+
     db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
         if (err) {
             res.render('index', {error: err}); 
             return;
         }
-
-        res.render('index', {bookmarks: bookmarks});
+        
+        var folders = getFolders(bookmarks);
+        res.render('index', {bookmarks: bookmarks, showCreateDialog: req.showCreateDialog, folders: folders});
     });
-};
+}
+
+function getFolders(bookmarks) {
+    return bookmarks.filter(function(bookmark) {
+        console.log(bookmark);
+        return bookmark.folder;
+    });
+}
 
 /**
  *
@@ -37,7 +49,8 @@ module.exports.confirmdelete = function(req, res){
   var id = req.params.book_id;
   db.query('SELECT * from Bookmarks WHERE id =  ' + id, function(err, book) {
     if (err) {
-      res.render('index', {error: err}); 
+      res.render('index', {error: err});
+      return;
     }
     res.render('bookmarks/delete', {book: book[0]});
   });
@@ -64,6 +77,17 @@ module.exports.import = function (req, res) {
     res.render('bookmarks/import');
 };
 
+module.exports.create = function (req, res) {
+    console.log(res, req);
+    
+    req.showCreateDialog = true;
+    
+    renderIndex(req, res);
+};
+
+
+
+
 /**
  *
  * Selects information about the passed in bood and then
@@ -86,7 +110,8 @@ module.exports.edit = function (req, res) {
     console.log(action, sql);
     db.query(sql, function (err, response) {
         if (err) {
-            res.render('index', {error: err}); 
+            res.render('index', {error: err});
+            return;
         }
 
         console.log(response);
@@ -102,7 +127,8 @@ module.exports.delete = function (req, res) {
     var id = req.params.book_id;
     db.query('DELETE from Bookmarks where id = ' + id, function (err) {
        if (err) {
-            res.render('index', {error: err}); 
+            res.render('index', {error: err});
+            return;
         }
         res.redirect('/bookmarks');
     });
@@ -112,23 +138,57 @@ module.exports.delete = function (req, res) {
  * Adds a new book to the database
  * Does a redirect to the list page
  */
-module.exports.insert = function (req, res) {
-    var url         = db.escape(req.body.url);
-    var name        = db.escape(req.body.name);
-    var folderId    = db.escape(req.body.folderId);
-    var description = db.escape(req.body.description);
-    var keywords    = db.escape(req.body.keywords);
-    var favorite    = 0;
+module.exports.insert = function(req, res){
+  var url = db.escape(req.body.url);
+  var name = db.escape(req.body.name);
+  var folderId = db.escape(req.body.folderId);
+  var description = db.escape(req.body.description);
+  var keywords = db.escape(req.body.keywords);
+  var favorite = 0;
+  var folder = "FALSE";
 
-    var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ')';
-    console.log(queryString);
+  var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+  console.log(queryString);
 
-    db.query(queryString, function (err) {
-        if (err) {
-            res.render('index', {error: err}); 
+  db.query(queryString, function(err){
+      if (err) {
+            res.render('index', {error: err});
+            return;
         }
-        res.redirect('/bookmarks');
+      res.redirect('/bookmarks');
+  });
+};
+
+module.exports.insertFolder = function(req, res){
+	var url = "NULL";
+	var folderId = 1;
+	var keywords = "NULL";
+    var name = db.escape(req.body.name);
+    var description = db.escape(req.body.description);
+    var favorite = 0;
+    var folder = "TRUE";
+    var parent = 1;
+    
+    
+    var queryString = 'INSERT INTO Folders (name, parent) VALUES (' + name + ', ' + parent + ')';
+    console.log(queryString);
+    db.query(queryString, function(err){
+        if (err) {
+            res.render('index', {error: err});
+            return;
+        }
+        //res.redirect('/bookmarks');
     });
+    
+	var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+  	console.log(queryString);
+  	db.query(queryString, function(err){
+        if (err) {
+            res.render('index', {error: err});
+            return;
+        }
+    	res.redirect('/bookmarks');
+  	});
 };
 
 /**
@@ -145,11 +205,13 @@ module.exports.update = function (req, res) {
     var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
     db.query(queryString, function (err) {
         if (err) {
-            res.render('index', {error: err}); 
+            res.render('index', {error: err});
+            return;
         }
         res.redirect('/bookmarks');
     });
 };
+
 
 /**
  * Search:

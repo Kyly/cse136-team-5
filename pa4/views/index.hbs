@@ -24,7 +24,7 @@
             <div id="bookmark-explorer">
                 <div id="bookmark-actions">
                     <div class="action-button-group">
-                        <a class="box" href="javascript: void(0);" onclick="App.bookmarkCreate.show()">
+                        <a class="box" href="bookmarks/create">
                             <span class="fa fa-plus-square-o"></span>
                         </a>
                         <a class="box" href="javascript: void(0);" onclick="App.createFolder.show()">
@@ -76,6 +76,9 @@
                 {{> bm-error-dialog}}
             {{/if}}
             <!-- Your dialogs will get appended here -->
+            {{#if createFolderDialog }}
+                {{> bookmarks/create-folders-dialog }}
+            {{/if}}
         </div>
 
     </div>

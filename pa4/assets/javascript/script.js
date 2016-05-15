@@ -100,89 +100,6 @@
         hide('bm-error-dialog');
     };
 
-    /* Mock Bookmark Service*/
-    // function getBookmarks() {
-    //
-    //     var bookmarks = {
-    //         parent: null,
-    //         name: 'root',
-    //         url: '',
-    //         children: [{
-    //             parent: 'root',
-    //             name: 'Python Tutorial',
-    //             url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
-    //             children: []
-    //         }, {
-    //             parent: 'root',
-    //             name: 'Hightimes',
-    //             url: 'hhttp://www.hightimes.com/',
-    //             children: []
-    //         }, {
-    //             parent: 'root',
-    //             name: 'School',
-    //             url: 'sdklnjln',
-    //             children: []
-    //         }, {
-    //             parent: 'root',
-    //             name: 'Node JS',
-    //             url: 'https://nodejs.org/en/',
-    //             children: []
-    //         }, {
-    //             parent: 'root',
-    //             name: 'Some other page',
-    //             url: 'https://nodejs.org/en/',
-    //             children: []
-    //         }, {
-    //             parent: 'root',
-    //             name: 'Exciting Stuff',
-    //             url: '',
-    //             children: [{
-    //                 parent: 'root',
-    //                 name: 'Apple',
-    //                 url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
-    //                 children: []
-    //             }, {
-    //                 parent: 'root',
-    //                 name: 'Google Keep',
-    //                 url: 'hhttp://www.hightimes.com/',
-    //                 children: []
-    //             }, {
-    //                 parent: 'root',
-    //                 name: 'Netflix',
-    //                 url: 'sdklnjln',
-    //                 children: []
-    //             }, {
-    //                 parent: 'root',
-    //                 name: 'Java',
-    //                 url: 'https://nodejs.org/en/',
-    //                 children: []
-    //             }, {
-    //                 parent: 'root',
-    //                 name: 'Ocaml',
-    //                 url: 'https://nodejs.org/en/',
-    //                 children: []
-    //             }, {
-    //                 parent: 'root',
-    //                 name: 'Cpp Fourms',
-    //                 url: 'https://nodejs.org/en/',
-    //                 children: []
-    //             }, {
-    //                 parent: 'root',
-    //                 name: 'Learn CSS',
-    //                 url: 'https://nodejs.org/en/',
-    //                 children: []
-    //             }]
-    //         }, {
-    //             parent: 'root',
-    //             name: 'XXX',
-    //             url: 'https://nodejs.org/en/',
-    //             children: []
-    //         }]
-    //     };
-    //
-    //     return bookmarks;
-    // }
-
     /* Code for bookmark explorer */
     function BookmarkExplorer() {
         this.container      = document.getElementById('bookmark-list');
@@ -225,12 +142,12 @@
         if (ele.classList.contains("fa-star-o"))
         {
             ele.classList.toggle("fa-star-o");
-            ele.classList.add("fa-star")
+            ele.classList.add("fa-star");
         }
         else
         {
             ele.classList.toggle("fa-star");
-            ele.classList.add("fa-star-o")
+            ele.classList.add("fa-star-o");
         }
     };
 
@@ -253,11 +170,11 @@
 
     /* Bookmark create */
     function BookmarkCreate() {
-        this.template = App.templates['assets/templates/bm-create-dialog.hbs.html'];
+        this.template = App.templates['assets/templates/create-folders-dialog.hbs.html'];
     }
 
-    BookmarkCreate.prototype.show = function showBookmarkCreate() {
-        show('bm-create-dialog', this.template);
+    BookmarkCreate.prototype.show = function showBookmarkCreate(bookmarks) {
+        show('bm-create-dialog', this.template, bookmarks);
     };
 
     BookmarkCreate.prototype.remove = function removeBookmarkCreate(event) {
@@ -334,3 +251,86 @@
     }
 
 })(window);
+
+/* Mock Bookmark Service*/
+// function getBookmarks() {
+//
+//     var bookmarks = {
+//         parent: null,
+//         name: 'root',
+//         url: '',
+//         children: [{
+//             parent: 'root',
+//             name: 'Python Tutorial',
+//             url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
+//             children: []
+//         }, {
+//             parent: 'root',
+//             name: 'Hightimes',
+//             url: 'hhttp://www.hightimes.com/',
+//             children: []
+//         }, {
+//             parent: 'root',
+//             name: 'School',
+//             url: 'sdklnjln',
+//             children: []
+//         }, {
+//             parent: 'root',
+//             name: 'Node JS',
+//             url: 'https://nodejs.org/en/',
+//             children: []
+//         }, {
+//             parent: 'root',
+//             name: 'Some other page',
+//             url: 'https://nodejs.org/en/',
+//             children: []
+//         }, {
+//             parent: 'root',
+//             name: 'Exciting Stuff',
+//             url: '',
+//             children: [{
+//                 parent: 'root',
+//                 name: 'Apple',
+//                 url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
+//                 children: []
+//             }, {
+//                 parent: 'root',
+//                 name: 'Google Keep',
+//                 url: 'hhttp://www.hightimes.com/',
+//                 children: []
+//             }, {
+//                 parent: 'root',
+//                 name: 'Netflix',
+//                 url: 'sdklnjln',
+//                 children: []
+//             }, {
+//                 parent: 'root',
+//                 name: 'Java',
+//                 url: 'https://nodejs.org/en/',
+//                 children: []
+//             }, {
+//                 parent: 'root',
+//                 name: 'Ocaml',
+//                 url: 'https://nodejs.org/en/',
+//                 children: []
+//             }, {
+//                 parent: 'root',
+//                 name: 'Cpp Fourms',
+//                 url: 'https://nodejs.org/en/',
+//                 children: []
+//             }, {
+//                 parent: 'root',
+//                 name: 'Learn CSS',
+//                 url: 'https://nodejs.org/en/',
+//                 children: []
+//             }]
+//         }, {
+//             parent: 'root',
+//             name: 'XXX',
+//             url: 'https://nodejs.org/en/',
+//             children: []
+//         }]
+//     };
+//
+//     return bookmarks;
+// }
