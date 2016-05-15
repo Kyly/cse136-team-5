@@ -1,0 +1,41 @@
+<bm-edit-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Edit</div>
+        <bm-dialog-close><span onclick="hide('bm-edit-dialog')" class="fa fa-times"></span>
+        </bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form" action="/bookmarks/update/<%= bookmark.id %>" method="post">
+            <div class="row">
+                <div class="name col-xs-6">
+                    <input name="name" type="text" class="dialog-input name" value="<%= bookmark.name %>">
+                </div>
+                <div class="keywords col-xs-6">
+                    <input name="keywords" type="text" class="dialog-input keywords" value="<%= bookmark.keywords %>">
+                </div>
+            </div>
+            <div class="row">
+                <input name="url" type="text" class="dialog-input url" value="<%= bookmark.url %>">
+            </div>
+
+            <div class="row text">
+                <textarea name="description" class="dialog-input description"><%= bookmark.description %></textarea>
+            </div>
+            <div class="row">
+                <select class="dialog-select dialog-input">
+                    <option value="" disabled="" selected="">Select folder</option>
+                    <option>Folder 1</option>
+                    <option>Folder 1</option>
+                    <option>Porn</option>
+                    <option>NSFL</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="press">
+                    <button onclick="hide('bm-edit-dialog', event); return false;">delete</button>
+                    <button onclick="hide('bm-edit-dialog', event); return false;">apply</button>
+                </div>
+            </div>
+        </form>
+    </bm-dialog-body>
+</bm-edit-dialog>

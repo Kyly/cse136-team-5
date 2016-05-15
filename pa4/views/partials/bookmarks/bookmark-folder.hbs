@@ -1,0 +1,13 @@
+<li class="list-item-style">
+    <div class="bookmark-item split-list">
+        <div>
+            <a class="bookmark-link folder-text" href="/bookmarks?folderId={{id}}">
+                <span class="fa fa-folder left-item bookmark-icons hand"></span> {{ name }}
+            </a>
+        </div>
+        <div>
+            <a href="/bookmarks?folderId={{id}}"><span class="fa fa-chevron-right edit-favorite-icons hand"></span></a>
+            <span class="fa fa-edit edit-favorite-icons hand" onclick="App.bookmarkEdit.show({{toJSON this}})"></span>
+        </div>
+    </div>
+</li>
