@@ -57,7 +57,11 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
+
+
+
 function renderIndex(req, res, scopeCallBack) {
+
     if (reportedError != null)
     {
         console.error(reportedError);
@@ -97,6 +101,7 @@ function renderIndex(req, res, scopeCallBack) {
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
             showUploadDialog: req.showUploadDialog,
+            showCreateFolderDialog: req.showCreateFolderDialog,
             folders: folders
         };
 
@@ -424,3 +429,10 @@ module.exports.sort = function(req, res){
     req.query.sortBy = option;
     renderIndex(req,res);
 }
+
+
+module.exports.createFolder = function (req, res) {
+    console.log('making a foler');
+    req.showCreateFolderDialog = true;
+    renderIndex(req, res);
+};

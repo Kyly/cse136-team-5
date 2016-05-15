@@ -33,7 +33,7 @@
                         <a class="box" href="/bookmarks/create">
                             <span class="fa fa-plus-square-o"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="App.createFolder.show()">
+                        <a class="box" href="bookmarks/createfolder">
                             <span class="fa fa-folder-o"></span>
                         </a>
                         <a class="box" href="/bookmarks/upload-dialog">
@@ -83,11 +83,16 @@
         </div>
         <div id="bookmark-dialog" class="col-md-8">
             <!-- Your dialogs will get appended here -->
+            {{#if showCreateFolderDialog }}
+                {{> bookmarks/create-folder-dialog }}
+            {{/if}}
+
             {{#if error}}
                 {{> bm-error-dialog}}
             {{/if}}
+
             {{#if showCreateDialog }}
-                {{> bookmarks/create-folders-dialog }}
+                {{> bookmarks/create-bookmark-dialog }}
             {{/if}}
 
             {{#if showEditDialog }}
@@ -102,10 +107,10 @@
     </div>
 </bm-app>
 
-
 <script src="/assets/lib/handlebars/handlebars.min.js"></script>
 <script src="/assets/lib/dropzone/dist/min/dropzone.min.js"></script>
 <script src="/assets/javascript/templates.js"></script>
 <script src="/assets/javascript/script.js"></script>
+
 </body>
 </html>
