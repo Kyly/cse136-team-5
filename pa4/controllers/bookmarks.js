@@ -78,6 +78,7 @@ function renderIndex(req, res, scopeCallBack) {
             showUploadDialog: req.showUploadDialog,
             showCreateFolderDialog: req.showCreateFolderDialog,
             showConfirmDeleteDialog: req.showConfirmDeleteDialog,
+            showEditFolderDialog: req.showEditFolderDialog,
             folders: folders,
             error: req.reportedError
         };
@@ -378,4 +379,9 @@ module.exports.sort = function (req, res) {
 module.exports.createFolder = function (req, res) {
     req.showCreateFolderDialog = true;
     renderIndex(req, res);
+};
+
+module.exports.showEditFolder = function (req, res) {
+    req.showEditFolderDialog = true;
+    renderEdit(req, res);
 };

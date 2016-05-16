@@ -636,7 +636,7 @@ bm-error-dialog bm-dialog-body {
 }
 
 bm-confirm-delete .dialog-title {
-    text-align: right;
+    text-align: left;
     display: inline;
 }
 
