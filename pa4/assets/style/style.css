@@ -954,6 +954,8 @@ bm-create-folder-dialog .button {
 
 #login-content form.dialog-form .dialog-input:focus {
     padding: 13px 13px 13px 13px;
+}
+
 .file-upload {
     position: relative;
     overflow: hidden;
