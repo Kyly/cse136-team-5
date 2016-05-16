@@ -102,6 +102,11 @@
                 {{> bookmarks/upload-file }}
             {{/if}}
 
+            
+            {{#if showConfirmDeleteDialog }}
+                {{> bookmarks/confirm-delete }}
+            {{/if}}
+
             {{#if showEditFolderDialog }}
                 {{> bookmarks/edit-folder-dialog }}
             {{/if}}

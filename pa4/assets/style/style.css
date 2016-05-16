@@ -436,7 +436,8 @@ bm-create-dialog,
 bm-edit-dialog,
 bm-upload-file-dialog,
 bm-create-folder-dialog,
-bm-error-dialog {
+bm-error-dialog,
+bm-confirm-delete {
     display: flex;
     flex-flow: row wrap;
     height: auto;
@@ -627,7 +628,7 @@ bm-upload-file-dialog .drag-and-drop-container {
     font-size: larger;
 }
 
-bm-create-dialog, bm-edit-dialog, bm-error-dialog {
+bm-create-dialog, bm-edit-dialog, bm-error-dialog, bm-confirm-delete {
     display: flex;
     width: 80%;
     /*text-align: center;*/
@@ -640,6 +641,29 @@ bm-error-dialog bm-dialog-body {
     display: initial;
     padding: 1em;
     width: 100%;
+}
+
+bm-confirm-delete .dialog-title {
+    text-align: left;
+    display: inline;
+}
+
+bm-confirm-delete bm-dialog-close {
+    display: inline;
+    text-align: right;
+    width: 2px;
+}
+
+bm-confirm-delete h4 {
+    margin-top: 1em;
+    text-align: center;
+}
+
+bm-confirm-delete button {
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-top: 1em;
+    width: 3em;
 }
 
 bm-create-dialog bm-dialog-body,
