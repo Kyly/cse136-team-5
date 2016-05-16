@@ -8,7 +8,7 @@ var bcrypt = require('bcrypt');
 
 module.exports.registerForm = function (req, res) {
     res.render('users/register', {error: req.reportedError});
-}
+};
 
 module.exports.register = function (req, res) {
     var un = req.body.username;

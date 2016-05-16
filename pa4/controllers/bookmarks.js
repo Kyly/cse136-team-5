@@ -25,7 +25,7 @@ module.exports.parseFile = function parseFile(req, res, next) {
     }
 
     function onError(error) {
-        reportedError = error;
+        req.reportedError = error;
         renderIndex(req, res);
     }
 
