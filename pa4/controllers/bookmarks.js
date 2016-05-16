@@ -1,8 +1,8 @@
-var _   = require('lodash');
-var db  = require('../database/db');
-var sql = require('sql-query'), sqlQuery = sql.Query();
-var csv = require('../services/csvToJson');
-var validUrl = require('valid-url'); //npm install valid-url
+var _             = require('lodash');
+var db            = require('../database/db');
+var sql           = require('sql-query'), sqlQuery = sql.Query();
+var csv           = require('../services/csvToJson');
+var validUrl      = require('valid-url'); //npm install valid-url
 var reportedError = null;
 
 module.exports.parseFile = function parseFile(req, res, next) {
@@ -18,7 +18,7 @@ module.exports.parseFile = function parseFile(req, res, next) {
 
             insertBookmark(record[key], function (err) {
                 console.error(err);
-                throw err;
+                req.reportedError = err;
             }, function (el) {
                 console.log(`Successfully inserted ${JSON.stringify(el)}`);
             });
@@ -43,34 +43,23 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
-
-
-
 function renderIndex(req, res, scopeCallBack) {
 
-    if (reportedError != null)
-    {
-        console.error(reportedError);
-        res.render('index', {error: err});
-        reportedError = null;
-        return;
-    }
-
-    var search = req.query['search'] ? db.escape(req.query.search): null;
     var sql;
-    console.info('List request', req.query);
-    var parentFolderId = 0;
+    var search   = req.query['search'] ? db.escape(req.query.search) : null;
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
-    var sortBy   = req.query['sortBy'] ? db.escapeId(req.query.sortBy) : req.session.sortBy ? req.session.sortBy : 'name';
+    var sortBy   = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
     req.session.sortBy   = sortBy;
 
-    if(search){
-        search = '% ' + req.query['search'] ? db.escape(req.query.search): null + ' %';
-        sql = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+    if (search)
+    {
+        search = '% ' + req.query['search'] ? db.escape(req.query.search) : null + ' %';
+        sql    = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
     }
-    else{
+    else
+    {
         sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy} ASC`;
     }
     console.log(sql);
@@ -78,8 +67,7 @@ function renderIndex(req, res, scopeCallBack) {
         if (err)
         {
             console.error(err);
-            res.render('index', {error: err});
-            return;
+            req.reportedError = err;
         }
 
         var folders = getFolders(bookmarks);
@@ -89,7 +77,8 @@ function renderIndex(req, res, scopeCallBack) {
             showEditDialog: req.showEditDialog,
             showUploadDialog: req.showUploadDialog,
             showCreateFolderDialog: req.showCreateFolderDialog,
-            folders: folders
+            folders: folders,
+            error: req.reportedError
         };
 
         if (scopeCallBack)
@@ -117,9 +106,8 @@ module.exports.confirmdelete = function (req, res) {
     db.query('SELECT * from Bookmarks WHERE id =  ' + id, function (err, book) {
         if (err)
         {
-            reportedError = err;
-            res.redirect('/bookmarks');
-            return;
+            req.reportedError = err;
+            console.error(err);
         }
         res.render('bookmarks/delete', {book: book[0]});
     });
@@ -193,11 +181,11 @@ module.exports.edit = function (req, res) {
     db.query(sql, function (err, response) {
         if (err)
         {
-            reportedError = err;
+            req.reportedError = err;
             console.error(err);
         }
         console.log(response);
-        res.redirect('/bookmarks');
+        renderIndex(req, res);
     });
 };
 
@@ -206,10 +194,10 @@ module.exports.delete = function (req, res) {
     db.query('DELETE from Bookmarks where id = ' + id, function (err) {
         if (err)
         {
-            reportedError = err;
+            req.reportedError = err;
             console.error(err);
         }
-        res.redirect('/bookmarks');
+        renderIndex(req, res);
     });
 };
 
@@ -226,23 +214,28 @@ module.exports.insert = function (req, res) {
     var favorite    = 0;
     var folder      = "FALSE";
 
-  if (validUrl.isUri(url)){
-    console.log('Looks like an URI');
-  } else {
-    console.log('Not a URI');
-      res.render('403', { status: 403, bookmarks: bookmarks });
-  }
+    if (validUrl.isUri(url))
+    {
+        console.log('Looks like an URI');
+    }
+    else
+    {
+        console.log('Not a URI');
+        req.reportedError = {message: 'URI is inlaid', name: 'Bad Url given', status: 403};
+        renderIndex(req, res);
+        return;
+    }
 
-  var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
-  console.log(queryString);
+    var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+    console.log(queryString);
 
     db.query(queryString, function (err) {
         if (err)
         {
-            reportedError = err;
+            req.reportedError = err;
             console.error(err);
         }
-        res.redirect('/bookmarks');
+        renderIndex(req, res);
     });
 };
 
@@ -267,39 +260,27 @@ function insertBookmark(bookmark, onError, done) {
 }
 
 module.exports.insertFolder = function (req, res) {
-    var url         = "NULL";
-    var folderId    = 1;
-    var keywords    = "NULL";
-    var name        = db.escape(req.body.name);
-    var description = db.escape(req.body.description);
-    var favorite    = 0;
-    var folder      = "TRUE";
-    var parent      = 1;
+    var sqlInsert         = sqlQuery.insert();
+    var newFolder         = {};
+    newFolder.folderId    = req.session.folderId ? req.session.folderId : 1;
+    newFolder.name        = req.body.name;
+    newFolder.description = req.body.description;
+    newFolder.favorite    = 0;
+    newFolder.folder      = true;
 
-    var queryString = 'INSERT INTO Folders (name, parent) VALUES (' + name + ', ' + parent + ')';
+    var queryString = sqlInsert.into('Bookmarks').set(newFolder).build();
+    // var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
     console.log(queryString);
     db.query(queryString, function (err) {
         if (err)
         {
-            reportedError = err;
+            req.reportedError = err;
             console.error(err);
-            res.redirect('/bookmarks');
         }
-        //res.redirect('/bookmarks');
-    });
 
-    var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
-    console.log(queryString);
-    db.query(queryString, function (err) {
-        if (err)
-        {
-            reportedError = err;
-            console.error(err);
-        }
-        res.redirect('/bookmarks');
+        renderIndex(req, res);
     });
 };
-
 
 /**
  * Updates a book in the database
@@ -312,47 +293,50 @@ module.exports.update = function (req, res) {
     var description = db.escape(req.body.description);
     var keywords    = db.escape(req.body.keywords);
 
-    if (validUrl.isUri(url)){
+    if (validUrl.isUri(url))
+    {
         console.log('Looks like an URI');
-    } else {
+    }
+    else
+    {
         console.log('Not a URI');
-        res.render('403', { status: 403, bookmarks: bookmarks });
+        req.reportedError = {message: 'URI is inlaid', name: 'Bad Url given', status: 403};
+        renderIndex(req, res);
     }
 
     var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
     db.query(queryString, function (err) {
         if (err)
         {
-            reportedError = err;
+            req.reportedError = err;
             console.error(err);
         }
-        res.redirect('/bookmarks');
+        renderIndex(req, res);
     });
-
 
 };
 
 function search(req, res) {
     var keywords = req.query['keywords'] ? db.escape(req.query.keywords) : 'keywords';
-    var sql = sqlSelect.from('Bookmarks').where({ col: sql.like(' keywords ') }).build();
+    var sql      = sqlSelect.from('Bookmarks').where({col: sql.like(' keywords ')}).build();
 
     console.log(action, sql);
     db.query(sql, function (err, response) {
         if (err)
         {
-            res.redirect('/bookmarks');
-            throw err;
+            req.reportedError = err;
+            console.error(err);
         }
 
         console.log(response);
-        res.redirect('/bookmarks');
+        renderIndex(req, res);
     });
 }
 
-module.exports.search = function(req, res){
-  var search = req.body.keywords;
-  req.query.search = search;
-    renderIndex(req,res);
+module.exports.search = function (req, res) {
+    var search       = req.body.keywords;
+    req.query.search = search;
+    renderIndex(req, res);
 };
 
 module.exports.favorite = function (req, res) {
@@ -363,7 +347,8 @@ module.exports.favorite = function (req, res) {
     db.query(queryString, function (err) {
         if (err)
         {
-            throw err;
+            req.reportedError = err;
+            console.error(err);
         }
         renderIndex(req, res);
     });
@@ -379,7 +364,8 @@ module.exports.uploadFile = function (req, res, next) {
     upload(req, res, function (err) {
         if (err)
         {
-            return res.end("Error uploading file.");
+            req.reportedError = err;
+            console.error(err);
         }
         next();
     });
@@ -389,15 +375,13 @@ module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
 
-module.exports.sort = function(req, res){
-    var option = req.body.options;
+module.exports.sort = function (req, res) {
+    var option       = req.body.options;
     req.query.sortBy = option;
-    renderIndex(req,res);
-}
-
+    renderIndex(req, res);
+};
 
 module.exports.createFolder = function (req, res) {
-    console.log('making a foler');
     req.showCreateFolderDialog = true;
     renderIndex(req, res);
 };
