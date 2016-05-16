@@ -1,0 +1,15 @@
+<bm-confirm-delete class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Confirm Delete</div>
+        <bm-dialog-close><span onclick="App.confirmDelete.remove()" class="fa fa-times"></span></bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form" action="/bookmarks/edit/{{#each bookmarkItem}}{{this.id}}{{/each}}" method="post">
+            <h4> Are you sure you want to delete: <strong>{{#each bookmarkItem}}{{this.name}}{{/each}}</strong>?</h4>
+            <section class="press">
+                <button type="button" onclick=" App.confirmDelete.remove(); return false;">no</button>
+                <button type="submit" name="action" value="Delete">yes</button>
+            </section>
+        </form>
+    </bm-dialog-body>
+</bm-confirm-delete>

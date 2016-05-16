@@ -436,7 +436,8 @@ bm-create-dialog,
 bm-edit-dialog,
 bm-upload-file-dialog,
 bm-create-folder-dialog,
-bm-error-dialog {
+bm-error-dialog,
+bm-confirm-delete {
     display: flex;
     flex-flow: row wrap;
     height: auto;
@@ -586,6 +587,14 @@ bm-upload-file-dialog .drag-and-drop-container {
     font-size: 1.2em;
 }
 
+.action-button:link, .action-button:visited  {
+    color: #39789F;
+}
+
+.action-button:hover  {
+    color: #7AB1DF;
+}
+
 #bookmark-actions .title {
     display: flex;
     align-self: center;
@@ -619,7 +628,7 @@ bm-upload-file-dialog .drag-and-drop-container {
     font-size: larger;
 }
 
-bm-create-dialog, bm-edit-dialog, bm-error-dialog {
+bm-create-dialog, bm-edit-dialog, bm-error-dialog, bm-confirm-delete {
     display: flex;
     width: 80%;
     /*text-align: center;*/
@@ -632,6 +641,29 @@ bm-error-dialog bm-dialog-body {
     display: initial;
     padding: 1em;
     width: 100%;
+}
+
+bm-confirm-delete .dialog-title {
+    text-align: left;
+    display: inline;
+}
+
+bm-confirm-delete bm-dialog-close {
+    display: inline;
+    text-align: right;
+    width: 2px;
+}
+
+bm-confirm-delete h4 {
+    margin-top: 1em;
+    text-align: center;
+}
+
+bm-confirm-delete button {
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-top: 1em;
+    width: 3em;
 }
 
 bm-create-dialog bm-dialog-body,
@@ -896,6 +928,32 @@ bm-create-folder-dialog .button {
     margin-right: 0;
 }
 
+/* Login page CSS */
+#login-content {
+    box-shadow: .1em .1em .6em rgba(82, 78, 75, 0.59);
+    background-color: #4b4b60;
+    padding: 0.75rem 1.4rem;
+    max-width: 30em;
+}
+
+.button-row {
+    margin-top: 25px;
+}
+
+#login-section {
+    margin-left: auto;
+}
+
+#loginBtn {
+    margin-right: 0px;
+}
+
+#login-content form.dialog-form .dialog-input {
+    padding: 13px 13px 13px 13px;
+}
+
+#login-content form.dialog-form .dialog-input:focus {
+    padding: 13px 13px 13px 13px;
 .file-upload {
     position: relative;
     overflow: hidden;

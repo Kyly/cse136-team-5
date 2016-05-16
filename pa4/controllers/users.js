@@ -6,12 +6,42 @@ var config = require('../config');
 var db     = require('../database/db');
 var bcrypt = require('bcrypt');
 
+module.exports.registerForm = function (req, res) {
+    res.render('users/register', {error: req.reportedError});
+}
+
+module.exports.register = function (req, res) {
+    var un = req.body.username;
+    var pw = req.body.password;
+    const saltRounds = 10;
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hashed_pw = bcrypt.hashSync(pw, salt);
+
+    console.info(`Registering user ${un} with password ${pw}`);
+
+    if (un == "" || pw == "")
+    {
+        return res.redirect('/register');
+    }
+
+    db.connection.query("INSERT INTO Users (username, password) VALUES (?, ?)", [un, hashed_pw], function (error, user) {
+        console.info('Get user response ', user);
+        if (error)
+        {
+            console.error(error);
+            res.redirect('/register');
+        }
+        console.info('Successful registration. Logging user in');
+        req.session.user = req.body.username;
+        return res.redirect('/bookmarks');
+    });
+};
 /**
  *
  * Attempt to login the user.
  */
 module.exports.login = function (req, res) {
-    var un = db.escape(req.body.username);
+    var un = req.body.username;
     var pw = req.body.password;
 
     console.info(`User login for ${un} with password ${pw}`);
@@ -21,17 +51,18 @@ module.exports.login = function (req, res) {
         return res.redirect('/login');
     }
 
-    db.query(`SELECT password FROM Users WHERE username = ${un}`, function (error, user) {
+    db.connection.query("SELECT password, id FROM Users WHERE username = ?", [un],  function (error, user) {
         console.info('Get user response ', user);
         if (error)
         {
-            console.debug(error);
-            throw err;
+            console.error(error);
+            return res.redirect('/login');
         }
-        if (user.length >= 0 && bcrypt.compareSync(pw, user[0].password))
+        if (user.length = 1 && bcrypt.compareSync(pw, user[0].password))
         {
             console.log("Valid login");
             req.session.user = req.body.username;
+            req.session.uid = user[0].id;
             return res.redirect('/bookmarks');
         }
 
@@ -44,7 +75,7 @@ module.exports.login = function (req, res) {
  */
 module.exports.loginForm = function (req, res) {
     req.session.user = undefined;
-    res.render('users/login');
+    res.render('users/login', {error: req.reportedError});
 };
 
 /**
