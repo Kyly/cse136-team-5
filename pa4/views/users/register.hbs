@@ -7,11 +7,6 @@
 
     <title>Register Account</title>
 
-    <script type="text/javascript">
-        function goBack() {
-            window.location.assign("/login");
-        }
-    </script>
     <link rel="stylesheet" href="/assets/style/style.css">
     <link rel="stylesheet" href="/assets/lib/components-font-awesome/css/font-awesome.min.css">
 
@@ -27,6 +22,7 @@
 <main id="login-content" class="container">
     <div class="row">
         <div class="col-xs-12">
+            <form id="login" method='get' action='/login'></form>
             <form class="dialog-form" method='post' action='/register'>
                 <div class="row">
                     <div class="col-xs-12">
@@ -44,7 +40,7 @@
                 </div>
                 <div class="row button-row">
                     <section class="press">
-                        <button type="button" onclick="goBack()">Cancel</button>
+                        <button type="submit" form="login">Cancel</button>
                     </section>
                     <section id="login-section" class="press">
                         <button id="loginBtn" type="submit">Register</button>
