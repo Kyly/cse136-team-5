@@ -46,6 +46,7 @@ app.post('/bookmarks', bookmarks.add);
 app.post('/bookmarks/folder', bookmarks.addFolder);
 app.post('/bookmarks/edit/:bookId(\\d+)', bookmarks.edit);
 app.post('/bookmarks/delete/:bookId(\\d+)', bookmarks.edit);
+app.get('/bookmarks/confirm-delete', bookmarks.confirmDelete);
 app.post('/bookmarks/import', bookmarks.import);
 app.post('/bookmarks/insert', bookmarks.insert);
 app.post('/bookmarks/insertFolder', bookmarks.insertFolder);

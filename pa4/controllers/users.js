@@ -51,7 +51,7 @@ module.exports.login = function (req, res) {
         return res.redirect('/login');
     }
 
-    db.connection.query("SELECT password FROM Users WHERE username = ?", [un],  function (error, user) {
+    db.connection.query("SELECT password, id FROM Users WHERE username = ?", [un],  function (error, user) {
         console.info('Get user response ', user);
         if (error)
         {
@@ -62,6 +62,7 @@ module.exports.login = function (req, res) {
         {
             console.log("Valid login");
             req.session.user = req.body.username;
+            req.session.uid = user[0].id;
             return res.redirect('/bookmarks');
         }
 

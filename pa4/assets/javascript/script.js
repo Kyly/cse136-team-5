@@ -51,6 +51,16 @@
         extends: 'div'
     })
     
+    document.body.appendChild(new bmErrorDialog());
+    
+    var bmConfirmDelete = document.registerElement = document.registerElement('bm-confirm-delete', {
+        prototype: Object.create(HTMLButtonElement.prototype),
+        extends: 'div'
+    });
+    
+    document.body.appendChild(new bmConfirmDelete());
+    
+    
 
 })(window);
 
@@ -67,6 +77,8 @@
     App.bookmarkEdit     = new BookmarkEdit();
     App.createFolder     = new CreateFolder();
     App.errorReport      = new ErrorReport();
+    App.confirmDelete    = new ConfirmDelete();
+
 
     function CreateFolder() {
         this.template = App.templates['assets/templates/bm-create-folder.hbs.html'];
@@ -90,6 +102,15 @@
 
     ErrorReport.prototype.remove = function hideErrorReport() {
         hide('bm-error-dialog');
+    };
+    
+    function ConfirmDelete() {
+        this.template = App.templates['assets/templates/bm-confirm-dialog.hbs.html'];
+    }
+    
+    ConfirmDelete.prototype.remove = function hideConfirmDelete() {
+        hide('bm-confirm-delete');
+        return true;
     };
 
     /* Code for bookmark explorer */
