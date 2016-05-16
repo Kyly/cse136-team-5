@@ -76,6 +76,7 @@ function renderIndex(req, res, scopeCallBack) {
             showEditDialog: req.showEditDialog,
             showUploadDialog: req.showUploadDialog,
             showCreateFolderDialog: req.showCreateFolderDialog,
+            showConfirmDeleteDialog: req.showConfirmDeleteDialog,
             showEditFolderDialog: req.showEditFolderDialog,
             folders: folders,
             error: req.reportedError
@@ -101,16 +102,9 @@ function getFolders(bookmarks) {
  * Selects information about passed in book and then
  * renders the delete confirmation page with the delete.ejs template
  */
-module.exports.confirmdelete = function (req, res) {
-    var id = req.params.book_id;
-    db.query('SELECT * from Bookmarks WHERE id =  ' + id, function (err, book) {
-        if (err)
-        {
-            req.reportedError = err;
-            console.error(err);
-        }
-        res.render('bookmarks/delete', {book: book[0]});
-    });
+module.exports.confirmDelete = function (req, res) {
+    req.showConfirmDeleteDialog = true;
+    renderEdit(req, res);
 };
 
 module.exports.add = function (req, res) {
