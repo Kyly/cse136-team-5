@@ -7,11 +7,11 @@ var db     = require('../database/db');
 var bcrypt = require('bcrypt');
 
 module.exports.registerForm = function (req, res) {
-    res.render('users/register');
+    res.render('users/register', {error: req.reportedError});
 }
 
 module.exports.register = function (req, res) {
-    var un = db.escape(req.body.username);
+    var un = req.body.username;
     var pw = req.body.password;
     const saltRounds = 10;
     var salt = bcrypt.genSaltSync(saltRounds);
@@ -24,12 +24,12 @@ module.exports.register = function (req, res) {
         return res.redirect('/register');
     }
 
-    db.query("INSERT INTO Users (username, password) VALUES (?, ?)", [un, hashed_pw], function (error, user) {
+    db.connection.query("INSERT INTO Users (username, password) VALUES (?, ?)", [un, hashed_pw], function (error, user) {
         console.info('Get user response ', user);
         if (error)
         {
             console.error(error);
-            throw err;
+            res.redirect('/register');
         }
         console.info('Successful registration. Logging user in');
         req.session.user = req.body.username;
@@ -41,7 +41,7 @@ module.exports.register = function (req, res) {
  * Attempt to login the user.
  */
 module.exports.login = function (req, res) {
-    var un = db.escape(req.body.username);
+    var un = req.body.username;
     var pw = req.body.password;
 
     console.info(`User login for ${un} with password ${pw}`);
@@ -51,14 +51,14 @@ module.exports.login = function (req, res) {
         return res.redirect('/login');
     }
 
-    db.query("SELECT password FROM Users WHERE username = ?", [un],  function (error, user) {
+    db.connection.query("SELECT password FROM Users WHERE username = ?", [un],  function (error, user) {
         console.info('Get user response ', user);
         if (error)
         {
-            console.debug(error);
-            throw err;
+            console.error(error);
+            return res.redirect('/login');
         }
-        if (user.length >= 0 && bcrypt.compareSync(pw, user[0].password))
+        if (user.length = 1 && bcrypt.compareSync(pw, user[0].password))
         {
             console.log("Valid login");
             req.session.user = req.body.username;
@@ -74,7 +74,7 @@ module.exports.login = function (req, res) {
  */
 module.exports.loginForm = function (req, res) {
     req.session.user = undefined;
-    res.render('users/login');
+    res.render('users/login', {error: req.reportedError});
 };
 
 /**

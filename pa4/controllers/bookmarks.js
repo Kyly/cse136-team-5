@@ -3,7 +3,6 @@ var db            = require('../database/db');
 var sql           = require('sql-query'), sqlQuery = sql.Query();
 var csv           = require('../services/csvToJson');
 var validUrl      = require('valid-url'); //npm install valid-url
-var reportedError = null;
 
 module.exports.parseFile = function parseFile(req, res, next) {
     var buffer = req.file.buffer;
