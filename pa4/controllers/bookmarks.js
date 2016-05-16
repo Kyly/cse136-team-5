@@ -397,3 +397,10 @@ module.exports.showEditFolder = function (req, res) {
     req.showEditFolderDialog = true;
     renderEdit(req, res);
 };
+
+module.exports.home = function(req,res) {
+    console.log(req.session.folderId);
+    req.session.folderId = 1;
+    console.log(req.session.folderId);
+    renderEdit(req, res);
+}
