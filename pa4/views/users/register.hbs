@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login to Bookmark Explorer</title>
+    <title>Register Account</title>
 
     <script type="text/javascript">
-        function register() {
-            window.location.assign("/register");
+        function goBack() {
+            window.location.assign("/login");
         }
     </script>
     <link rel="stylesheet" href="/assets/style/style.css">
@@ -19,7 +19,7 @@
 <body>
 
 <header class="container">
-    <h1>Login</h1>
+    <h1>Register</h1>
     <h4 class="sub-header">Wecodeinourunderpants - <span class="hinted-sub-header">
         cse 136 with Professor Thomas Powell</span></h4>
 </header>
@@ -27,7 +27,7 @@
 <main id="login-content" class="container">
     <div class="row">
         <div class="col-xs-12">
-            <form class="dialog-form" method='post' action='/login'>
+            <form class="dialog-form" method='post' action='/register'>
                 <div class="row">
                     <div class="col-xs-12">
                         <label for="name">Username</label>
@@ -44,10 +44,10 @@
                 </div>
                 <div class="row button-row">
                     <section class="press">
-                        <button type="button" onclick="register()">New User?</button>
+                        <button type="button" onclick="goBack()">Cancel</button>
                     </section>
                     <section id="login-section" class="press">
-                        <button id="loginBtn" type="submit">Login</button>
+                        <button id="loginBtn" type="submit">Register</button>
                     </section>
                 </div>
             </form>
