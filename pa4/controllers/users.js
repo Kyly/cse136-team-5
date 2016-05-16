@@ -2,7 +2,7 @@
  Values are hard coded for example purposes
  */
 
-var config = require('../config');
+var config = require('../my_config');
 var db     = require('../database/db');
 var bcrypt = require('bcrypt');
 

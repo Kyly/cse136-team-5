@@ -2,7 +2,7 @@ var _   = require('lodash');
 var db  = require('../database/db');
 var sql = require('sql-query'), sqlQuery = sql.Query();
 var csv = require('../services/csvToJson');
-
+var validUrl = require('valid-url'); //npm install valid-url
 var reportedError = null;
 
 module.exports.parseFile = function parseFile(req, res, next) {
@@ -44,7 +44,7 @@ var list = module.exports.list = function (req, res) {
 };
 
 
-    
+
 
 function renderIndex(req, res, scopeCallBack) {
 
@@ -56,7 +56,8 @@ function renderIndex(req, res, scopeCallBack) {
         return;
     }
 
-
+    var search = req.query['search'] ? db.escape(req.query.search): null;
+    var sql;
     console.info('List request', req.query);
     var parentFolderId = 0;
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
@@ -65,7 +66,15 @@ function renderIndex(req, res, scopeCallBack) {
     req.session.folderId = folderId;
     req.session.sortBy   = sortBy;
 
-    db.query(`SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy}`, function (err, bookmarks) {
+    if(search){
+        search = '% ' + req.query['search'] ? db.escape(req.query.search): null + ' %';
+        sql = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+    }
+    else{
+        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+    }
+    console.log(sql);
+    db.query(sql, function (err, bookmarks) {
         if (err)
         {
             console.error(err);
@@ -148,7 +157,6 @@ function renderEdit(req, res) {
 
     renderIndex(req, res, editDialogeScope);
 }
-
 function getFolders(bookmarks) {
     return bookmarks.filter(function (bookmark) {
         return bookmark.folder;
@@ -218,8 +226,15 @@ module.exports.insert = function (req, res) {
     var favorite    = 0;
     var folder      = "FALSE";
 
-    var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
-    console.log(queryString);
+  if (validUrl.isUri(url)){
+    console.log('Looks like an URI');
+  } else {
+    console.log('Not a URI');
+      res.render('403', { status: 403, bookmarks: bookmarks });
+  }
+
+  var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+  console.log(queryString);
 
     db.query(queryString, function (err) {
         if (err)
@@ -285,6 +300,7 @@ module.exports.insertFolder = function (req, res) {
     });
 };
 
+
 /**
  * Updates a book in the database
  * Does a redirect to the list page
@@ -296,6 +312,13 @@ module.exports.update = function (req, res) {
     var description = db.escape(req.body.description);
     var keywords    = db.escape(req.body.keywords);
 
+    if (validUrl.isUri(url)){
+        console.log('Looks like an URI');
+    } else {
+        console.log('Not a URI');
+        res.render('403', { status: 403, bookmarks: bookmarks });
+    }
+
     var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
     db.query(queryString, function (err) {
         if (err)
@@ -305,6 +328,31 @@ module.exports.update = function (req, res) {
         }
         res.redirect('/bookmarks');
     });
+
+
+};
+
+function search(req, res) {
+    var keywords = req.query['keywords'] ? db.escape(req.query.keywords) : 'keywords';
+    var sql = sqlSelect.from('Bookmarks').where({ col: sql.like(' keywords ') }).build();
+
+    console.log(action, sql);
+    db.query(sql, function (err, response) {
+        if (err)
+        {
+            res.redirect('/bookmarks');
+            throw err;
+        }
+
+        console.log(response);
+        res.redirect('/bookmarks');
+    });
+}
+
+module.exports.search = function(req, res){
+  var search = req.body.keywords;
+  req.query.search = search;
+    renderIndex(req,res);
 };
 
 module.exports.favorite = function (req, res) {
@@ -341,18 +389,15 @@ module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
 
+module.exports.sort = function(req, res){
+    var option = req.body.options;
+    req.query.sortBy = option;
+    renderIndex(req,res);
+}
+
 
 module.exports.createFolder = function (req, res) {
     console.log('making a foler');
     req.showCreateFolderDialog = true;
     renderIndex(req, res);
 };
-
-/**
- * Search:
- * SELECT * FROM Bookmarks WHERE keywords LIKE '% ' + keywords +' %';
- * Sort:
- * SELECT * FROM Bookmarks ORDER BY name ASC;
- * Visit: a href tag
- * add=insert edit=update delete list
- */

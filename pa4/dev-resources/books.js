@@ -23,6 +23,8 @@ var list = module.exports.list = function(req, res) {
  */
 module.exports.confirmdelete = function(req, res){
   var id = req.params.book_id;
+//id check
+//return new Error("Invalid");
   db.query('SELECT * from books WHERE id =  ' + id, function(err, book) {
     if (err) throw err;
     res.render('books/delete', {book: book[0]});
@@ -44,6 +46,8 @@ module.exports.add = function(req, res) {
  */
 module.exports.edit = function(req, res) {
   var id = req.params.book_id;
+//id check
+
   db.query('SELECT * from books WHERE id =  ' + id, function(err, book) {
     if (err) throw err;
 
@@ -57,6 +61,8 @@ module.exports.edit = function(req, res) {
  */
 module.exports.delete = function(req, res) {
   var id = req.params.book_id;
+//id check
+
   db.query('DELETE from books where id = ' + id, function(err){
     if (err) throw err;
     res.redirect('/books');
@@ -87,6 +93,7 @@ module.exports.update = function(req, res){
   var title = db.escape(req.body.title);
   var author = db.escape(req.body.author);
   var price = db.escape(req.body.price);
+//id check
 
   var queryString = 'UPDATE books SET title = ' + title + ', author = ' + author + ', price = ' + price + ' WHERE id = ' + id;
   db.query(queryString, function(err){
