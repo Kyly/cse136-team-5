@@ -1,8 +1,8 @@
-var _             = require('lodash');
-var db            = require('../database/db');
-var sql           = require('sql-query'), sqlQuery = sql.Query();
-var csv           = require('../services/csvToJson');
-var validUrl      = require('valid-url'); //npm install valid-url
+var _        = require('lodash');
+var db       = require('../database/db');
+var sql      = require('sql-query'), sqlQuery = sql.Query();
+var csv      = require('../services/csvToJson');
+var validUrl = require('valid-url'); //npm install valid-url
 
 module.exports.parseFile = function parseFile(req, res, next) {
     var buffer = req.file.buffer;
@@ -52,14 +52,15 @@ function renderIndex(req, res, scopeCallBack) {
     req.session.folderId = folderId;
     req.session.sortBy   = sortBy;
 
+    var uid = req.session.uid;
     if (search)
     {
         search = '% ' + req.query['search'] ? db.escape(req.query.search) : null + ' %';
-        sql    = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+        sql    = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} AND uid = ${uid} ORDER BY ${sortBy} ASC`;
     }
     else
     {
-        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} AND uid = ${uid} ORDER BY ${sortBy} ASC`;
     }
     console.log(sql);
     db.query(sql, function (err, bookmarks) {
@@ -157,6 +158,8 @@ function getBookmarkFromId(id, bookmarks) {
 module.exports.edit = function (req, res) {
     var id     = parseInt(req.params.bookId);
     var action = req.body.action;
+    var uid    = req.session.uid;
+
     delete req.body.action;
 
     var sql;
@@ -164,11 +167,11 @@ module.exports.edit = function (req, res) {
     if (action === 'Update')
     {
         var update = sqlQuery.update();
-        sql        = update.into('Bookmarks').set(req.body).where({id: id}).build();
+        sql        = update.into('Bookmarks').set(req.body).where({id: id, uid: uid}).build();
     }
     else
     {
-        sql = `DELETE FROM Bookmarks WHERE id=${db.escape(id)}`;
+        sql = `DELETE FROM Bookmarks WHERE id=${db.escape(id)} AND uid = ${uid}`;
     }
 
     console.log(action, sql);
@@ -184,8 +187,10 @@ module.exports.edit = function (req, res) {
 };
 
 module.exports.delete = function (req, res) {
-    var id = req.params.book_id;
-    db.query('DELETE from Bookmarks where id = ' + id, function (err) {
+    var id  = req.params.book_id;
+    var uid = req.session.id;
+
+    db.query(`DELETE from Bookmarks where uid = ${uid} AND id = ${id}`, function (err) {
         if (err)
         {
             req.reportedError = err;
@@ -200,15 +205,18 @@ module.exports.delete = function (req, res) {
  * Does a redirect to the list page
  */
 module.exports.insert = function (req, res) {
-    var url         = db.escape(req.body.url);
-    var name        = db.escape(req.body.name);
-    var folderId    = db.escape(req.body.folderId);
-    var description = db.escape(req.body.description);
-    var keywords    = db.escape(req.body.keywords);
-    var favorite    = 0;
-    var folder      = "FALSE";
+    var sqlInsert           = sqlQuery.insert();
+    var newBookmark         = {};
+    newBookmark.url         = req.body.url;
+    newBookmark.name        = req.body.name;
+    newBookmark.folderId    = req.body.folderId;
+    newBookmark.description = req.body.description;
+    newBookmark.keywords    = req.body.keywords;
+    newBookmark.favorite    = 0;
+    newBookmark.folder      = "FALSE";
+    newBookmark.uid         = req.session.uid;
 
-    if (validUrl.isUri(url))
+    if (validUrl.isUri(newBookmark.url))
     {
         console.log('Looks like an URI');
     }
@@ -220,7 +228,7 @@ module.exports.insert = function (req, res) {
         return;
     }
 
-    var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
+    var queryString = sqlInsert.into('Bookmarks').set(newBookmark).build();
     console.log(queryString);
 
     db.query(queryString, function (err) {
@@ -261,9 +269,9 @@ module.exports.insertFolder = function (req, res) {
     newFolder.description = req.body.description;
     newFolder.favorite    = 0;
     newFolder.folder      = true;
+    newFolder.uid         = req.session.uid;
 
     var queryString = sqlInsert.into('Bookmarks').set(newFolder).build();
-    // var queryString = 'INSERT INTO Bookmarks (url, name, folderId, description, keywords, favorite, folder) VALUES (' + url + ', ' + name + ', ' + folderId + ', ' + description + ', ' + keywords + ', ' + favorite + ', ' + folder + ')';
     console.log(queryString);
     db.query(queryString, function (err) {
         if (err)
@@ -286,6 +294,7 @@ module.exports.update = function (req, res) {
     var name        = db.escape(req.body.name);
     var description = db.escape(req.body.description);
     var keywords    = db.escape(req.body.keywords);
+    var uid         = req.session.uid;
 
     if (validUrl.isUri(url))
     {
@@ -298,7 +307,8 @@ module.exports.update = function (req, res) {
         renderIndex(req, res);
     }
 
-    var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = ' + description + ', keywords = ' + keywords + ' WHERE id = ' + id;
+    var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = '
+        + description + ', keywords = ' + keywords + ' WHERE id = ' + id + ' AND uid = ' + uid;
     db.query(queryString, function (err) {
         if (err)
         {
@@ -311,8 +321,9 @@ module.exports.update = function (req, res) {
 };
 
 function search(req, res) {
+    var uid      = req.session.uid;
     var keywords = req.query['keywords'] ? db.escape(req.query.keywords) : 'keywords';
-    var sql      = sqlSelect.from('Bookmarks').where({col: sql.like(' keywords ')}).build();
+    var sql      = sqlSelect.from('Bookmarks').where({col: sql.like(' keywords '), uid: uid}).build();
 
     console.log(action, sql);
     db.query(sql, function (err, response) {
@@ -336,8 +347,10 @@ module.exports.search = function (req, res) {
 module.exports.favorite = function (req, res) {
     var id          = req.query.id;
     var fav         = req.query.fav;
+    var uid         = req.session.uid;
+
     fav             = (fav + 1) % 2;
-    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id;
+    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND uid = ' + uid;
     db.query(queryString, function (err) {
         if (err)
         {
