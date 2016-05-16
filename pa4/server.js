@@ -57,6 +57,9 @@ app.get('/bookmarks/upload-dialog', bookmarks.uploadDialog);
 app.post('/bookmarks/upload', upload.single('csvFile'), bookmarks.parseFile);
 app.post('/bookmarks/search', bookmarks.search);
 app.post('/bookmarks/sort', bookmarks.sort);
+app.get('/bookmarks/editfolder', bookmarks.showEditFolder);
+
+
 
 
 app.listen(config.PORT, function () {
