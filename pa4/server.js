@@ -53,6 +53,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('common'));
 
 /* Routes - consider putting in routes.js */
+app.get('/register', users.registerForm);
+app.post('/register', users.register);
 app.get('/login', users.loginForm);
 app.post('/login', users.login);
 app.get('/logout', users.logout);

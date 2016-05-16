@@ -6,6 +6,36 @@ var config = require('../config');
 var db     = require('../database/db');
 var bcrypt = require('bcrypt');
 
+module.exports.registerForm = function (req, res) {
+    res.render('users/register');
+}
+
+module.exports.register = function (req, res) {
+    var un = db.escape(req.body.username);
+    var pw = req.body.password;
+    const saltRounds = 10;
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hashed_pw = bcrypt.hashSync(pw, salt);
+
+    console.info(`Registering user ${un} with password ${pw}`);
+
+    if (un == "" || pw == "")
+    {
+        return res.redirect('/register');
+    }
+
+    db.query("INSERT INTO Users (username, password) VALUES (?, ?)", [un, hashed_pw], function (error, user) {
+        console.info('Get user response ', user);
+        if (error)
+        {
+            console.error(error);
+            throw err;
+        }
+        console.info('Successful registration. Logging user in');
+        req.session.user = req.body.username;
+        return res.redirect('/bookmarks');
+    });
+};
 /**
  *
  * Attempt to login the user.
@@ -21,7 +51,7 @@ module.exports.login = function (req, res) {
         return res.redirect('/login');
     }
 
-    db.query(`SELECT password FROM Users WHERE username = ${un}`, function (error, user) {
+    db.query("SELECT password FROM Users WHERE username = ?", [un],  function (error, user) {
         console.info('Get user response ', user);
         if (error)
         {

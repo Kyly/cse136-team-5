@@ -585,6 +585,14 @@ bm-upload-file-dialog .drag-and-drop-container {
     font-size: 1.2em;
 }
 
+.action-button:link, .action-button:visited  {
+    color: #39789F;
+}
+
+.action-button:hover  {
+    color: #7AB1DF;
+}
+
 #bookmark-actions .title {
     display: flex;
     align-self: center;
@@ -893,4 +901,32 @@ bm-create-folder-dialog {
 
 bm-create-folder-dialog .button {
     margin-right: 0;
+}
+
+/* Login page CSS */
+#login-content {
+    box-shadow: .1em .1em .6em rgba(82, 78, 75, 0.59);
+    background-color: #4b4b60;
+    padding: 0.75rem 1.4rem;
+    max-width: 30em;
+}
+
+.button-row {
+    margin-top: 25px;
+}
+
+#login-section {
+    margin-left: auto;
+}
+
+#loginBtn {
+    margin-right: 0px;
+}
+
+#login-content form.dialog-form .dialog-input {
+    padding: 13px 13px 13px 13px;
+}
+
+#login-content form.dialog-form .dialog-input:focus {
+    padding: 13px 13px 13px 13px;
 }
