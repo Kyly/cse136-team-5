@@ -8,6 +8,13 @@
        <div>
            <span class="fa fa-star edit-favorite-icons hand" onclick="App.bookmarkExplorer.toggleFavorite(this)"></span>
            <a class="action-button" href="/bookmarks/editbookmark?id={{id}}"><span class="fa fa-edit edit-favorite-icons hand"></span></a>
+           <a href="/bookmarks/favorite?id={{id}}&fav={{favorite}}">
+               {{#if favorite}}
+                    <span class="fa fa-star edit-favorite-icons hand"></span>
+               {{else}}
+                  <span class="fa fa-star-o edit-favorite-icons hand" ></span>  
+               {{/if}}</a>
+           <a href="/bookmarks/editbookmark?id={{id}}"><span class="fa fa-edit edit-favorite-icons hand"></span></a>
        </div>
     </div>
 </li>

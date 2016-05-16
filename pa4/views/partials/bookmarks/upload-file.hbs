@@ -9,12 +9,15 @@
                   enctype="multipart/form-data"
                   method="post">
                 <div class="text-center">
-                <span class="fa fa-cloud-upload"></span>
-                    <input type="file" class="upload" name="csvFile"/>
-                    <!--<p><span class="dz-message">Drop files here to upload</span></p>-->
-                    <section class="press" style="margin-top: 2em">
-                        <button type="submit" name="action">Send</button>
+                    <span class="fa fa-cloud-upload"></span>
+                    <section class="press">
+                        <button class="file-upload">
+                            <input type="file" class="file-input" name="csvFile">Choose File
+                        </button>
+                        <button type="submit" class="file-input" name="action">Send</button>
                     </section>
+                    <!--<input id="uploadFile" type="file" class="upload" name="csvFile"/>-->
+                    <!--&lt;!&ndash;<p><span class="dz-message">Drop files here to upload</span></p>&ndash;&gt;-->
                 </div>
             </form>
         </div>

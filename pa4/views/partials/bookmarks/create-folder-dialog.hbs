@@ -1,0 +1,23 @@
+<bm-create-folder-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Create Folder</div>
+        <bm-dialog-close><span href="/bookmarks" class="fa fa-times"></span></bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form" method='post' action='/bookmarks/insertFolder'>
+            <div class="row">
+                <input name="name" type="text" class="name dialog-input"
+                       placeholder="Folder name"/>
+            </div>
+            <div class="row text">
+                <textarea name="description" class="description dialog-input"
+                          placeholder="Description"></textarea>
+            </div>
+            <div class="row">
+                <section class="press">
+                    <button>Create</button>
+                </section>
+            </div>
+        </form>
+    </bm-dialog-body>
+</bm-create-folder-dialog>

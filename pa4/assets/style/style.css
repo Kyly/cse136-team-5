@@ -469,6 +469,7 @@ bm-upload-file-dialog .drag-and-drop-container .drag-and-drop-inner form.fallbac
     align-items: center;
     justify-content: center;
 }
+
 bm-upload-file-dialog .drag-and-drop-container .drag-and-drop-inner span.fa {
     font-size: 4em;
 }
@@ -929,4 +930,20 @@ bm-create-folder-dialog .button {
 
 #login-content form.dialog-form .dialog-input:focus {
     padding: 13px 13px 13px 13px;
+.file-upload {
+    position: relative;
+    overflow: hidden;
+    /*margin: 10px;*/
+}
+
+.file-upload input.file-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }

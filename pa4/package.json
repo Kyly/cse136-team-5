@@ -45,6 +45,7 @@
     "mysql": "^2.10.2",
     "serve-favicon": "^2.3.0",
     "sql-query": "^0.1.26",
-    "squel": "^5.0.4"
+    "squel": "^5.0.4",
+    "valid-url": "^1.0.9"
   }
 }
