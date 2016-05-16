@@ -72,18 +72,20 @@ function renderIndex(req, res, scopeCallBack) {
 
     var search = req.query['search'] ? db.escape(req.query.search): null;
     var sql;
+    //var sqlSelect = sqlQuery.select();
     console.info('List request', req.query);
     var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : 1;
-    var sortBy   = req.query['sortBy'] ? req.query.sortBy : 'name';
+    var sortBy   = req.query['sortBy'] ? (req.query.sortBy) : 'name';
 
     req.session.folderId = folderId;
     req.session.sortBy = sortBy;
 
     if(search){
         search = '% ' + req.query['search'] ? db.escape(req.query.search): null + ' %';
-        sql = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY ${sortBy} ASC`;
+        sql = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} ORDER BY \`${sortBy}\` ASC`;
     }
     else{
+        //sql = sqlSelect.from('Bookmarks').where({col:folderId=(${folderId}).order(${sortBy}).build();
         sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} ORDER BY ${sortBy} ASC`;
     }
     console.log(sql);
