@@ -31,6 +31,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('common'));
 
 /* Routes - consider putting in routes.js */
+app.get('/register', users.registerForm);
+app.post('/register', users.register);
 app.get('/login', users.loginForm);
 app.post('/login', users.login);
 app.get('/logout', users.logout);
@@ -55,6 +57,9 @@ app.get('/bookmarks/upload-dialog', bookmarks.uploadDialog);
 app.post('/bookmarks/upload', upload.single('csvFile'), bookmarks.parseFile);
 app.post('/bookmarks/search', bookmarks.search);
 app.post('/bookmarks/sort', bookmarks.sort);
+app.get('/bookmarks/editfolder', bookmarks.showEditFolder);
+
+
 
 
 app.listen(config.PORT, function () {

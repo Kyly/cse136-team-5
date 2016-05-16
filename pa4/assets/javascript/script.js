@@ -6,7 +6,6 @@
         extends: 'div'
     });
 
-    document.body.appendChild(new bmApp());
 
     /* Custom element for uploader */
     var bmUploadFileDialog = document.registerElement('bm-upload-file-dialog', {
@@ -14,7 +13,6 @@
         extends: 'div'
     });
 
-    document.body.appendChild(new bmUploadFileDialog());
 
     /* Close button for dialog boxes */
     var bmDialogClose = document.registerElement('bm-dialog-close', {
@@ -22,7 +20,6 @@
         extends: 'div'
     });
 
-    document.body.appendChild(new bmDialogClose());
 
     /* Close button for dialog boxes */
     var bmDialogBody = document.registerElement('bm-dialog-body', {
@@ -30,35 +27,30 @@
         extends: 'div'
     });
 
-    document.body.appendChild(new bmDialogBody());
 
     var bmCreateDialog = document.registerElement('bm-create-dialog', {
         prototype: Object.create(HTMLButtonElement.prototype),
         extends: 'div'
     });
 
-    document.body.appendChild(new bmCreateDialog());
 
     var bmEditDialog = document.registerElement('bm-edit-dialog', {
         prototype: Object.create(HTMLButtonElement.prototype),
         extends: 'div'
     });
 
-    document.body.appendChild(new bmEditDialog());
 
     var bmCreateFolderDialog = document.registerElement('bm-create-folder-dialog', {
         prototype: Object.create(HTMLButtonElement.prototype),
         extends: 'div'
     });
 
-    document.body.appendChild(new bmCreateFolderDialog());
     
     var bmErrorDialog = document.registerElement('bm-error-dialog', {
         prototype: Object.create(HTMLButtonElement.prototype),
         extends: 'div'
     })
     
-    document.body.appendChild(new bmErrorDialog());
 
 })(window);
 

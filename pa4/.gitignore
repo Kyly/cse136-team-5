@@ -42,7 +42,9 @@ assets/lib
 w3cErrors
 validation-*
 
+# Grunt created javascript file for templates
 assets/javascript/templates.js
 
+# Config file for web app
 config.js
 
