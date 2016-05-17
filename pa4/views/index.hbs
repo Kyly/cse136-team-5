@@ -18,6 +18,11 @@
     </div>
 </noscript>
 <header class="container">
+    <div style="float: right; font-size: 1.2em; margin-top: 1em">
+        <a title="Sign out" class="box action-button" href="/logout">
+            Logout <span style="font-size: 1.4em" class="fa fa-sign-out"></span>
+        </a>
+    </div>
     <h1>Bookmark Manager</h1>
     <h4 class="sub-header">Wecodeinourunderpants - <span class="hinted-sub-header">
         cse 136 with Professor Thomas Powell</span></h4>
@@ -38,24 +43,14 @@
                         <a title="Import bookmarks" class="box action-button" href="/bookmarks/upload-dialog">
                             <span class="fa fa-cloud-upload"></span>
                         </a>
-
-                        <a class="box action-button" href="/bookmarks/download" target="_blank"></a>
-
-
-                        <a title="Export bookmarks" class="box action-button" href="bookmark-export.csv" download>
+                        <a class="box action-button" href="/bookmarks/download" target="_blank">
                             <span class="fa fa-cloud-download"></span>
-                        </a>     
+                        </a>
                         <a class="box action-button" href="/bookmarks/home">
                             <span class="fa fa-home"></span>
                         </a>
-                        <a title="Sign out" class="box action-button" href="/logout">
-                            <span class="fa fa-sign-out"></span>
-                        </a>
 
                     </div>
-
-
-
                     <div class="row">
                         <div class="search-bar col-xs-8">
                             <form method="post" action="bookmarks/search">

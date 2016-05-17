@@ -34,7 +34,7 @@ app.use(morgan('common'));
 app.use(bookmarks.errorHandler)
 /* Routes - consider putting in routes.js */
 app.get('/register', users.registerForm);
-app.post('/register', users.register);
+app.post('/register', users.register, users.getNewUser);
 app.get('/login', users.loginForm);
 app.post('/login', users.login);
 app.get('/logout', users.logout);
