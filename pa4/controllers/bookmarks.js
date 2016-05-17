@@ -43,8 +43,10 @@ module.exports.parseFile = function parseFile(req, res) {
 
     if (req.file && req.file.buffer)
     {
-        csv.parseCSVFile(buffer, onNewRecord, onError, done);
-    } else {
+        csv.parseCSVFile(req.file.buffer, onNewRecord, onError, done);
+    }
+    else
+    {
         req.reportedError = {message: 'No file received', name: 'No file', status: 403};
         renderIndex(req, res);
     }
@@ -83,8 +85,13 @@ function renderIndex(req, res, scopeCallBack) {
             req.reportedError = err;
         }
 
-        var folders = getFolders(bookmarks);
-        var scope   = {
+        var folders;
+        if (bookmarks)
+        {
+            getFolders(bookmarks);
+        }
+
+        var scope = {
             bookmarks: bookmarks,
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
@@ -139,12 +146,6 @@ module.exports.getCSV = function (req, res) {
         res.status(500).send({error: err});
     }
 };
-
-function getFolders(bookmarks) {
-    return bookmarks.filter(function (bookmark) {
-        return bookmark.folder;
-    });
-}
 
 /**
  *

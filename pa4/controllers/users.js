@@ -53,11 +53,18 @@ module.exports.login = function (req, res) {
 
     db.connection.query("SELECT password, id FROM Users WHERE username = ?", [un],  function (error, user) {
         console.info('Get user response ', user);
+
         if (error)
         {
             console.error(error);
             return res.redirect('/login');
         }
+
+        if (!user[0]) {
+            console.error(`User ${un} not found`);
+            return res.redirect('/login');
+        }
+
         if (user.length = 1 && bcrypt.compareSync(pw, user[0].password))
         {
             console.log("Valid login");
