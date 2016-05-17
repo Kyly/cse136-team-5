@@ -659,11 +659,8 @@ bm-confirm-delete h4 {
     text-align: center;
 }
 
-bm-confirm-delete button {
-    margin-left: 5em;
-    margin-right: 5em;
-    margin-top: 1em;
-    width: 3em;
+bm-confirm-delete section.press {
+    justify-content: center;
 }
 
 bm-create-dialog bm-dialog-body,
