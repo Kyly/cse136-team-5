@@ -171,7 +171,11 @@ module.exports.import = function (req, res) {
 
 module.exports.create = function (req, res) {
     req.showCreateDialog = true;
-    renderIndex(req, res);
+    function editDialogeScope(scope) {
+        scope.folders = getFolders(scope.bookmarks);
+    }
+
+    renderIndex(req, res, editDialogeScope);
 };
 
 module.exports.editBookmark = function (req, res) {
