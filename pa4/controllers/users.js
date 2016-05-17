@@ -33,6 +33,7 @@ module.exports.register = function (req, res) {
         }
         console.info('Successful registration. Logging user in');
         req.session.user = req.body.username;
+        req.session.uid = user[0].id;
         return res.redirect('/bookmarks');
     });
 };
