@@ -60,12 +60,15 @@ module.exports.login = function (req, res) {
             return res.redirect('/login');
         }
 
+
         if (!user[0]) {
             console.error(`User ${un} not found`);
             return res.redirect('/login');
         }
 
-        if (user.length = 1 && bcrypt.compareSync(pw, user[0].password))
+
+        if (user.length == 1 && bcrypt.compareSync(pw, user[0].password))
+
         {
             console.log("Valid login");
             req.session.user = req.body.username;
