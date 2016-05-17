@@ -6,13 +6,13 @@
             </a>
         </div>
        <div>
-           <a class="action-button" href="/bookmarks/favorite?id={{id}}&fav={{favorite}}">
+           <a title="Favorite" class="action-button" href="/bookmarks/favorite?id={{id}}&fav={{favorite}}">
                {{#if favorite}}
                     <span class="fa fa-star edit-favorite-icons hand"></span>
                {{else}}
                   <span class="fa fa-star-o edit-favorite-icons hand" ></span>  
                {{/if}}</a>
-           <a class="action-button" href="/bookmarks/editbookmark?id={{id}}"><span class="fa fa-edit edit-favorite-icons hand"></span></a>
+           <a title="Edit" class="action-button" href="/bookmarks/editbookmark?id={{id}}"><span class="fa fa-edit edit-favorite-icons hand"></span></a>
        </div>
     </div>
 </li>

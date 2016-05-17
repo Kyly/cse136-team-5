@@ -29,23 +29,32 @@
             <div id="bookmark-explorer">
                 <div id="bookmark-actions">
                     <div class="action-button-group">
-                        <a class="box action-button" href="/bookmarks/create">
+                        <a title="Create bookmark" class="box action-button" href="/bookmarks/create">
                             <span class="fa fa-plus-square-o"></span>
                         </a>
-                        <a class="box action-button" href="/bookmarks/createfolder">
+                        <a title="Create folder" class="box action-button" href="/bookmarks/createfolder">
                             <span class="fa fa-folder-o"></span>
                         </a>
-                        <a class="box action-button" href="/bookmarks/upload-dialog">
+                        <a title="Import bookmarks" class="box action-button" href="/bookmarks/upload-dialog">
                             <span class="fa fa-cloud-upload"></span>
                         </a>
-                        <a class="box action-button" href="/bookmarks/download" target="_blank">
 
+                        <a class="box action-button" href="/bookmarks/download" target="_blank"></a>
+
+
+                        <a title="Export bookmarks" class="box action-button" href="bookmark-export.csv" download>
                             <span class="fa fa-cloud-download"></span>
-                        </a>
+                        </a>     
                         <a class="box action-button" href="/bookmarks/home">
                             <span class="fa fa-home"></span>
                         </a>
+                        <a title="Sign out" class="box action-button" href="/logout">
+                            <span class="fa fa-sign-out"></span>
+                        </a>
+
                     </div>
+
+
 
                     <div class="row">
                         <div class="search-bar col-xs-8">
