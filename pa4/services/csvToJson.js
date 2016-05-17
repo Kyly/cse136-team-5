@@ -24,7 +24,8 @@ function parseCSVFile(buffer, onNewRecord, handleError, done) {
 }
 
 function parseJsonToCSV(json, handleError, done) {
-    json2csv({data: json, fields: headers}, function (err, csv) {
+    var filteredJson = json.filter((row) => row.name !== 'root');
+    json2csv({data: filteredJson, fields: headers}, function (err, csv) {
         if (err) {
             handleError(err);
         }
