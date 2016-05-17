@@ -36,10 +36,8 @@
             </div>
             <div class="row">
                 <section class="press">
-                  
-                    {{!--<button type="submit" name="action" value="Delete">delete</button>--}}
-                    <button onclick="location.href='bookmarks/confirm-delete?id={{#each bookmarkItem}}{{this.id}}{{/each}}';return false;">delete</button>
-                    <button type="submit" name="action" value="Update">apply</button>
+                    <button type="submit" name="action" value="delete">delete</button>
+                    <button type="submit" name="action" value="create">apply</button>
                 </section>
             </div>
         </form>
