@@ -217,7 +217,7 @@ module.exports.edit = function (req, res) {
 
     var sql;
 
-    if (action === 'Update')
+    if (action === 'create')
     {
         var update = sqlQuery.update();
         sql        = update.into('Bookmarks').set(req.body).where({id: id, uid: uid}).build();
