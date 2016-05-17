@@ -2,15 +2,15 @@ var Converter = require('csvtojson').Converter;
 var json2csv = require('json2csv');
 
 var headers = ['url', 'folderId', 'name', 'description', 'keywords', 'favorite', 'folder'];
-var converter = new Converter({
-    noheader: true,
-    headers: ['url', 'folderId', 'name', 'description', 'keywords', 'favorite', 'folder'],
-    maxRowLength: '2000',
-    checkColumn: true
-});
 
 function parseCSVFile(buffer, onNewRecord, handleError, done) {
     var source = String.fromCharCode.apply(null, buffer);
+    var converter = new Converter({
+        noheader: true,
+        headers: ['url', 'folderId', 'name', 'description', 'keywords', 'favorite', 'folder'],
+        maxRowLength: '2000',
+        checkColumn: true
+    });
 
     converter.fromString(source, function (err, result) {
         if (err)
@@ -36,4 +36,3 @@ function parseJsonToCSV(json, handleError, done) {
 
 module.exports.parseCSVFile = parseCSVFile;
 module.exports.parseJsonToCSV = parseJsonToCSV;
-module.exports.converter = converter;
