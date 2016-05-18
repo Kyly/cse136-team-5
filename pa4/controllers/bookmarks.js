@@ -91,6 +91,11 @@ function renderIndex(req, res, scopeCallBack) {
             getFolders(bookmarks);
         }
 
+
+        
+        var showBack = folderId == 1 ? false : true;
+        console.error(showBack);
+        
         var scope = {
             bookmarks: bookmarks,
             showCreateDialog: req.showCreateDialog,
@@ -100,7 +105,8 @@ function renderIndex(req, res, scopeCallBack) {
             showConfirmDeleteDialog: req.showConfirmDeleteDialog,
             showEditFolderDialog: req.showEditFolderDialog,
             folders: folders,
-            error: req.reportedError
+            error: req.reportedError,
+            showBack: showBack
         };
 
         if (scopeCallBack)
