@@ -1,0 +1,27 @@
+<bm-create-folder-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Edit Folder</div>
+        <bm-dialog-close><a href="/bookmarks"><span class="fa fa-times"></span></a></bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form" action="/bookmarks/edit/{{#each bookmarkItem}}{{this.id}}{{/each}}" method="post">
+            <div class="row">
+                <input required name="name" type="text"
+                       class="dialog-input name"
+                       value="{{#each bookmarkItem}}{{this.name}}{{/each}}">
+            </div>
+            <div class="row text">
+                <textarea name="description" class="dialog-input description">
+                    {{#each bookmarkItem}}{{this.description}}{{/each}}
+                </textarea>
+            </div>
+            <div class="row">
+                <section class="press">
+                    <button type="submit" name="action" value="delete">delete</button>
+                    <button type="submit" name="action" value="create">apply</button>
+                </section>
+            </div>
+            <input type="hidden" name="id" value="{{#each bookmarkItem}}{{this.id}}{{/each}}">
+        </form>
+    </bm-dialog-body>
+</bm-create-folder-dialog>

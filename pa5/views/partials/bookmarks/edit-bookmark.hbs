@@ -1,0 +1,46 @@
+<bm-edit-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Edit</div>
+        <bm-dialog-close><a href="/bookmarks"><span class="fa fa-times"></span></a></bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form" action="/bookmarks/edit/{{#each bookmarkItem}}{{this.id}}{{/each}}" method="post">
+            <div class="row">
+                <div class="name col-xs-6">
+                    <input required name="name" type="text"
+                           class="dialog-input name"
+                           value="{{#each bookmarkItem}}{{this.name}}{{/each}}">
+                </div>
+                <div class="keywords col-xs-6">
+                    <input name="keywords" type="text" class="dialog-input keywords"
+                           value="{{#each bookmarkItem}}{{this.keywords}}{{/each}}">
+                </div>
+            </div>
+            <div class="row">
+                <input name="url" type="text" class="dialog-input url"
+                       value="{{#each bookmarkItem}}{{this.url}}{{/each}}">
+            </div>
+
+            <div class="row text">
+                <textarea name="description" class="dialog-input description">
+                    {{#each bookmarkItem}}{{this.description}}{{/each}}
+                </textarea>
+            </div>
+            <div class="row">
+                <select required name="folderId" class="dialog-select dialog-input">
+                    <option value="1" selected>Select folder</option>
+                    {{# each folders}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="row">
+                <section class="press">
+                    <button type="submit" name="action" value="delete">delete</button>
+                    <button type="submit" name="action" value="create">apply</button>
+                </section>
+            </div>
+        </form>
+ 
+    </bm-dialog-body>
+</bm-edit-dialog>

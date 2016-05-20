@@ -1,0 +1,26 @@
+{
+  "name": "cse136",
+  "description": "",
+  "main": "index.html",
+  "authors": [
+    ""
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Kyly/cse136-pa2",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "components-font-awesome": "^4.5.0",
+    "animate.css": "^3.5.1",
+    "handlebars": "^4.0.5",
+    "document-register-element": "^0.5.4",
+    "dropzone": "^4.3.0"
+  }
+}
