@@ -33,7 +33,7 @@ module.exports.register = function (req, res, next) {
             return res.redirect('/register');
         }
         req.session.user = req.body.username;
-        next()
+        return res.redirect('/login');
     }).catch(function (error) {
         console.error(error);
         res.redirect('/register');

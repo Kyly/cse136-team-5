@@ -14,7 +14,8 @@ module.exports = {
                                  type: Sequelize.STRING
                              },
                              name: {
-                                 type: Sequelize.STRING
+                                 type: Sequelize.STRING,
+                                 allowNull: false
                              },
                              description: {
                                  type: Sequelize.TEXT
@@ -23,10 +24,12 @@ module.exports = {
                                  type: Sequelize.STRING
                              },
                              favorite: {
-                                 type: Sequelize.BOOLEAN
+                                 type: Sequelize.BOOLEAN,
+                                 allowNull: false
                              },
                              isFolder: {
-                                 type: Sequelize.BOOLEAN
+                                 type: Sequelize.BOOLEAN,
+                                 allowNull: false
                              },
                              createdAt: {
                                  allowNull: false,

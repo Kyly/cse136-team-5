@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // models.Bookmarks.belongsTo(models.Users, {constraints: true, foreignKey: {name: 'userId', allowNull:false }});
-        models.Bookmarks.hasMany(models.Bookmarks, {foreignKey: {name: 'folderId', allowNull: false}, });
+        models.Bookmarks.hasMany(models.Bookmarks, {foreignKey: {name: 'folderId'}});
       }
     }
   });
