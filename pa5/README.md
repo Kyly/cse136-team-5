@@ -8,6 +8,7 @@ Setup
 
 Run project
 -----------
-A. `npm start`
-B. `grunt serve` or `grunt watch:express` 
-C. `node ./bin/www`
+Pick your flavor
+- `npm start`
+- `grunt serve` or `grunt watch:express` 
+- `node ./bin/www`
