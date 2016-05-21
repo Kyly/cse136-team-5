@@ -62,8 +62,9 @@ var list = module.exports.list = function (req, res) {
 function renderIndex(req, res, scopeCallBack) {
 
     var sql;
-    var search   = req.query['search'] ? db.escape(req.query.search) : null;
-    var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
+    var search   = req.query['search'] ? req.query.search : null;
+    var prevFolderId = req.session.folderId || 1;
+    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : 1;
     var sortBy   = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
@@ -93,7 +94,7 @@ function renderIndex(req, res, scopeCallBack) {
             getFolders(bookmarks);
         }
 
-        var showBack = folderId != 1;
+        var showBack = parseInt(folderId) != 1;
         console.error(showBack);
 
         var scope = {
@@ -106,7 +107,8 @@ function renderIndex(req, res, scopeCallBack) {
             showEditFolderDialog: req.showEditFolderDialog,
             folders: folders,
             error: req.reportedError,
-            showBack: showBack
+            showBack: showBack,
+            prevFolderId: prevFolderId
         };
 
         if (scopeCallBack)

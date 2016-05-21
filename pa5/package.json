@@ -4,7 +4,14 @@
   "private": true,
   "scripts": {
     "postinstall" : "bower install --verbose",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "seed:users": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed user-seed.js",
+    "seed:bookmarks": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed bookmarks-seed.js",
+    "seed:all": "npm run-script seed:users && npm run-script seed:bookmarks",
+    "seed:undo": "./node_modules/.bin/sequelize db:seed:undo:all --config database/config/config.json --seeders-path database/seeders --models-path database/models --migrations-path database/migrations",
+    "migration:all": "./node_modules/.bin/sequelize db:migrate --config database/config/config.json --migrations-path database/migrations",
+    "migration:seed": "npm run-script migration:all && npm run-script seed:all",
+    "migration:undo": "npm run-script seed:undo && npm run-script migration:all"
   },
   "dependencies": {
     "bcrypt": "^0.8.6",
