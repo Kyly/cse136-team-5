@@ -399,6 +399,18 @@ module.exports.showEditFolder = function (req, res) {
 };
 
 module.exports.home = function(req,res) {
-    req.session.folderId = 1;
+    var parent;
+    if(req.session.folderId > 1){
+        var sql = "SELECT folderId FROM Bookmarks WHERE id = "+req.session.folderId;
+        db.query(sql, function (err,rows) {
+            if (err)
+            {
+                req.reportedError = err;
+                console.error(err);
+            }
+            parent = rows[0].folderId;
+        });
+        req.session.folderId = parent;
+    }
     renderEdit(req, res);
 }
