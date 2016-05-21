@@ -30,9 +30,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 /* Logging set up */
 app.use(morgan('common'));
 
+/* Error handler */
+app.use(bookmarks.errorHandler)
 /* Routes - consider putting in routes.js */
 app.get('/register', users.registerForm);
-app.post('/register', users.register);
+app.post('/register', users.register, users.getNewUser);
 app.get('/login', users.loginForm);
 app.post('/login', users.login);
 app.get('/logout', users.logout);
@@ -40,26 +42,30 @@ app.get('/logout', users.logout);
 /*  This must go between the users routes and the books routes */
 app.use(users.auth);
 
-app.get('/bookmarks/createfolder', bookmarks.createFolder);
 app.get('/bookmarks', bookmarks.list);
 app.post('/bookmarks', bookmarks.add);
 app.post('/bookmarks/folder', bookmarks.addFolder);
 app.post('/bookmarks/edit/:bookId(\\d+)', bookmarks.edit);
 app.post('/bookmarks/delete/:bookId(\\d+)', bookmarks.edit);
 app.get('/bookmarks/confirm-delete', bookmarks.confirmDelete);
-app.post('/bookmarks/import', bookmarks.import);
 app.post('/bookmarks/insert', bookmarks.insert);
+
+app.get('/bookmarks/editfolder', bookmarks.showEditFolder);
+app.get('/bookmarks/createfolder', bookmarks.createFolder);
 app.post('/bookmarks/insertFolder', bookmarks.insertFolder);
 app.get('/bookmarks/create', bookmarks.create);
+
 app.get('/bookmarks/favorite', bookmarks.favorite);
 app.post('/bookmarks/editbookmark', bookmarks.editBookmark);
+
 app.get('/bookmarks/editbookmark', bookmarks.editBookmark);
 app.get('/bookmarks/upload-dialog', bookmarks.uploadDialog);
 app.post('/bookmarks/upload', upload.single('csvFile'), bookmarks.parseFile);
+app.get('/bookmarks/download', bookmarks.getBookmarks, bookmarks.getCSV);
+
 app.post('/bookmarks/search', bookmarks.search);
 app.post('/bookmarks/sort', bookmarks.sort);
 app.get('/bookmarks/home', bookmarks.home);
-app.get('/bookmarks/editfolder', bookmarks.showEditFolder);
 
 
 

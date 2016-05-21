@@ -1,11 +1,17 @@
 var _        = require('lodash');
+var fs       = require('fs');
 var db       = require('../database/db');
 var sql      = require('sql-query'), sqlQuery = sql.Query();
 var csv      = require('../services/csvToJson');
 var validUrl = require('valid-url'); //npm install valid-url
 
-module.exports.parseFile = function parseFile(req, res, next) {
-    var buffer = req.file.buffer;
+module.exports.errorHandler = function (err, req, res, next) {
+    console.error(err.stack);
+    req.reportedError = err;
+    renderIndex(req, res);
+};
+
+module.exports.parseFile = function parseFile(req, res) {
 
     function onNewRecord(record) {
         for (var key in record)
@@ -15,6 +21,7 @@ module.exports.parseFile = function parseFile(req, res, next) {
                 continue;
             }
 
+            record[key].uid = req.session.uid;
             insertBookmark(record[key], function (err) {
                 console.error(err);
                 req.reportedError = err;
@@ -25,7 +32,7 @@ module.exports.parseFile = function parseFile(req, res, next) {
     }
 
     function onError(error) {
-        reportedError = error;
+        req.reportedError = error;
         renderIndex(req, res);
     }
 
@@ -34,7 +41,15 @@ module.exports.parseFile = function parseFile(req, res, next) {
         renderIndex(req, res);
     }
 
-    csv.parseCSVFile(buffer, onNewRecord, onError, done);
+    if (req.file && req.file.buffer)
+    {
+        csv.parseCSVFile(req.file.buffer, onNewRecord, onError, done);
+    }
+    else
+    {
+        req.reportedError = {message: 'No file received', name: 'No file', status: 403};
+        renderIndex(req, res);
+    }
 
 };
 
@@ -70,8 +85,18 @@ function renderIndex(req, res, scopeCallBack) {
             req.reportedError = err;
         }
 
-        var folders = getFolders(bookmarks);
-        var scope   = {
+        var folders;
+        if (bookmarks)
+        {
+            getFolders(bookmarks);
+        }
+
+
+        
+        var showBack = folderId == 1 ? false : true;
+        console.error(showBack);
+        
+        var scope = {
             bookmarks: bookmarks,
             showCreateDialog: req.showCreateDialog,
             showEditDialog: req.showEditDialog,
@@ -80,7 +105,8 @@ function renderIndex(req, res, scopeCallBack) {
             showConfirmDeleteDialog: req.showConfirmDeleteDialog,
             showEditFolderDialog: req.showEditFolderDialog,
             folders: folders,
-            error: req.reportedError
+            error: req.reportedError,
+            showBack: showBack
         };
 
         if (scopeCallBack)
@@ -92,11 +118,40 @@ function renderIndex(req, res, scopeCallBack) {
     });
 }
 
-function getFolders(bookmarks) {
-    return bookmarks.filter(function (bookmark) {
-        return bookmark.folder;
+module.exports.getBookmarks = function (req, res, next) {
+    var uid       = req.session.uid;
+    var sqlSelect = sqlQuery.select();
+
+    var sql = sqlSelect.from('Bookmarks').where({uid: uid}).build();
+    console.log(sql);
+
+    db.query(sql, function (err, bookmarks) {
+        if (err)
+        {
+            req.reportedError = err;
+            console.error(err);
+        }
+
+        req.bookmarks = bookmarks;
+        next();
     });
-}
+};
+
+module.exports.getCSV = function (req, res) {
+    if (!req.reportedError)
+    {
+        csv.parseJsonToCSV(req.bookmarks, handleError, done);
+    }
+
+    function done(csv) {
+        res.set({'Content-Disposition': 'attachment; filename="bookmarks.csv"'});
+        res.status(200).send(csv);
+    }
+
+    function handleError(err) {
+        res.status(500).send({error: err});
+    }
+};
 
 /**
  *
@@ -122,7 +177,11 @@ module.exports.import = function (req, res) {
 
 module.exports.create = function (req, res) {
     req.showCreateDialog = true;
-    renderIndex(req, res);
+    function editDialogeScope(scope) {
+        scope.folders = getFolders(scope.bookmarks);
+    }
+
+    renderIndex(req, res, editDialogeScope);
 };
 
 module.exports.editBookmark = function (req, res) {
@@ -164,7 +223,7 @@ module.exports.edit = function (req, res) {
 
     var sql;
 
-    if (action === 'Update')
+    if (action === 'create')
     {
         var update = sqlQuery.update();
         sql        = update.into('Bookmarks').set(req.body).where({id: id, uid: uid}).build();
@@ -345,9 +404,9 @@ module.exports.search = function (req, res) {
 };
 
 module.exports.favorite = function (req, res) {
-    var id          = req.query.id;
-    var fav         = req.query.fav;
-    var uid         = req.session.uid;
+    var id  = req.query.id;
+    var fav = req.query.fav;
+    var uid = req.session.uid;
 
     fav             = (fav + 1) % 2;
     var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND uid = ' + uid;
@@ -398,19 +457,7 @@ module.exports.showEditFolder = function (req, res) {
     renderEdit(req, res);
 };
 
-module.exports.home = function(req,res) {
-    var parent;
-    if(req.session.folderId > 1){
-        var sql = "SELECT folderId FROM Bookmarks WHERE id = "+req.session.folderId;
-        db.query(sql, function (err,rows) {
-            if (err)
-            {
-                req.reportedError = err;
-                console.error(err);
-            }
-            parent = rows[0].folderId;
-        });
-        req.session.folderId = parent;
-    }
+module.exports.home = function (req, res) {
+    req.session.folderId = 1;
     renderEdit(req, res);
-}
+};
