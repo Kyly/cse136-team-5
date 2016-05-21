@@ -1,7 +1,3 @@
-/*  This file is a stub for a full blown user management system.
- Values are hard coded for example purposes
- */
-
 var config = require('../config');
 var bcrypt = require('bcrypt');
 var path   = require('path');
@@ -60,7 +56,7 @@ module.exports.getNewUser = function (req, res) {
 module.exports.login = function (req, res) {
     var un            = req.body.username;
     var pw            = req.body.password;
-    var hasJavaScript = Boolean(req.body.hasJavaScript);
+    var hasJavaScript = req.body.hasJavaScript !== 'false';
 
     console.info(`User login for ${un} with password ${pw}`);
 
@@ -125,6 +121,10 @@ module.exports.auth = function (req, res, next) {
     }
     else
     {
+        if (req.url.match(/^\/api\/.*$/)) {
+            return res.status(401).json({message: 'Authentication required'})
+        }
+
         res.redirect('/login');
     }
 };

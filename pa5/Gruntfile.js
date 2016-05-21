@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-express-server');
 
     grunt.registerTask('default', ['validation', 'handlebars']);
-    grunt.registerTask('serve', ['express:dev']);
+    grunt.registerTask('server', [ 'express:dev', 'watch' ]);
 
     grunt.initConfig(
         {
@@ -25,11 +25,10 @@ module.exports = function (grunt) {
                     livereload: true
                 },
                 express: {
-                    files:  [ '**/*.js', '!assets/**/*.js' ],
+                    files:  [ '**/*.js' ],
                     tasks:  [ 'express:dev' ],
                     options: {
-                        spawn: false,
-                        atBegin: true
+                        spawn: false
                     }
                 },
                 html: {
@@ -53,9 +52,7 @@ module.exports = function (grunt) {
                 },
                 dev: {
                     options: {
-                        script: './bin/www',
-                        debug: true,
-                        background: false
+                        script: './bin/www'
                     }
                 },
                 prod: {

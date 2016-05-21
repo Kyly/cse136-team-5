@@ -1,9 +1,11 @@
-var _        = require('lodash');
-var fs       = require('fs');
-var db       = require('../database/db');
-var sql      = require('sql-query'), sqlQuery = sql.Query();
-var csv      = require('./csvToJson');
-var validUrl = require('valid-url'); //npm install valid-url
+var _         = require('lodash');
+var fs        = require('fs');
+var db        = require('../database/db');
+var sql       = require('sql-query'), sqlQuery = sql.Query();
+var csv       = require('./csvToJson');
+var validUrl  = require('valid-url'); //npm install valid-url
+var Models    = require('../database/models'), Users = Models.Users, Bookmarks = Models.Bookmarks;
+var Sequelize = require('sequelize');
 
 module.exports.errorHandler = function (err, req, res, next) {
     console.error(err.stack);
@@ -60,8 +62,9 @@ var list = module.exports.list = function (req, res) {
 function renderIndex(req, res, scopeCallBack) {
 
     var sql;
-    var search   = req.query['search'] ? db.escape(req.query.search) : null;
-    var folderId = req.query['folderId'] ? db.escape(req.query.folderId) : req.session.folderId ? req.session.folderId : 1;
+    var search   = req.query['search'] ? req.query.search : null;
+    var prevFolderId = req.session.folderId || 1;
+    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : 1;
     var sortBy   = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
@@ -71,11 +74,11 @@ function renderIndex(req, res, scopeCallBack) {
     if (search)
     {
         search = '% ' + req.query['search'] ? db.escape(req.query.search) : null + ' %';
-        sql    = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} AND uid = ${uid} ORDER BY ${sortBy} ASC`;
+        sql    = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} AND userId = ${uid} ORDER BY ${sortBy} ASC`;
     }
     else
     {
-        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} AND uid = ${uid} ORDER BY ${sortBy} ASC`;
+        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} AND userId = ${uid} ORDER BY ${sortBy} ASC`;
     }
     console.log(sql);
     db.query(sql, function (err, bookmarks) {
@@ -91,11 +94,9 @@ function renderIndex(req, res, scopeCallBack) {
             getFolders(bookmarks);
         }
 
-
-        
-        var showBack = folderId == 1 ? false : true;
+        var showBack = parseInt(folderId) != 1;
         console.error(showBack);
-        
+
         var scope = {
             bookmarks: bookmarks,
             showCreateDialog: req.showCreateDialog,
@@ -106,7 +107,8 @@ function renderIndex(req, res, scopeCallBack) {
             showEditFolderDialog: req.showEditFolderDialog,
             folders: folders,
             error: req.reportedError,
-            showBack: showBack
+            showBack: showBack,
+            prevFolderId: prevFolderId
         };
 
         if (scopeCallBack)
@@ -226,11 +228,11 @@ module.exports.edit = function (req, res) {
     if (action === 'create')
     {
         var update = sqlQuery.update();
-        sql        = update.into('Bookmarks').set(req.body).where({id: id, uid: uid}).build();
+        sql        = update.into('Bookmarks').set(req.body).where({id: id, userId: uid}).build();
     }
     else
     {
-        sql = `DELETE FROM Bookmarks WHERE id=${db.escape(id)} AND uid = ${uid}`;
+        sql = `DELETE FROM Bookmarks WHERE id=${db.escape(id)} AND userId = ${uid}`;
     }
 
     console.log(action, sql);
@@ -249,7 +251,7 @@ module.exports.delete = function (req, res) {
     var id  = req.params.book_id;
     var uid = req.session.id;
 
-    db.query(`DELETE from Bookmarks where uid = ${uid} AND id = ${id}`, function (err) {
+    db.query(`DELETE from Bookmarks where userId = ${uid} AND id = ${id}`, function (err) {
         if (err)
         {
             req.reportedError = err;
@@ -272,8 +274,8 @@ module.exports.insert = function (req, res) {
     newBookmark.description = req.body.description;
     newBookmark.keywords    = req.body.keywords;
     newBookmark.favorite    = 0;
-    newBookmark.folder      = "FALSE";
-    newBookmark.uid         = req.session.uid;
+    newBookmark.isFolder    = "FALSE";
+    newBookmark.userId      = req.session.uid;
 
     if (validUrl.isUri(newBookmark.url))
     {
@@ -290,12 +292,10 @@ module.exports.insert = function (req, res) {
     var queryString = sqlInsert.into('Bookmarks').set(newBookmark).build();
     console.log(queryString);
 
-    db.query(queryString, function (err) {
-        if (err)
-        {
-            req.reportedError = err;
-            console.error(err);
-        }
+    var query = Bookmarks.create(newBookmark);
+    query.then(()=> renderIndex(req, res));
+    query.catch((error) => {
+        req.reportedError = {message: error.message, name: 'Failed to create bookmark', status: 400};
         renderIndex(req, res);
     });
 };

@@ -13,6 +13,11 @@
 <body>
 
 <header class="container">
+    <div style="float: right; font-size: 1.2em; margin-top: 1em">
+        <a title="Sign out" class="box action-button" href="/logout">
+            Logout <span style="font-size: 1.4em" class="fa fa-sign-out"></span>
+        </a>
+    </div>
     <h1>Bookmark Manager</h1>
     <h4 class="sub-header">Wecodeinourunderpants - <span class="hinted-sub-header">
         cse 136 with Professor Thomas Powell</span></h4>
@@ -80,8 +85,10 @@
 
 
 <script src="assets/lib/handlebars/handlebars.min.js"></script>
+<script src="assets/lib/axios/dist/axios.min.js"></script>
 <script src="assets/javascript/templates.js"></script>
 <script src="assets/javascript/script.js"></script>
+<script src="assets/javascript/requests.js"></script>
 <script>window.onload = App.bookmarkExplorer.showBookmarks('top');</script>
 </body>
 </html>

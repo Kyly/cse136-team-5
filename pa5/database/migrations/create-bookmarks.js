@@ -10,26 +10,18 @@ module.exports = {
                                  primaryKey: true,
                                  type: Sequelize.INTEGER
                              },
-                             url: {
-                                 type: Sequelize.STRING
-                             },
-                             name: {
-                                 type: Sequelize.STRING,
-                                 allowNull: false
-                             },
-                             description: {
-                                 type: Sequelize.TEXT
-                             },
-                             keywords: {
-                                 type: Sequelize.STRING
-                             },
-                             favorite: {
-                                 type: Sequelize.BOOLEAN,
-                                 allowNull: false
-                             },
-                             isFolder: {
-                                 type: Sequelize.BOOLEAN,
-                                 allowNull: false
+                             url: {type: Sequelize.STRING, isUrl: true},
+                             name: {type: Sequelize.STRING, unique: 'compositeIndex'},
+                             description: Sequelize.TEXT,
+                             keywords: Sequelize.STRING,
+                             favorite: {type: Sequelize.BOOLEAN, defaultValue: false},
+                             isFolder: {type: Sequelize.BOOLEAN, defaultValue: false},
+                             userId: {type: Sequelize.INTEGER, unique: 'compositeIndex', allowNull: false},
+                             folderId: {
+                                 type: Sequelize.INTEGER,
+                                 unique: 'compositeIndex',
+                                 defaultValue: 1,
+                                 allowNull: true
                              },
                              createdAt: {
                                  allowNull: false,
@@ -49,7 +41,6 @@ module.exports = {
                          }
             );
     },
-    down: function (queryInterface, Sequelize) {
-        return queryInterface.dropTable('Bookmarks');
-    }
+    down: (queryInterface, Sequelize) => queryInterface.dropTable('Bookmarks')
+
 };

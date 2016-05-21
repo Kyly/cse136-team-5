@@ -10,7 +10,9 @@ var session    = require('./modules/session');
 var auth       = require('./modules/users').auth;
 var users      = require('./routes/users');
 var bookmarks  = require('./routes/bookmarks');
-
+var api        = require('./routes/bookmarks.api');
+var db          = require('./database/db');
+db.init();
 var app = express();
 
 // view engine setup
@@ -30,6 +32,7 @@ app.use(session);
 app.use('/', users);
 app.use(auth);
 app.use('/bookmarks', bookmarks);
+app.use('/api/bookmarks', api);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

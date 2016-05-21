@@ -7,7 +7,7 @@
     });
 
     document.body.appendChild(new bmApp());
-    
+
     /* Custom element for uploader */
     var bmUploadFileDialog = document.registerElement('bm-upload-file-dialog', {
         prototype: Object.create(HTMLButtonElement.prototype),
@@ -58,6 +58,7 @@
 /* Classes for elements - Everything gets attached to App class */
 (function () {
 
+    var request         = window.superagent;
     this['App']         = this['App'] || {};
     var App             = this['App'];
     var dialogContainer = document.getElementById('bookmark-dialog');
@@ -67,7 +68,7 @@
     App.bookmarkCreate   = new BookmarkCreate();
     App.bookmarkEdit     = new BookmarkEdit();
     App.createFolder     = new CreateFolder();
-    
+
     function CreateFolder() {
         this.template = App.templates['assets/templates/bm-create-folder.hbs'];
     }
@@ -79,7 +80,7 @@
     CreateFolder.prototype.remove = function hideCreateFolder() {
         hide('bm-create-folder-dialog');
     };
-    
+
     /* Mock Bookmark Service*/
     function getBookmarks() {
 

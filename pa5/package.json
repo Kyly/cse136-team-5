@@ -3,7 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "postinstall" : "bower install --verbose",
+    "start": "node ./bin/www",
+    "seed:users": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed user-seed.js",
+    "seed:bookmarks": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed bookmarks-seed.js",
+    "seed:all": "npm run-script seed:users && npm run-script seed:bookmarks",
+    "seed:undo": "./node_modules/.bin/sequelize db:seed:undo:all --config database/config/config.json --seeders-path database/seeders --models-path database/models --migrations-path database/migrations",
+    "migration:all": "./node_modules/.bin/sequelize db:migrate --config database/config/config.json --migrations-path database/migrations",
+    "migration:seed": "npm run-script migration:all && npm run-script seed:all",
+    "migration:undo": "npm run-script seed:undo && npm run-script migration:all"
   },
   "dependencies": {
     "bcrypt": "^0.8.6",
@@ -21,6 +29,7 @@
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
     "sequelize": "^3.23.2",
+    "sequelize-isunique-validator": "^1.1.1",
     "serve-favicon": "~2.2.0",
     "sql-query": "^0.1.26",
     "valid-url": "^1.0.9"
