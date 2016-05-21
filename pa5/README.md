@@ -16,7 +16,7 @@ Run project
 -----------
 Pick your flavor
 - `npm start`
-- `grunt serve` or `grunt watch:express` 
+- `grunt server` or `grunt watch:express` 
 - `node ./bin/www`
 
 API
