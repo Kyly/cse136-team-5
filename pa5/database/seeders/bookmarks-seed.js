@@ -21,6 +21,20 @@ module.exports = {
                 folderId: 1
             },
             {
+                name: "root",
+                keywords: "seed",
+                description: "root directory created automaticaly",
+                isFolder: true,
+                userId: 2
+            },
+            {
+                name: "root",
+                keywords: "seed",
+                description: "root directory created automaticaly",
+                isFolder: true,
+                userId: 3
+            },
+            {
                 url: "https://github.com/",
                 name: "a",
                 description: "A is a bookmarks",
