@@ -4,7 +4,7 @@
         <bm-dialog-close><span onclick="App.bookmarkCreate.remove()" class="fa fa-times"></span></bm-dialog-close>
     </div>
     <bm-dialog-body>
-        <form class="dialog-form">
+        <form class="dialog-form" id="create-bookmark-form">
             <div class="row">
                 <div class="name col-xs-6">
                     <input name="name" type="text"
@@ -21,12 +21,12 @@
             </div>
 
             <div class="row text">
-                <textarea name="text" class="description dialog-input" id="description"
+                <textarea name="description" class="description dialog-input" id="description"
                           placeholder="Description"></textarea>
             </div>
             <div class="row">
-                <select class="dialog-select dialog-input">
-                    <option value="" disabled selected>Select folder</option>
+                <select name="folderId" class="dialog-select dialog-input">
+                    <option value="1" selected="selected">Select folder</option>
                     <option>Folder 1</option>
                     <option>Folder 1</option>
                     <option>Porn</option>
@@ -35,7 +35,7 @@
             </div>
             <div class="row">
                 <section class="press">
-                    <button onclick="App.bookmarkCreate.remove(); return false;">Create</button>
+                    <button onclick="return addBookmarkRequest()">Create</button>
                 </section>
             </div>
         </form>
