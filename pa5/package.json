@@ -21,6 +21,7 @@
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
     "sequelize": "^3.23.2",
+    "sequelize-isunique-validator": "^1.1.1",
     "serve-favicon": "~2.2.0",
     "sql-query": "^0.1.26",
     "valid-url": "^1.0.9"
