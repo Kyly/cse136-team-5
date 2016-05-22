@@ -33,7 +33,7 @@ module.exports = function (grunt) {
                     }
                 },
                 client: {
-                    files: ['**/*.html', 'assets/**/*.js', '!assets/**/*.min.js'],
+                    files: ['assets/**/*.html', 'assets/**/*.js', '!assets/**/*.min.js'],
                     tasks: ['validation', 'handlebars', 'uglify']
                 }
             },
@@ -50,7 +50,9 @@ module.exports = function (grunt) {
                             'assets/javascript/templates.js',
                             'assets/javascript/app.js',
                             'assets/javascript/script.js',
-                            'assets/javascript/create-bookmark.js'
+                            'assets/javascript/create-bookmark.js',
+                            'assets/javascript/edit-bookmark.js'
+                            /* Added modules here */
                         ]
                     }
                 }

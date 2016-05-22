@@ -8,13 +8,13 @@ module.exports = function (sequelize, DataTypes) {
                     name: {type: DataTypes.STRING, unique: 'action'},
                     password: {
                         type: DataTypes.STRING,
-                        allowNull: false,
-                        set: function (v) {
-                            var salt   = bcrypt.genSaltSync(saltRounds);
-                            var hash = bcrypt.hashSync(v, salt);
-
-                            this.setDataValue('password', hash);
-                        }
+                        allowNull: false
+                        // set: function (v) {
+                        //     var salt   = bcrypt.genSaltSync(saltRounds);
+                        //     var hash = bcrypt.hashSync(v, salt);
+                        //
+                        //     this.setDataValue('password', hash);
+                        // }
                     }
                 },
                 {

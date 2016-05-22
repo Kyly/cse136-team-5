@@ -1,6 +1,6 @@
 (function () {
-    var app             = this['App'];
-    app.bookmarkCreate   = new BookmarkCreate();
+    var app            = this['App'];
+    app.bookmarkCreate = new BookmarkCreate();
 
     /* Bookmark create */
     function BookmarkCreate() {
@@ -22,11 +22,11 @@
 
     BookmarkCreate.prototype.addBookmarkRequest = function addBookmarkRequest(event, element) {
         console.log("ADD BOOKMARK");
-        var name = element.form.name.value;
-        var url = element.form.url.value;
-        var keywords = element.form.keywords.value;
+        var name        = element.form.name.value;
+        var url         = element.form.url.value;
+        var keywords    = element.form.keywords.value;
         var description = element.form.description.value;
-        var folderId = element.form.folderId.value;
+        var folderId    = element.form.folderId.value;
 
         axios.post('/api/bookmarks/', {
                  name: name,
@@ -35,10 +35,10 @@
                  folderId: folderId,
                  description: description
              })
-             .then(function(res) {
+             .then(function (res) {
                  console.log(res);
              })
-             .catch(function(res){
+             .catch(function (res) {
                  console.log(res);
              });
 
@@ -55,19 +55,19 @@
         console.log(name);
         var description = document.getElementById("create-folder-form").elements.namedItem("description").value;
         console.log(description);
-        if(description == "") {
+        if (description == "")
+        {
             description = "NULL";
         }
-
 
         axios.post('/api/bookmarks/', {
                  name: name,
                  description: description
              })
-             .then(function(res) {
+             .then(function (res) {
                  console.log(res);
              })
-             .catch(function(res){
+             .catch(function (res) {
                  console.log(res);
              });
 
@@ -77,5 +77,5 @@
         }
 
     }
-    
+
 })(window);
