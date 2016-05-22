@@ -169,3 +169,7 @@ axios.post('/api/bookmarks/5', {name: 'Dudiest'}).then(function (payload) {
 
 ## DELETE
 __DELETE__ */api/bookmarks/:bookId* 200 (OK). 404 (Not Found), if ID not found or invalid.
+
+
+## Upload
+__POST__ */api/bookmarks/upload* 204 (No Content). 400 (Bad Request) if invalid,  409 (Conflict) if resource already exists

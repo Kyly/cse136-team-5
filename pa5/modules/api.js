@@ -69,10 +69,10 @@ BookmarkApi.prototype.create = (req, res) => {
 
         if (error.name === 'SequelizeUniqueConstraintError')
         {
-            res.status(400).json({message: error.message, errors: error.errors});
+            res.status(409).json({message: error.message, errors: error.errors});
         }
 
-        res.status(403).json({message: error.message, errors: error.errors});
+        res.status(400).json({message: error.message, errors: error.errors});
     });
 };
 
@@ -148,7 +148,12 @@ BookmarkApi.prototype.parseFile = (req, res) => {
         });
 
         bulkCreate.catch((error) => {
-            res.status(400).json({message: error.message, errors: error.errors})
+            if (error.name === 'SequelizeUniqueConstraintError')
+            {
+                res.status(409).json({message: error.message, errors: error.errors});
+            }
+
+            res.status(400).json({message: error.message, errors: error.errors});
         });
         // for (var key in record)
         // {
