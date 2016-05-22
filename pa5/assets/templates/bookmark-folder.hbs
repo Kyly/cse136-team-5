@@ -1,9 +1,14 @@
 <li class="list-item-style">
     <div class="bookmark-item split-list">
         <div>
-            <a class="bookmark-link folder-text" onclick="App.bookmarkExplorer.showBookmarks('')">
+            <a class="bookmark-link folder-text" onclick="App.bookmarkExplorer.showBookmarks('{{id}}')">
                 <span class="fa fa-folder left-item bookmark-icons hand"></span> {{ name }}
             </a>
+            {{id}}
+            <br>
+            {{folderId}}
+            <br>
+            {{name}}
         </div>
         <div>
             <span class="fa fa-chevron-right edit-favorite-icons hand" onclick="App.bookmarkExplorer.showBookmarks('sub')"></span>

@@ -79,11 +79,16 @@
 
     /* Mock Bookmark Service*/
     function getBookmarks(folderId) {
-        return axios.get('/api/bookmarks?folderId=1').then(function (payload) {
-            // console.log('DOES THIS EVEN WORK', JSON.stringify(payload));
-            // console.log('DOES THIS EVEN WORK TWO', payload );
-            return payload;
-        });
+        if(folderId) {
+            return axios.get('/api/bookmarks?folderId=' + folderId).then(function (payload) {
+                return payload;
+            });
+        }
+        else {
+            return axios.get('/api/bookmarks').then(function (payload) {
+                return payload;
+            });
+        }
     }
 
     /* Code for bookmark explorer */
@@ -95,7 +100,9 @@
     }
 
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference) {
-
+        
+        console.log('this is the reference ', reference);
+        
         var bookExp   = this;
         getBookmarks()
             .then(
