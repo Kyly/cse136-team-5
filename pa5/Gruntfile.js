@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('default', ['validation', 'handlebars']);
+    grunt.registerTask('default', ['validation', 'handlebars', 'uglify']);
     grunt.registerTask('server', [ 'express:dev', 'watch' ]);
 
     grunt.initConfig(
@@ -31,10 +31,6 @@ module.exports = function (grunt) {
                     options: {
                         spawn: false
                     }
-                },
-                html: {
-                    files: ['**/*.html'],
-                    tasks: ['validation', 'handlebars']
                 },
                 client: {
                     files: ['**/*.html', 'assets/**/*.js', '!assets/**/*.min.js'],

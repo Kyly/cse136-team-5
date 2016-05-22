@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "bower install --verbose",
+    "postinstall": "bower install --verbose && grunt",
     "start": "node ./bin/www",
     "seed:users": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed user-seed.js",
     "seed:bookmarks": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed bookmarks-seed.js",
