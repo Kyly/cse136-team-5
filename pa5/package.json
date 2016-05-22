@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "postinstall" : "bower install --verbose",
+    "postinstall": "bower install --verbose && grunt",
     "start": "node ./bin/www",
     "seed:users": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed user-seed.js",
     "seed:bookmarks": "./node_modules/.bin/sequelize db:seed --config database/config/config.json --seeders-path database/seeders --models-path database/models --seed bookmarks-seed.js",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-handlebars": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-express-server": "^0.5.3",
     "grunt-w3c-html-validation": "^0.1.8",

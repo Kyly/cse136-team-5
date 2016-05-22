@@ -4,8 +4,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-express-server');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('default', ['validation', 'handlebars']);
+    grunt.registerTask('default', ['validation', 'handlebars', 'uglify']);
     grunt.registerTask('server', [ 'express:dev', 'watch' ]);
 
     grunt.initConfig(
@@ -31,9 +32,27 @@ module.exports = function (grunt) {
                         spawn: false
                     }
                 },
-                html: {
-                    files: ['**/*.html'],
-                    tasks: ['validation', 'handlebars']
+                client: {
+                    files: ['**/*.html', 'assets/**/*.js', '!assets/**/*.min.js'],
+                    tasks: ['validation', 'handlebars', 'uglify']
+                }
+            },
+            uglify: {
+                scripts: {
+                    options: {
+                        sourceMap: true,
+                        mangle: false
+                    },
+                    files: {
+                        'assets/javascript/scripts.min.js': [
+                            'assets/lib/axios/dist/axios.js',
+                            'assets/lib/handlebars/handlebars.js',
+                            'assets/javascript/templates.js',
+                            'assets/javascript/app.js',
+                            'assets/javascript/script.js',
+                            'assets/javascript/create-bookmark.js'
+                        ]
+                    }
                 }
             },
             handlebars: {

@@ -1,12 +1,12 @@
 /* Custom element definitions */
 (function () {
     /* Custom element for uploader */
-    var bmApp = document.registerElement('bm-app', {
+    var bmapp = document.registerElement('bm-app', {
         prototype: Object.create(HTMLButtonElement.prototype),
         extends: 'div'
     });
 
-    document.body.appendChild(new bmApp());
+    document.body.appendChild(new bmapp());
 
     /* Custom element for uploader */
     var bmUploadFileDialog = document.registerElement('bm-upload-file-dialog', {
@@ -55,26 +55,22 @@
 
 })(window);
 
-/* Classes for elements - Everything gets attached to App class */
+/* Classes for elements - Everything gets attached to app class */
 (function () {
 
-    var request         = window.superagent;
-    this['App']         = this['App'] || {};
-    var App             = this['App'];
-    var dialogContainer = document.getElementById('bookmark-dialog');
-
-    App.bookmarkExplorer = new BookmarkExplorer();
-    App.bookmarkUploader = new BookmarkUploader();
-    App.bookmarkCreate   = new BookmarkCreate();
-    App.bookmarkEdit     = new BookmarkEdit();
-    App.createFolder     = new CreateFolder();
+    var app            = this['App'];
+    
+    app.bookmarkExplorer = new BookmarkExplorer();
+    app.bookmarkUploader = new BookmarkUploader();
+    app.bookmarkEdit     = new BookmarkEdit();
+    app.createFolder     = new CreateFolder();
 
     function CreateFolder() {
-        this.template = App.templates['assets/templates/bm-create-folder.hbs'];
+        this.template = app.templates['assets/templates/bm-create-folder.hbs'];
     }
 
     CreateFolder.prototype.show = function showCreateFolder() {
-        show('bm-create-folder-dialog', this.template);
+        app.show('bm-create-folder-dialog', this.template);
     };
 
     CreateFolder.prototype.remove = function hideCreateFolder() {
@@ -119,7 +115,7 @@
                 url: '',
                 children: [{
                     parent: 'root',
-                    name: 'Apple',
+                    name: 'apple',
                     url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
                     children: []
                 }, {
@@ -167,9 +163,9 @@
     /* Code for bookmark explorer */
     function BookmarkExplorer() {
         this.container      = document.getElementById('bookmark-list');
-        this.itemTemplate   = App.templates['assets/templates/bookmark-item.hbs'];
-        this.folderTemplate = App.templates['assets/templates/bookmark-folder.hbs'];
-        this.subFolderBack  = App.templates['assets/templates/bookmark-sub-back.hbs'];
+        this.itemTemplate   = app.templates['assets/templates/bookmark-item.hbs'];
+        this.folderTemplate = app.templates['assets/templates/bookmark-folder.hbs'];
+        this.subFolderBack  = app.templates['assets/templates/bookmark-sub-back.hbs'];
     }
 
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference) {
@@ -221,41 +217,23 @@
 
     /* Bookmark uploader */
     function BookmarkUploader() {
-        this.template = App.templates['assets/templates/upload-file.hbs'];
+        this.template = app.templates['assets/templates/upload-file.hbs'];
     }
 
     BookmarkUploader.prototype.show = function showBookmarkUploader() {
-        show('bm-upload-file-dialog', this.template);
+        app.show('bm-upload-file-dialog', this.template);
     };
 
     BookmarkUploader.prototype.remove = function hideBookmarkUploader() {
         hide('bm-upload-file-dialog');
     };
 
-    /* Bookmark create */
-    function BookmarkCreate() {
-        this.template = App.templates['assets/templates/bm-create-dialog.hbs'];
-    }
-
-    BookmarkCreate.prototype.show = function showBookmarkCreate() {
-        show('bm-create-dialog', this.template);
-    };
-
-    BookmarkCreate.prototype.remove = function removeBookmarkCreate(event) {
-        if (event)
-        {
-            event.preventDefault();
-        }
-
-        hide('bm-create-dialog');
-    };
-
     function BookmarkEdit() {
-        this.template = App.templates['assets/templates/bm-edit-dialog.hbs'];
+        this.template = app.templates['assets/templates/bm-edit-dialog.hbs'];
     }
 
     BookmarkEdit.prototype.show = function showBookmarkEdit() {
-        show('bm-edit-dialog', this.template);
+        app.show('bm-edit-dialog', this.template);
     };
 
     BookmarkEdit.prototype.remove = function removeBookmarkEdit(event) {
@@ -266,51 +244,5 @@
 
         hide('bm-edit-dialog');
     };
-
-    /* Show hide functionality */
-    function hide(tag) {
-        var elements = document.getElementsByTagName(tag);
-        /* Check if element is present */
-        if (elements.length !== 0)
-        {
-            var element           = elements[0];
-            element.style.display = 'none';
-        }
-    }
-
-    function show(tag, template, context) {
-
-        context = context || {};
-
-        var elements = document.getElementsByTagName(tag);
-        /* Check if element is present */
-        if (elements.length !== 0)
-        {
-            var element = elements[0];
-            /* Check if element is shown */
-            if (getDisplay(element) === 'none')
-            {
-                displayAsFirstChild(element);
-            }
-
-            return;
-        }
-
-        /* Inserts html as first child element */
-        dialogContainer.insertAdjacentHTML('afterbegin', template(context));
-    }
-
-    function displayAsFirstChild(element) {
-        var firstChild = dialogContainer.firstChild;
-
-        /* Shows element as the first child */
-        dialogContainer.insertBefore(element, firstChild);
-        element.style.display = 'flex';
-    }
-
-    function getDisplay(element) {
-        return element.currentStyle ? element.currentStyle.display :
-               getComputedStyle(element, null).display;
-    }
 
 })(window);
