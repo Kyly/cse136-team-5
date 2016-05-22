@@ -100,11 +100,13 @@
     }
 
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference) {
-        
+
         console.log('this is the reference ', reference);
-        
+        console.log('this is the container ', this.container.innerHTML)
         var bookExp   = this;
-        getBookmarks()
+        bookExp.container.innerHTML = '';
+        console.log('this is the container after ', this.container.innerHTML)
+        getBookmarks(reference)
             .then(
                 function (bookmarks) {
                     console.log('Inside show bookmarks ', bookmarks);
@@ -119,10 +121,9 @@
                             printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
                         }
                     })
-                },
-                {
-
-                });
+                }).catch( function(error){
+            
+        });
     };
 
     BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele) {
