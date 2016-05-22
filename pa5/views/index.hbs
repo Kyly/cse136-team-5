@@ -54,13 +54,13 @@
                     <div class="row">
                         <div class="search-bar col-xs-8">
                             <form method="post" action="bookmarks/search">
-                            <input type="search" name="keywords" placeholder="Search">
+                            <input type="search" id="searchwords" name="keywords" placeholder="Search">
                             <i class="fa fa-search" aria-hidden="true" title="Search"></i>
                             </form>
                         </div>
                         <div class="sort-dropdown col-xs-4">
                             <form method="post" action="bookmarks/sort">
-                                <select name="options" onchange='this.form.submit()'>
+                                <select name="options" id="sorto" onchange='this.form.submit()'>
                                     <option>Sort</option>
                                     <option>url</option>
                                     <option>name</option>

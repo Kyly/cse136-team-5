@@ -398,8 +398,18 @@ function search(req, res) {
 }
 
 module.exports.search = function (req, res) {
-    var search       = req.body.keywords;
-    req.query.search = search;
+    //var search       = req.body.keywords;
+    //req.query.search = search;
+    var keywords = document.getElementById('searchwords').value;
+    axios.post('/search', {
+        keywords:keywords
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (response) {
+            console.log(response);
+        });
     renderIndex(req, res);
 };
 
@@ -442,8 +452,18 @@ module.exports.defaultView = function (req, res) {
 };
 
 module.exports.sort = function (req, res) {
-    var option       = req.body.options;
-    req.query.sortBy = option;
+    //var option       = req.body.options;
+    //req.query.sortBy = option;
+    var options = document.getElementById('sorto').value;
+    axios.post('/sort', {
+        sortBy:options
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (response) {
+            console.log(response);
+        });
     renderIndex(req, res);
 };
 
