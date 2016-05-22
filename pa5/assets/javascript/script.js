@@ -62,7 +62,7 @@
     
     app.bookmarkExplorer = new BookmarkExplorer();
     app.bookmarkUploader = new BookmarkUploader();
-    app.bookmarkEdit     = new BookmarkEdit();
+    // app.bookmarkEdit     = new BookmarkEdit();
     app.createFolder     = new CreateFolder();
 
     function CreateFolder() {
@@ -227,22 +227,6 @@
     BookmarkUploader.prototype.remove = function hideBookmarkUploader() {
         hide('bm-upload-file-dialog');
     };
-
-    function BookmarkEdit() {
-        this.template = app.templates['assets/templates/bm-edit-dialog.hbs'];
-    }
-
-    BookmarkEdit.prototype.show = function showBookmarkEdit() {
-        app.show('bm-edit-dialog', this.template);
-    };
-
-    BookmarkEdit.prototype.remove = function removeBookmarkEdit(event) {
-        if (event)
-        {
-            event.preventDefault();
-        }
-
-        hide('bm-edit-dialog');
-    };
+    
 
 })(window);
