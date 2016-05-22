@@ -126,3 +126,4 @@ BookmarkApi.prototype.validate = (bookmark) => {
 };
 
 module.exports = new BookmarkApi();
+

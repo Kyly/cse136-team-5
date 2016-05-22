@@ -169,3 +169,6 @@ axios.post('/api/bookmarks/5', {name: 'Dudiest'}).then(function (payload) {
 
 ## DELETE
 __DELETE__ */api/bookmarks/:bookId* 200 (OK). 404 (Not Found), if ID not found or invalid.
+
+
+insert into Bookmarks values ( 2, 'http://google.com', 'Google', '', '',0,0,1,1, now(), now() )

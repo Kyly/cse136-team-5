@@ -1,3 +1,23 @@
+/**
+ * Created by sagehornung on 5/21/16.
+ */
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+@sagehornung
+Unwatch 1
+Star 0
+Fork 5 Kyly/cse136-team-5
+Code  Issues 0  Pull requests 1  Wiki  Pulse  Graphs
+Branch: master Find file Copy path
+cse136-team-5/pa5/assets/javascript/script.js
+2d951ab  26 minutes ago
+@Kyly Kyly Changed back hashing
+1 contributor
+RawBlameHistory     233 lines (195 sloc)  7.06 KB
 /* Custom element definitions */
 (function () {
     /* Custom element for uploader */
@@ -59,7 +79,7 @@
 (function () {
 
     var app            = this['App'];
-    
+
     app.bookmarkExplorer = new BookmarkExplorer();
     app.bookmarkUploader = new BookmarkUploader();
     // app.bookmarkEdit     = new BookmarkEdit();
@@ -78,12 +98,86 @@
     };
 
     /* Mock Bookmark Service*/
-    function getBookmarks(folderId) {
-        return axios.get('/api/bookmarks?folderId=1').then(function (payload) {
-            // console.log('DOES THIS EVEN WORK', JSON.stringify(payload));
-            // console.log('DOES THIS EVEN WORK TWO', payload );
-            return payload;
-        });
+    function getBookmarks() {
+
+        var bookmarks = {
+            parent: null,
+            name: 'root',
+            url: '',
+            children: [{
+                parent: 'root',
+                name: 'Python Tutorial',
+                url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
+                children: []
+            }, {
+                parent: 'root',
+                name: 'Hightimes',
+                url: 'hhttp://www.hightimes.com/',
+                children: []
+            }, {
+                parent: 'root',
+                name: 'School',
+                url: 'sdklnjln',
+                children: []
+            }, {
+                parent: 'root',
+                name: 'Node JS',
+                url: 'https://nodejs.org/en/',
+                children: []
+            }, {
+                parent: 'root',
+                name: 'Some other page',
+                url: 'https://nodejs.org/en/',
+                children: []
+            }, {
+                parent: 'root',
+                name: 'Exciting Stuff',
+                url: '',
+                children: [{
+                    parent: 'root',
+                    name: 'apple',
+                    url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
+                    children: []
+                }, {
+                    parent: 'root',
+                    name: 'Google Keep',
+                    url: 'hhttp://www.hightimes.com/',
+                    children: []
+                }, {
+                    parent: 'root',
+                    name: 'Netflix',
+                    url: 'sdklnjln',
+                    children: []
+                }, {
+                    parent: 'root',
+                    name: 'Java',
+                    url: 'https://nodejs.org/en/',
+                    children: []
+                }, {
+                    parent: 'root',
+                    name: 'Ocaml',
+                    url: 'https://nodejs.org/en/',
+                    children: []
+                }, {
+                    parent: 'root',
+                    name: 'Cpp Fourms',
+                    url: 'https://nodejs.org/en/',
+                    children: []
+                }, {
+                    parent: 'root',
+                    name: 'Learn CSS',
+                    url: 'https://nodejs.org/en/',
+                    children: []
+                }]
+            }, {
+                parent: 'root',
+                name: 'XXX',
+                url: 'https://nodejs.org/en/',
+                children: []
+            }]
+        };
+
+        return bookmarks;
     }
 
     /* Code for bookmark explorer */
@@ -97,25 +191,31 @@
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference) {
 
         var bookExp   = this;
-        getBookmarks()
-            .then(
-                function (bookmarks) {
-                    console.log('Inside show bookmarks ', bookmarks);
+        var bookmarks = getBookmarks();
 
-                    bookmarks.data.forEach(function (current) {
-                        if (current.url)
-                        {
-                            printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
-                        }
-                        else
-                        {
-                            printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
-                        }
-                    })
-                },
-                {
+        document.getElementById('bookmark-list').innerHTML = "";
 
-                });
+        if (reference == 'top')
+        {
+            current = bookmarks.children;
+        }
+        else
+        {
+
+            current = bookmarks.children[5].children;
+            printBookmarkListItem(bookExp.container, bookExp.subFolderBack, {});
+        }
+
+        current.forEach(function (current) {
+            if (current.url)
+            {
+                printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
+            }
+            else
+            {
+                printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
+            }
+        })
     };
 
     BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele) {
@@ -147,6 +247,8 @@
     BookmarkUploader.prototype.remove = function hideBookmarkUploader() {
         hide('bm-upload-file-dialog');
     };
-    
+
 
 })(window);
+Status API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
