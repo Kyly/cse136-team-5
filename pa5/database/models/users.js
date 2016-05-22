@@ -29,13 +29,14 @@ module.exports = function (sequelize, DataTypes) {
                     hooks: {
                         afterCreate: function (user) {
                             var Bookmarks = sequelize.models.Bookmarks;
-                            Bookmarks.create({
-                                                 name: 'root',
-                                                 userId: user.id,
-                                                 isFolder: true,
-                                                 favorite: false,
-                                                 folderId: null
-                                             });
+                            Bookmarks.create(
+                                {
+                                    name: 'root',
+                                    userId: user.id,
+                                    isFolder: true,
+                                    favorite: false,
+                                    folderId: null
+                                });
                         }
                     }
                 });
