@@ -11,7 +11,7 @@ var auth       = require('./modules/users').auth;
 var users      = require('./routes/users');
 var bookmarks  = require('./routes/bookmarks');
 var api        = require('./routes/bookmarks.api');
-var db          = require('./database/db');
+var db         = require('./database/db');
 db.init();
 var app = express();
 

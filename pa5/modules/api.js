@@ -7,9 +7,22 @@ function BookmarkApi() {
     api = this;
 }
 
+BookmarkApi.prototype.getRootFolder = (req, res, next) => {
+    var session = req.session;
+    var userId = session.uid;
+
+    if (session.folderId) next();
+
+    Bookmarks.find({where: {userId: userId, name: 'root'}}).then((root) => {
+        session.rootId = root.id;
+        next();
+    }).catch((error)=> res.status(500).json({message: error.message})); // TODO Need version for post back
+    
+};
+
 BookmarkApi.prototype.getList = (req, res) => {
     var search   = req.query['search'] ? req.query.search : undefined;
-    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : 1;
+    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : req.session.rootId;
     var sortBy   = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
