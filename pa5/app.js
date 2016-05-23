@@ -1,4 +1,5 @@
 var express      = require('express');
+var compression  = require('compression');
 var path         = require('path');
 var favicon      = require('serve-favicon');
 var logger       = require('morgan');
@@ -22,6 +23,7 @@ app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/assets/img/favicon.ico'));
+app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -65,5 +67,7 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
+
+app.disable('x-powered-by');
 
 module.exports = app;
