@@ -44,6 +44,8 @@ validation-*
 
 # Grunt created javascript file for templates
 assets/javascript/templates.js
+assets/javascript/*.min.js
+assets/javascript/*.min.js.map
 
 # Config file for web app
 config.js

@@ -60,6 +60,10 @@ BookmarkApi.prototype.create = (req, res) => {
     newBookmark.favorite = 0;
     newBookmark.userId   = req.session.uid;
 
+    newBookmark.folderId = newBookmark.folderId
+        ? newBookmark.folderId : req.session.folderId
+                               ? req.session.folderId : req.session.rootId;
+
     var create = Bookmarks.create(newBookmark);
 
     create.then(()=> res.status(204).send());
