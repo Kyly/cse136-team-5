@@ -132,16 +132,23 @@
         });
     };
 
-    BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele) {
+    BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele, id) {
+        var body = {};
         if (ele.classList.contains("fa-star-o"))
         {
             ele.classList.toggle("fa-star-o");
-            ele.classList.add("fa-star")
+            ele.classList.add("fa-star");
+            axios.post('/api/bookmarks/' + id, {favorite: true}).then(function (payload) {
+                console.log(JSON.stringify(payload));
+            });
         }
         else
         {
             ele.classList.toggle("fa-star");
-            ele.classList.add("fa-star-o")
+            ele.classList.add("fa-star-o");
+            axios.post('/api/bookmarks/' + id, {favorite: false}).then(function (payload) {
+                console.log(JSON.stringify(payload));
+            });
         }
     };
 
