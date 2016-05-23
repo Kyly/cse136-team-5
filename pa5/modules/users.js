@@ -2,6 +2,7 @@ var config = require('../config');
 var bcrypt = require('bcrypt');
 var path   = require('path');
 var Users  = require('../database/models').Users;
+const saltRounds = 10;
 
 module.exports.registerForm = function (req, res) {
     res.render('login', {action: 'Register', partialName: 'users/registration-form', error: req.reportedError});
@@ -10,16 +11,15 @@ module.exports.registerForm = function (req, res) {
 module.exports.register = function (req, res, next) {
     var un           = req.body.username;
     var pw           = req.body.password;
-    const saltRounds = 10;
-    var salt         = bcrypt.genSaltSync(saltRounds);
-    var hashed_pw    = bcrypt.hashSync(pw, salt);
+    // var salt         = bcrypt.genSaltSync(saltRounds);
+    // var hashed_pw    = bcrypt.hashSync(pw, salt);
 
     if (un == "" || pw == "")
     {
         return res.redirect('/register');
     }
 
-    Users.create({name: un, password: hashed_pw}).then(function (qRes) {
+    Users.create({name: un, password: pw}).then(function (qRes) {
         console.log(qRes);
         var user = qRes.dataValues;
         console.info('[register] Get user response ', user);

@@ -1,5 +1,5 @@
 var Models    = require('../database/models'), Users = Models.Users, Bookmarks = Models.Bookmarks;
-var validUrl  = require('valid-url');
+var Csv       = require('./csvToJson');
 var Sequelize = require('sequelize');
 var api;
 
@@ -7,9 +7,25 @@ function BookmarkApi() {
     api = this;
 }
 
+BookmarkApi.prototype.getRootFolder = (req, res, next) => {
+    var session = req.session;
+    var userId  = session.uid;
+
+    if (session.folderId)
+    {
+        next();
+    }
+
+    Bookmarks.find({where: {userId: userId, name: 'root'}}).then((root) => {
+        session.rootId = root.id;
+        next();
+    }).catch((error)=> res.status(400).json({message: error.message, errors: error.errors})); // FIXME Need version for post back
+
+};
+
 BookmarkApi.prototype.getList = (req, res) => {
     var search   = req.query['search'] ? req.query.search : undefined;
-    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : 1;
+    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : req.session.rootId;
     var sortBy   = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
@@ -36,18 +52,13 @@ BookmarkApi.prototype.getList = (req, res) => {
 
     query.then((list) => res.json(list));
 
-    query.catch((error) => res.status(500).json({message: error.message}));
+    query.catch((error) => res.status(500).json({message: error.message, errors: error.errors}));
 };
 
 BookmarkApi.prototype.create = (req, res) => {
     var newBookmark      = req.body;
     newBookmark.favorite = 0;
     newBookmark.userId   = req.session.uid;
-    // var validation       = api.validate(newBookmark);
-    // if (!validation.isValid)
-    // {
-    //     return res.status(403).json(validation);
-    // }
 
     var create = Bookmarks.create(newBookmark);
 
@@ -58,10 +69,10 @@ BookmarkApi.prototype.create = (req, res) => {
 
         if (error.name === 'SequelizeUniqueConstraintError')
         {
-            res.status(409).json({type: error.message, message: error.errors[0].message});
+            res.status(409).json({message: error.message, errors: error.errors});
         }
 
-        res.status(403).json({type: error.message, message: error.errors[0].message});
+        res.status(400).json({message: error.message, errors: error.errors});
     });
 };
 
@@ -69,12 +80,6 @@ BookmarkApi.prototype.update = (req, res) => {
     var bookmark    = req.body;
     var id          = parseInt(req.params.bookId);
     bookmark.userId = req.session.uid;
-    // var validation  = api.validate(bookmark);
-    //
-    // if (!validation.isValid)
-    // {
-    //     return res.status(404).json(validation);
-    // }
 
     var update = Bookmarks.update(bookmark, {where: {id: id}});
 
@@ -88,7 +93,7 @@ BookmarkApi.prototype.update = (req, res) => {
     });
 
     update.catch((error) => {
-        res.status(500).json({message: error.message})
+        res.status(400).json({message: error.message, errors: error.errors})
     });
 };
 
@@ -108,21 +113,98 @@ BookmarkApi.prototype.delete = (req, res) => {
     });
 
     destroy.catch((error) => {
-        res.status(500).json({message: error.message})
+        res.status(400).json({message: error.message, errors: error.errors})
     });
 
 };
 
-BookmarkApi.prototype.validate = (bookmark) => {
-    var validation = {isValid: true};
-    if (bookmark.url && !validUrl.isUri(bookmark.url))
+BookmarkApi.prototype.parseFile = (req, res) => {
+
+    if (!req.file || !req.file.buffer)
     {
-        validation.isValid = false;
-        validation.message = `Uri ${bookmark.uri} is not a valid URI`;
-        return validation;
+        res.status(400).json({message: 'No file received'});
+        return;
     }
 
-    return validation;
-};
+    Csv.parseCSVFile(req.file.buffer, onNewRecord,
+                     (error) => {
+                         res.status(400).json({message: error.message});
+                     },
+                     () => {
+                         console.log('Done reading csv');
+                     });
+
+    function onNewRecord(bookmarks) {
+
+        bookmarks.forEach((bookmark) => {
+            bookmark.userId = req.session.uid;
+        });
+
+        var bulkCreate = Bookmarks.bulkCreate(bookmarks);
+
+        bulkCreate.then((created) => {
+            console.log(created);
+            res.status(204).send();
+        });
+
+        bulkCreate.catch((error) => {
+            if (error.name === 'SequelizeUniqueConstraintError')
+            {
+                res.status(409).json({message: error.message, errors: error.errors});
+            }
+
+            res.status(400).json({message: error.message, errors: error.errors});
+        });
+        // for (var key in record)
+        // {
+        //     if (!record.hasOwnProperty(key))
+        //     {
+        //         continue;
+        //     }
+        //
+        //     record[key].uid = req.session.uid;
+        //     insertBookmark(record[key], function (err) {
+        //         console.error(err);
+        //         req.reportedError = err;
+        //     }, function (el) {
+        //         console.log(`Successfully inserted ${JSON.stringify(el)}`);
+        //     });
+        // }
+    }
+
+}
+;
+//
+// function onNewRecord(bookmarks) {
+//
+//     bookmarks.forEach((bookmark) => {
+//         bookmark.userId = req.session.uid;
+//     });
+//
+//     var bulkCreate = Bookmarks.bulkCreate(bookmarks);
+//
+//     bulkCreate.then((created) => {
+//         console.log(created);
+//         res.status(204).send();
+//     });
+//
+//     bulkCreate.catch((error) => res.status(400).json({message: error.message}));
+//     // for (var key in record)
+//     // {
+//     //     if (!record.hasOwnProperty(key))
+//     //     {
+//     //         continue;
+//     //     }
+//     //
+//     //     record[key].uid = req.session.uid;
+//     //     insertBookmark(record[key], function (err) {
+//     //         console.error(err);
+//     //         req.reportedError = err;
+//     //     }, function (el) {
+//     //         console.log(`Successfully inserted ${JSON.stringify(el)}`);
+//     //     });
+//     // }
+// }
 
 module.exports = new BookmarkApi();
+

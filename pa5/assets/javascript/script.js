@@ -78,86 +78,17 @@
     };
 
     /* Mock Bookmark Service*/
-    function getBookmarks() {
-
-        var bookmarks = {
-            parent: null,
-            name: 'root',
-            url: '',
-            children: [{
-                parent: 'root',
-                name: 'Python Tutorial',
-                url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
-                children: []
-            }, {
-                parent: 'root',
-                name: 'Hightimes',
-                url: 'hhttp://www.hightimes.com/',
-                children: []
-            }, {
-                parent: 'root',
-                name: 'School',
-                url: 'sdklnjln',
-                children: []
-            }, {
-                parent: 'root',
-                name: 'Node JS',
-                url: 'https://nodejs.org/en/',
-                children: []
-            }, {
-                parent: 'root',
-                name: 'Some other page',
-                url: 'https://nodejs.org/en/',
-                children: []
-            }, {
-                parent: 'root',
-                name: 'Exciting Stuff',
-                url: '',
-                children: [{
-                    parent: 'root',
-                    name: 'apple',
-                    url: 'http://www.fromdev.com/2014/03/python-tutorials-resources.html',
-                    children: []
-                }, {
-                    parent: 'root',
-                    name: 'Google Keep',
-                    url: 'hhttp://www.hightimes.com/',
-                    children: []
-                }, {
-                    parent: 'root',
-                    name: 'Netflix',
-                    url: 'sdklnjln',
-                    children: []
-                }, {
-                    parent: 'root',
-                    name: 'Java',
-                    url: 'https://nodejs.org/en/',
-                    children: []
-                }, {
-                    parent: 'root',
-                    name: 'Ocaml',
-                    url: 'https://nodejs.org/en/',
-                    children: []
-                }, {
-                    parent: 'root',
-                    name: 'Cpp Fourms',
-                    url: 'https://nodejs.org/en/',
-                    children: []
-                }, {
-                    parent: 'root',
-                    name: 'Learn CSS',
-                    url: 'https://nodejs.org/en/',
-                    children: []
-                }]
-            }, {
-                parent: 'root',
-                name: 'XXX',
-                url: 'https://nodejs.org/en/',
-                children: []
-            }]
-        };
-
-        return bookmarks;
+    function getBookmarks(folderId) {
+        if(folderId) {
+            return axios.get('/api/bookmarks?folderId=' + folderId).then(function (payload) {
+                return payload;
+            });
+        }
+        else {
+            return axios.get('/api/bookmarks').then(function (payload) {
+                return payload;
+            });
+        }
     }
 
     /* Code for bookmark explorer */
@@ -170,32 +101,29 @@
 
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference) {
 
+        console.log('this is the reference ', reference);
+        console.log('this is the container ', this.container.innerHTML)
         var bookExp   = this;
-        var bookmarks = getBookmarks();
+        bookExp.container.innerHTML = '';
+        console.log('this is the container after ', this.container.innerHTML)
+        getBookmarks(reference)
+            .then(
+                function (bookmarks) {
+                    console.log('Inside show bookmarks ', bookmarks);
 
-        document.getElementById('bookmark-list').innerHTML = "";
-
-        if (reference == 'top')
-        {
-            current = bookmarks.children;
-        }
-        else
-        {
-
-            current = bookmarks.children[5].children;
-            printBookmarkListItem(bookExp.container, bookExp.subFolderBack, {});
-        }
-
-        current.forEach(function (current) {
-            if (current.url)
-            {
-                printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
-            }
-            else
-            {
-                printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
-            }
-        })
+                    bookmarks.data.forEach(function (current) {
+                        if (current.url)
+                        {
+                            printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
+                        }
+                        else
+                        {
+                            printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
+                        }
+                    })
+                }).catch( function(error){
+            
+        });
     };
 
     BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele) {

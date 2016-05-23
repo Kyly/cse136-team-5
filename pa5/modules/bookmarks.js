@@ -62,10 +62,10 @@ var list = module.exports.list = function (req, res) {
 function renderIndex(req, res, scopeCallBack) {
 
     var sql;
-    var search   = req.query['search'] ? req.query.search : null;
+    var search       = req.query['search'] ? req.query.search : null;
     var prevFolderId = req.session.folderId || 1;
-    var folderId = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : 1;
-    var sortBy   = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
+    var folderId     = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : req.session.rootId;
+    var sortBy       = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
 
     req.session.folderId = folderId;
     req.session.sortBy   = sortBy;
@@ -94,7 +94,7 @@ function renderIndex(req, res, scopeCallBack) {
             getFolders(bookmarks);
         }
 
-        var showBack = parseInt(folderId) != 1;
+        var showBack = parseInt(folderId) != req.session.rootId;
         console.error(showBack);
 
         var scope = {
@@ -121,22 +121,30 @@ function renderIndex(req, res, scopeCallBack) {
 }
 
 module.exports.getBookmarks = function (req, res, next) {
-    var uid       = req.session.uid;
-    var sqlSelect = sqlQuery.select();
+    var uid = req.session.uid;
 
-    var sql = sqlSelect.from('Bookmarks').where({uid: uid}).build();
-    console.log(sql);
+    var bookmarks = Bookmarks
+        .findAll(
+            {
+                where: {
+                    userId: uid,
+                    isFolder: {$not: true}
+                },
+                attributes: ['name', 'url', 'description', 'keywords', 'favorite']
+            }
+        );
 
-    db.query(sql, function (err, bookmarks) {
-        if (err)
-        {
-            req.reportedError = err;
-            console.error(err);
-        }
-
+    bookmarks.then((bookmarks) => {
         req.bookmarks = bookmarks;
         next();
     });
+
+    bookmarks.catch((error) => {
+        req.reportedError = error;
+        console.error(error);
+        next();
+    });
+
 };
 
 module.exports.getCSV = function (req, res) {

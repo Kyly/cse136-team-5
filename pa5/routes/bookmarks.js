@@ -1,9 +1,10 @@
 var express   = require('express');
 var bookmarks = require('../modules/bookmarks');
-var upload      = require('../modules/fileUploader').upload;
+var api       = require('../modules/api');
+var upload    = require('../modules/fileUploader').upload;
 var router    = express.Router();
 
-router.get('/', bookmarks.list);
+router.get('/', api.getRootFolder, bookmarks.list);
 router.post('/', bookmarks.add);
 router.post('/folder', bookmarks.addFolder);
 router.post('/edit/:bookId(\\d+)', bookmarks.edit);
