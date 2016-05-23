@@ -3,8 +3,8 @@ module.exports = function (sequelize, DataTypes) {
     var Bookmarks = sequelize
         .define('Bookmarks',
                 {
-                    url: {type: DataTypes.STRING, isUrl: true},
-                    name: {type: DataTypes.STRING, unique: 'compositeIndex'},
+                    url: {type: DataTypes.STRING, isUrl: true, allowNull: false},
+                    name: {type: DataTypes.STRING, unique: 'compositeIndex', allowNull: false},
                     description: DataTypes.TEXT,
                     keywords: DataTypes.STRING,
                     favorite: {type: DataTypes.BOOLEAN, defaultValue: false},

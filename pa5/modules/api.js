@@ -13,7 +13,7 @@ BookmarkApi.prototype.getRootFolder = (req, res, next) => {
 
     if (session.folderId)
     {
-        next();
+        return next();
     }
 
     Bookmarks.find({where: {userId: userId, name: 'root'}}).then((root) => {
@@ -69,7 +69,7 @@ BookmarkApi.prototype.create = (req, res) => {
 
         if (error.name === 'SequelizeUniqueConstraintError')
         {
-            res.status(409).json({message: error.message, errors: error.errors});
+            return res.status(409).json({message: error.message, errors: error.errors});
         }
 
         res.status(400).json({message: error.message, errors: error.errors});
@@ -155,55 +155,8 @@ BookmarkApi.prototype.parseFile = (req, res) => {
 
             res.status(400).json({message: error.message, errors: error.errors});
         });
-        // for (var key in record)
-        // {
-        //     if (!record.hasOwnProperty(key))
-        //     {
-        //         continue;
-        //     }
-        //
-        //     record[key].uid = req.session.uid;
-        //     insertBookmark(record[key], function (err) {
-        //         console.error(err);
-        //         req.reportedError = err;
-        //     }, function (el) {
-        //         console.log(`Successfully inserted ${JSON.stringify(el)}`);
-        //     });
-        // }
     }
 
-}
-;
-//
-// function onNewRecord(bookmarks) {
-//
-//     bookmarks.forEach((bookmark) => {
-//         bookmark.userId = req.session.uid;
-//     });
-//
-//     var bulkCreate = Bookmarks.bulkCreate(bookmarks);
-//
-//     bulkCreate.then((created) => {
-//         console.log(created);
-//         res.status(204).send();
-//     });
-//
-//     bulkCreate.catch((error) => res.status(400).json({message: error.message}));
-//     // for (var key in record)
-//     // {
-//     //     if (!record.hasOwnProperty(key))
-//     //     {
-//     //         continue;
-//     //     }
-//     //
-//     //     record[key].uid = req.session.uid;
-//     //     insertBookmark(record[key], function (err) {
-//     //         console.error(err);
-//     //         req.reportedError = err;
-//     //     }, function (el) {
-//     //         console.log(`Successfully inserted ${JSON.stringify(el)}`);
-//     //     });
-//     // }
-// }
+};
 
 module.exports = new BookmarkApi();
