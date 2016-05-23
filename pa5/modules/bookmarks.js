@@ -408,9 +408,10 @@ function search(req, res) {
 module.exports.search = function (req, res) {
     //var search       = req.body.keywords;
     //req.query.search = search;
-    var keywords = document.getElementById('searchwords').value;
+    var keywords = document.getElementById('searchwords');
+    var text = keywords.options[keywords.selectedIndex].text;
     axios.post('/search', {
-        keywords:keywords
+        keywords:text
         })
         .then(function (response) {
             console.log(response);
@@ -462,9 +463,10 @@ module.exports.defaultView = function (req, res) {
 module.exports.sort = function (req, res) {
     //var option       = req.body.options;
     //req.query.sortBy = option;
-    var options = document.getElementById('sorto').value;
+    var e = document.getElementById('sorto');
+    var text = e.options[e.selectedIndex].text;
     axios.post('/sort', {
-        sortBy:options
+        sortBy:text
         })
         .then(function (response) {
             console.log(response);
