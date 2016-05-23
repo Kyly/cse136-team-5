@@ -410,14 +410,12 @@ module.exports.search = function (req, res) {
     //req.query.search = search;
     var keywords = document.getElementById('searchwords');
     var text = keywords.options[keywords.selectedIndex].text;
-    axios.post('/search', {
-        keywords:text
+    axios.post('/search', {  keywords:text   })
+        .then(function (payload) {
+            console.log(JSON.stringify(payload));
         })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (response) {
-            console.log(response);
+        .catch(function (payload) {
+            console.log(JSON.stringify(payload));
         });
     renderIndex(req, res);
 };
@@ -465,14 +463,12 @@ module.exports.sort = function (req, res) {
     //req.query.sortBy = option;
     var e = document.getElementById('sorto');
     var text = e.options[e.selectedIndex].text;
-    axios.post('/sort', {
-        sortBy:text
+    axios.post('/sort', { sortBy:text  })
+        .then(function (payload) {
+            console.log(JSON.stringify(payload));
         })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (response) {
-            console.log(response);
+        .catch(function (payload) {
+            console.log(JSON.stringify(payload));
         });
     renderIndex(req, res);
 };
