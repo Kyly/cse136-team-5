@@ -1,7 +1,7 @@
 <bm-upload-file-dialog class="dialog">
     <div class="dialog-header">
         <div class="dialog-title">Upload</div>
-        <bm-dialog-close><span onclick="App.bookmarkUploader.remove()" class="fa fa-times"></span></bm-dialog-close>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-upload-file-dialog')" class="fa fa-times"></span></bm-dialog-close>
     </div>
     <bm-dialog-body class="drag-and-drop-container">
         <div class="drag-and-drop-inner">

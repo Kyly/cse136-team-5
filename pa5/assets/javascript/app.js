@@ -1,20 +1,19 @@
 /* Classes for elements - Everything gets attached to App class */
 (function () {
-    var App             = this['App'];
+    var app = this.app = this['App'];
+
     var dialogContainer = document.getElementById('bookmark-dialog');
-    
-    /* Show hide functionality */
-    App.hide = function hide(tag) {
-        var elements = document.getElementsByTagName(tag);
-        /* Check if element is present */
-        if (elements.length !== 0)
+
+    app.remove = function remove(event, el, tag) {
+        if (event)
         {
-            var element           = elements[0];
-            element.style.display = 'none';
+            event.preventDefault();
         }
+        var parent = app.getParentByTagName(el, tag);
+        dialogContainer.removeChild(parent);
     };
-    
-    App.show = function show(tag, template, context) {
+
+    app.show = function show(tag, template, context) {
 
         context = context || {};
 
@@ -36,7 +35,7 @@
         dialogContainer.insertAdjacentHTML('afterbegin', template(context));
     };
 
-    App.displayAsFirstChild = function displayAsFirstChild(element) {
+    app.displayAsFirstChild = function displayAsFirstChild(element) {
         var firstChild = dialogContainer.firstChild;
 
         /* Shows element as the first child */
@@ -44,9 +43,29 @@
         element.style.display = 'flex';
     };
 
-    App.getDisplay = function getDisplay(element) {
+    app.getDisplay = function getDisplay(element) {
         return element.currentStyle ? element.currentStyle.display :
                getComputedStyle(element, null).display;
     };
 
+    app.getParentByTagName = function getParentByTagName(node, tagname) {
+        var parent;
+        if (node === null || tagname === '')
+        {
+            return;
+        }
+        parent  = node.parentNode;
+        tagname = tagname.toUpperCase();
+
+        while (parent.tagName !== "HTML")
+        {
+            if (parent.tagName === tagname)
+            {
+                return parent;
+            }
+            parent = parent.parentNode;
+        }
+
+        return parent;
+    }
 })(window);
