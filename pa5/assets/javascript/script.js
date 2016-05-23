@@ -52,6 +52,13 @@
     });
 
     document.body.appendChild(new bmCreateFolderDialog());
+    
+    var bmErrorDialog = document.registerElement('bm-error-dialog', {
+        prototype: Object.create(HTMLButtonElement.prototype),
+        extends: 'div'
+    });
+    
+    document.body.appendChild(new bmErrorDialog());
 
 })(window);
 
@@ -64,6 +71,23 @@
     app.bookmarkUploader = new BookmarkUploader();
     // app.bookmarkEdit     = new BookmarkEdit();
     app.createFolder     = new CreateFolder();
+    app.errorDialog      = new ErrorDialog();		
+    		
+    function ErrorDialog() {		
+        this.template = app.templates['assets/templates/bm-error-dialog.hbs'];		
+    }		
+    		
+    ErrorDialog.prototype.show = function showErrorDialog(error) {		
+        app.show('bm-error-dialog', this.template);		
+        console.log(error);		
+        document.getElementById('error-dialog-name-value').innerHTML = error.name;		
+        document.getElementById('error-dialog-code-value').innerHTML = error.code;		
+        document.getElementById('error-dialog-message-value').innerHTML = error.message;		
+    }		
+    		
+    ErrorDialog.prototype.remove = function hideErrorDialog() {		
+        hide('bm-error-dialog');		
+    }
 
     function CreateFolder() {
         this.template = app.templates['assets/templates/bm-create-folder.hbs'];
