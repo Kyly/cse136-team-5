@@ -160,3 +160,4 @@ BookmarkApi.prototype.parseFile = (req, res) => {
 };
 
 module.exports = new BookmarkApi();
+
