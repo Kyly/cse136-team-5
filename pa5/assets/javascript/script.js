@@ -99,13 +99,19 @@
         this.subFolderBack  = app.templates['assets/templates/bookmark-sub-back.hbs'];
     }
 
-    BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference) {
-
+    BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference, parent) {
+        
         console.log('this is the reference ', reference);
-        console.log('this is the container ', this.container.innerHTML)
+        //console.log('this is the container ', this.container.innerHTML);
         var bookExp   = this;
         bookExp.container.innerHTML = '';
-        console.log('this is the container after ', this.container.innerHTML)
+        //console.log('this is the container after ', this.container.innerHTML);
+        
+        if (parent) {
+            var  context = {parent: parent};
+            bookExp.container.innerHTML += bookExp.subFolderBack(context);
+        }
+        
         getBookmarks(reference)
             .then(
                 function (bookmarks) {
