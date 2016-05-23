@@ -406,8 +406,17 @@ function search(req, res) {
 }
 
 module.exports.search = function (req, res) {
-    var search       = req.body.keywords;
-    req.query.search = search;
+    //var search       = req.body.keywords;
+    //req.query.search = search;
+    var keywords = document.getElementById('searchwords');
+    var text = keywords.options[keywords.selectedIndex].text;
+    axios.post('/search', {  keywords:text   })
+        .then(function (payload) {
+            console.log(JSON.stringify(payload));
+        })
+        .catch(function (payload) {
+            console.log(JSON.stringify(payload));
+        });
     renderIndex(req, res);
 };
 
@@ -450,8 +459,17 @@ module.exports.defaultView = function (req, res) {
 };
 
 module.exports.sort = function (req, res) {
-    var option       = req.body.options;
-    req.query.sortBy = option;
+    //var option       = req.body.options;
+    //req.query.sortBy = option;
+    var e = document.getElementById('sorto');
+    var text = e.options[e.selectedIndex].text;
+    axios.post('/sort', { sortBy:text  })
+        .then(function (payload) {
+            console.log(JSON.stringify(payload));
+        })
+        .catch(function (payload) {
+            console.log(JSON.stringify(payload));
+        });
     renderIndex(req, res);
 };
 
