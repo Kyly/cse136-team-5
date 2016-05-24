@@ -37,10 +37,7 @@
              })
              .then(function (res) {
                  console.log(res);
-                if(res.status == 204){
-                    console.log("SUCCESFUL REQUEST");
-                }
-
+                app.bookmarkExplorer.showBookmarks();
              })
              .catch(function (res) {
                  console.log(res);
@@ -73,6 +70,7 @@
              })
              .then(function (res) {
                  console.log(res);
+                 app.bookmarkExplorer.showBookmarks();
              })
              .catch(function (res) {
                  console.log(res);
