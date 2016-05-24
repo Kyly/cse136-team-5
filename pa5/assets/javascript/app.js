@@ -22,13 +22,7 @@
         if (elements.length !== 0)
         {
             var element = elements[0];
-            /* Check if element is shown */
-            if (getDisplay(element) === 'none')
-            {
-                displayAsFirstChild(element);
-            }
-
-            return;
+            app.remove(null, element, tag);
         }
 
         /* Inserts html as first child element */
