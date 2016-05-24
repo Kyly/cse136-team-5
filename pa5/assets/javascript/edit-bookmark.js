@@ -3,7 +3,7 @@
     app.bookmarkEdit = new BookmarkEdit();
 
     function BookmarkEdit() {
-        this.template = app.templates['/assets/templates/bm-edit-dialog.hbs'];
+        this.template = app.templates['assets/templates/bm-edit-dialog.hbs'];
     }
 
     BookmarkEdit.prototype.show = function showBookmarkEdit() {

@@ -9,14 +9,5 @@
         app.show('bm-create-folder-dialog', this.template);
     };
     
-    /* Bookmark uploader */
-    function BookmarkUploader() {
-        this.template = app.templates['assets/templates/upload-file.hbs'];
-    }
-
-    BookmarkUploader.prototype.show = function showBookmarkUploader() {
-        app.show('bm-upload-file-dialog', this.template);
-    };
-
     app.createFolder = new CreateFolder();
 })(window);
