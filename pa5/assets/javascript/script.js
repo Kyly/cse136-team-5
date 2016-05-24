@@ -136,24 +136,28 @@
             bookExp.container.innerHTML += bookExp.subFolderBack(context);
         }
         
-        getBookmarks(reference)
-            .then(
-                function (bookmarks) {
-                    console.log('Inside show bookmarks ', bookmarks);
+        getBookmarks(reference).then( function (bookmarks)
+        {
+            console.log('Inside show bookmarks ', bookmarks);
 
-                    bookmarks.data.forEach(function (current) {
-                        if (current.url)
-                        {
-                            printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
-                        }
-                        else
-                        {
-                            printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
-                        }
-                    })
-                }).catch( function(error){
-            
-        });
+            bookmarks.data.forEach(function (current) {
+                if (current.url)
+                {
+                    printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
+                }
+                else
+                {
+                    printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
+                }
+            })
+        }).catch( function(error){
+            console.log(error);
+            });
+    };
+
+    BookmarkExplorer.prototype.sortBookmarks = function (type)
+    {
+
     };
 
     BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele, id) {
@@ -175,6 +179,7 @@
             });
         }
     };
+
 
     function printBookmarkListItem(container, template, context) {
         container.innerHTML += template(context);
