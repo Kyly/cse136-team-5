@@ -1,0 +1,17 @@
+<bm-error-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title"><span class="fa fa-exclamation-triangle"></span>&nbsp;{{name}} {{statusCode}}</div>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-error-dialog')" class="fa fa-times"></span>
+        </bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <div class="row error-content">
+            {{message}}
+        </div>
+        <div class="row">
+            <section class="press">
+                <a href="javascript: void(0)" onclick="app.remove(event, this, 'bm-error-dialog')" class="button">OK</a>
+            </section>
+        </div>
+    </bm-dialog-body>
+</bm-error-dialog>

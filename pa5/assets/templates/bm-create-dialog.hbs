@@ -1,8 +1,10 @@
 <bm-create-dialog class="dialog">
+
     <div class="dialog-header">
         <div class="dialog-title">Create</div>
-        <bm-dialog-close><span onclick="App.bookmarkCreate.remove(event)" class="fa fa-times"></span></bm-dialog-close>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-create-dialog')" class="fa fa-times"></span></bm-dialog-close>
     </div>
+
     <bm-dialog-body>
         <form class="dialog-form" id="create-bookmark-form">
             <div class="row">
@@ -35,7 +37,7 @@
             </div>
             <div class="row">
                 <section class="press">
-                    <button type="button" onclick="App.bookmarkCreate.addBookmarkRequest(event, this)">Create</button>
+                    <button type="button" onclick="app.bookmarkCreate.addBookmarkRequest(event, this)">Create</button>
                 </section>
             </div>
         </form>

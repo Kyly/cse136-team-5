@@ -37,9 +37,23 @@
              })
              .then(function (res) {
                  console.log(res);
+                if(res.status == 204){
+                    console.log("SUCCESFUL REQUEST");
+                }
+
              })
              .catch(function (res) {
                  console.log(res);
+                if(res.status == 401) {
+                    window.location.href = 'users/login';
+                }
+                var error = {
+                    name: res.data.message,
+                    code: res.status,
+                    message: res.data.errors[0].message
+                };
+            
+                App.errorDialog.show(error);
              });
 
         if (event)
@@ -50,11 +64,8 @@
     };
 
     BookmarkCreate.prototype.addFolderRequest = function addFolderRequest(event, element) {
-        console.log("ADD FOLDER");
-        var name = document.getElementById("create-folder-form").elements.namedItem("name").value;
-        console.log(name);
-        var description = document.getElementById("create-folder-form").elements.namedItem("description").value;
-        console.log(description);
+        var name = element.form.name.value;
+        var description = element.form.description.value;
         if (description == "")
         {
             description = "NULL";
@@ -69,6 +80,17 @@
              })
              .catch(function (res) {
                  console.log(res);
+                if(res.status == 401) {
+                    window.location.href = 'users/login';
+                }
+
+                var error = {
+                    name: res.data.message,
+                    code: res.status,
+                    message: res.data.errors[0].message
+                };
+            
+                App.errorDialog.show(error);
              });
 
         if (event)

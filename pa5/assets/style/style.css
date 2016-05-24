@@ -633,10 +633,20 @@ bm-create-dialog, bm-edit-dialog, bm-error-dialog, bm-confirm-delete {
     /*text-align: center;*/
 }
 
-bm-error-dialog {
-    color: #dba100 !important;
+bm-error-dialog .dialog-title {
+    color: #dba100;
 }
 
+bm-error-dialog .error-content {
+    display: flex;
+    justify-content: center;
+    font-size: 1.4em;
+    color: white;
+    margin: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 1em;
+}
 bm-error-dialog bm-dialog-body {
     display: initial;
     padding: 1em;
