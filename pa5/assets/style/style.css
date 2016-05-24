@@ -998,3 +998,7 @@ header.login-header {
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+.back-cursor {
+    cursor:pointer;
+}
