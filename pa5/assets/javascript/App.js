@@ -4,7 +4,7 @@
     history.pushState({ login: '' }, 'index', '/');
 
     var app = this.app = this['App'];
-    var dialogContainer = document.getElementById('bookmark-dialog');
+    var dialogContainer = app.dialogContainer = document.getElementById('bookmark-dialog');
 
     app.remove = function remove(event, el, tag) {
         if (event)

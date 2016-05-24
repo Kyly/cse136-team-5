@@ -49,7 +49,7 @@ BookmarkApi.prototype.getList = (req, res) => {
     if (search)
     {
         bookmarks.where.name = {
-            $like: `%${search}%` 
+            $like: `%${search}%`
         }
     }
 
@@ -159,10 +159,10 @@ BookmarkApi.prototype.parseFile = (req, res) => {
         bulkCreate.catch((error) => {
             if (error.name === 'SequelizeUniqueConstraintError')
             {
-                res.status(409).json({message: error.message, errors: error.errors});
+                res.status(409).json({name: error.message, message: error.errors[0].message});
             }
 
-            res.status(400).json({message: error.message, errors: error.errors});
+            res.status(400).json({name: error.message, message: error.errors[0].message});
         });
     }
 
