@@ -38,6 +38,7 @@
              .then(function (res) {
                  console.log(res);
                 if(res.status == 204){
+                    app.bookmarkExplorer.showBookmarks();
                     console.log("SUCCESFUL REQUEST");
                 }
 
@@ -60,7 +61,7 @@
         {
             event.preventDefault();
         }
-
+        app.remove(event, element, 'bm-create-dialog');
     };
 
     BookmarkCreate.prototype.addFolderRequest = function addFolderRequest(event, element) {
@@ -73,6 +74,7 @@
              })
              .then(function (res) {
                  console.log(res);
+                 app.bookmarkExplorer.showBookmarks();
              })
              .catch(function (res) {
                  console.log(res);
@@ -93,7 +95,7 @@
         {
             event.preventDefault();
         }
-
+        app.remove(event, element, 'bm-create-folder-dialog');
     }
 
 })(window);
