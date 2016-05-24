@@ -19,4 +19,5 @@
     };
 
     app.createFolder = new CreateFolder();
+    
 })(window);

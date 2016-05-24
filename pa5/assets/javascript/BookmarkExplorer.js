@@ -23,7 +23,7 @@
     }
 
     BookmarkExplorer.prototype.getById = function (id) {
-        return _.find(bookExp.bookmarks, function(o) { return o.id = id; });
+        return _.find(bookExp.bookmarks, function(o) { return o.id === id; });
     };
 
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId, parentId) {
@@ -99,6 +99,7 @@
         var elements = event.type === 'change' ? element.form : element.elements;
         urlArr.push('?search=' + elements.search.value);
         urlArr.push('&sortBy=' + elements.options.value);
+        
         var url = urlArr.join('');
         axios.get(url).then(dislplayBookmarks, app.errorDialog.show);
     };

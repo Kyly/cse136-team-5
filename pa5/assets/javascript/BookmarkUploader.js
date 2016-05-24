@@ -11,4 +11,5 @@
     };
 
     app.bookmarkUploader = new BookmarkUploader();
+    
 })(window);
