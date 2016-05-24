@@ -28,13 +28,13 @@
             </div>
             <div class="row">
                 <select name="folderId" class="dialog-select dialog-input">
-                    <option value="1" selected="selected">Select folder</option>
-                    <option>Folder 1</option>
-                    <option>Folder 1</option>
-                    <option>Porn</option>
-                    <option>NSFL</option>
+                    <option  value="1" selected="selected">Select folder</option>
+                    {{#each folders}}
+                        <option value="{{this.this.id}}">{{this.this.name}}</option>
+                    {{/each}}
                 </select>
             </div>
+
             <div class="row">
                 <section class="press">
                     <button type="button" onclick="app.bookmarkCreate.addBookmarkRequest(event, this)">Create</button>

@@ -18,7 +18,8 @@
         if(bookmark.url == null) {
             bookmark.url = "";
         }
-        
+        var folders = app.bookmarkExplorer.folders;
+        bookmark.folders = folders;
         app.show('bm-edit-dialog', this.template, bookmark);
     };
 

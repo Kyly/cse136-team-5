@@ -2,13 +2,20 @@
     var app            = this['App'];
     app.bookmarkCreate = new BookmarkCreate();
 
+    
+    
     /* Bookmark create */
     function BookmarkCreate() {
+        
         this.template = app.templates['assets/templates/bm-create-dialog.hbs'];
+        
     }
 
     BookmarkCreate.prototype.show = function showBookmarkCreate() {
-        app.show('bm-create-dialog', this.template);
+        var folders = app.bookmarkExplorer.folders;
+        var context = {'folders': folders};
+        console.log('folders ', folders);
+        app.show('bm-create-dialog', this.template, context);
     };
 
     BookmarkCreate.prototype.remove = function removeBookmarkCreate(event) {
