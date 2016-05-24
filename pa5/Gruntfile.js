@@ -49,13 +49,12 @@ module.exports = function (grunt) {
                             'assets/lib/axios/dist/axios.js',
                             'assets/lib/handlebars/handlebars.js',
                             'assets/javascript/templates.js',
-                            'assets/javascript/components.js',
-                            'assets/javascript/app.js',
-                            'assets/javascript/explorer-bookmark.js',
-                            'assets/javascript/script.js',
-                            'assets/javascript/error-massage.js',
-                            'assets/javascript/create-bookmark.js',
-                            'assets/javascript/edit-bookmark.js'
+                            'assets/javascript/Components.js',
+                            'assets/javascript/App.js',
+                            'assets/javascript/BookmarkExplorer.js',
+                            'assets/javascript/ErrorDialog.js',
+                            'assets/javascript/BookmarkCreate.js',
+                            'assets/javascript/BookmarkEdit.js'
                             /* Added modules here */
                         ]
                     }

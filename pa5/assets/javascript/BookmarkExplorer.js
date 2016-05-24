@@ -1,6 +1,6 @@
 (function () {
-    var app              = this['App'];
-    app.bookmarkExplorer = new BookmarkExplorer();
+
+    var app = this['App'];
     var bookExp;
 
     function BookmarkExplorer() {
@@ -21,16 +21,16 @@
         return axios.get('/api/bookmarks');
     }
 
-    BookmarkExplorer.prototype.showBookmarks = function showBookmarks(reference, parent) {
-        console.log('this is the reference ', reference);
+    BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId, parentId) {
+        console.log('this is the folderId ', folderId);
         bookExp.container.innerHTML = '';
 
-        if (parent)
+        if (parentId)
         {
-            sessionStorage.setItem('parentId', parent);
+            sessionStorage.setItem('parentId', parentId);
         }
 
-        getBookmarks(reference).then(dislplayBookmarks, app.errorDialog.show);
+        getBookmarks(folderId).then(dislplayBookmarks, app.errorDialog.show);
     };
 
     function dislplayBookmarks(bookmarks) {
@@ -81,5 +81,7 @@
     function printBookmarkListItem(container, template, context) {
         container.innerHTML += template(context);
     }
+
+    app.bookmarkExplorer = new BookmarkExplorer();
 
 })(window);
