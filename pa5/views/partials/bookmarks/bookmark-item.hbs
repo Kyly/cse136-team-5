@@ -2,7 +2,7 @@
     <div class="bookmark-item split-list" >
         <div>
             <a class="bookmark-link" href="{{url}}" target="_blank">
-                <span class="fa fa-bookmark bookmark-icons hand"></span> {{ name }}
+                <span class="fa fa-bookmark bookmark-icons hand"></span> HI {{ name }}
             </a>
         </div>
        <div>
@@ -12,7 +12,8 @@
                {{else}}
                   <span class="fa fa-star-o edit-favorite-icons hand" ></span>  
                {{/if}}</a>
-           <a title="Edit" class="action-button" href="/bookmarks/editbookmark?id={{id}}"><span class="fa fa-edit edit-favorite-icons hand"></span></a>
+           
+           <span class="fa fa-edit edit-favorite-icons hand" onclick="app.bookmarkEdit.show(event, {{id}})"></span>
        </div>
     </div>
 </li>

@@ -25,8 +25,9 @@
         {
             var element = elements[0];
             app.remove(null, element, tag);
-        }
 
+        }
+        //console.log(id);
         /* Inserts html as first child element */
         dialogContainer.insertAdjacentHTML('afterbegin', template(context));
     };
