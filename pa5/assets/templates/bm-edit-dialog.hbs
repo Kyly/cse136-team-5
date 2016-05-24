@@ -1,7 +1,7 @@
 <bm-edit-dialog class="dialog">
     <div class="dialog-header">
         <div class="dialog-title">Edit</div>
-        <bm-dialog-close><span onclick="App.bookmarkEdit.remove()" class="fa fa-times"></span></bm-dialog-close>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-edit-dialog')" class="fa fa-times"></span></bm-dialog-close>
     </div>
     <bm-dialog-body>
         <form class="dialog-form">
@@ -35,8 +35,8 @@
             </div>
             <div class="row">
                 <section class="press">
-                    <button onclick="App.bookmarkEdit.remove(event); return false;">delete</button>
-                    <button onclick="App.bookmarkEdit.remove(event); return false;">apply</button>
+                    <button onclick="app.remove(event, this)">delete</button>
+                    <button onclick="app.bookmarkEdit.apply(event, this)">apply</button>
                 </section>
             </div>
         </form>

@@ -1,32 +1,17 @@
 <bm-error-dialog class="dialog">
-    <!-- TODO close button -->
     <div class="dialog-header">
-        <div class="dialog-title">Error</div>
-        <bm-dialog-close><span class="fa fa-exclamation-triangle"></span></bm-dialog-close>
+        <div class="dialog-title"><span class="fa fa-exclamation-triangle"></span>&nbsp;{{name}} {{statusCode}}</div>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-error-dialog')" class="fa fa-times"></span>
+        </bm-dialog-close>
     </div>
-    <!-- TODO Widget title if needed -->
     <bm-dialog-body>
-        <!-- TODO Content for dialog -->
-        <div class="row">
-            <div class="col-xs-6">
-                <p><span>Error: <span id="error-dialog-name-value"></span> </span></p>
-            </div>
-
-            <div class="col-xs-6">
-                <p><span>Code: <span id="error-dialog-code-value"></span> </span></p>
-            </div>
-
+        <div class="row error-content">
+            {{message}}
         </div>
         <div class="row">
-            <div class="col-lg-12">
-                <p><span id="error-dialog-message-value"></span></p>
-            </div>
+            <section class="press">
+                <a href="javascript: void(0)" onclick="app.remove(event, this, 'bm-error-dialog')" class="button">OK</a>
+            </section>
         </div>
-        <div class="row">
-        <section class="press">
-            <a class="button" href="/bookmarks">OK</a>
-        </section>
-    </div>
     </bm-dialog-body>
-    
 </bm-error-dialog>

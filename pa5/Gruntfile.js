@@ -33,7 +33,7 @@ module.exports = function (grunt) {
                     }
                 },
                 client: {
-                    files: ['assets/**/*.html', 'assets/**/*.js', '!assets/**/*.min.js'],
+                    files: ['assets/**/*.html', 'assets/**/*.hbs', 'assets/**/*.js', '!assets/**/*.min.js'],
                     tasks: ['validation', 'handlebars', 'uglify']
                 }
             },
@@ -45,14 +45,17 @@ module.exports = function (grunt) {
                     },
                     files: {
                         'assets/javascript/scripts.min.js': [
+                            'assets/lib/lodash/dist/lodash.core.min.js',
                             'assets/lib/axios/dist/axios.js',
                             'assets/lib/handlebars/handlebars.js',
                             'assets/javascript/templates.js',
-                            'assets/javascript/app.js',
-                            'assets/javascript/script.js',
-                            'assets/javascript/create-bookmark.js',
-                            'assets/javascript/edit-bookmark.js',
-                            'assets/javascript/upload-bookmarks.js'
+                            'assets/javascript/Components.js',
+                            'assets/javascript/App.js',
+                            'assets/javascript/BookmarkExplorer.js',
+                            'assets/javascript/ErrorDialog.js',
+                            'assets/javascript/BookmarkCreate.js',
+                            'assets/javascript/BookmarkEdit.js',
+                            'assets/javascript/BookmarkUpload.js'
                             /* Added modules here */
                         ]
                     }

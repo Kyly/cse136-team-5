@@ -22,6 +22,7 @@
     "handlebars": "^4.0.5",
     "document-register-element": "^0.5.4",
     "dropzone": "^4.3.0",
-    "axios": "^0.11.1"
+    "axios": "^0.11.1",
+    "lodash": "^4.13.1"
   }
 }
