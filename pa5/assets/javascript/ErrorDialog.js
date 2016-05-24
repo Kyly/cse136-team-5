@@ -10,6 +10,11 @@
     }
 
     ErrorDialog.prototype.show = function showErrorDialog(error) {
+        if (error.status === 401) {
+            window.location = '/';
+            return;
+        }
+
         app.show('bm-error-dialog', errorDialog.template, error);
     };
 

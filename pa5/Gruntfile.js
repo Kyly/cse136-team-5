@@ -52,9 +52,12 @@ module.exports = function (grunt) {
                             'assets/javascript/Components.js',
                             'assets/javascript/App.js',
                             'assets/javascript/BookmarkExplorer.js',
+                            'assets/javascript/CreateFolder.js',
                             'assets/javascript/ErrorDialog.js',
                             'assets/javascript/BookmarkCreate.js',
-                            'assets/javascript/BookmarkEdit.js'
+                            'assets/javascript/CreateFolder.js',
+                            'assets/javascript/BookmarkEdit.js',
+                            'assets/javascript/BookmarkUploader.js'
                             /* Added modules here */
                         ]
                     }

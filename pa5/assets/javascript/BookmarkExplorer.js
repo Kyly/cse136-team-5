@@ -9,6 +9,7 @@
         this.itemTemplate   = app.templates['assets/templates/bookmark-item.hbs'];
         this.folderTemplate = app.templates['assets/templates/bookmark-folder.hbs'];
         this.subFolderBack  = app.templates['assets/templates/bookmark-sub-back.hbs'];
+        this.bookmarks      = [];
         bookExp             = this;
     }
 
@@ -21,9 +22,13 @@
         return axios.get('/api/bookmarks');
     }
 
+    BookmarkExplorer.prototype.getById = function (id) {
+        return _.find(bookExp.bookmarks, function(o) { return o.id === id; });
+
+    };
+
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId, parentId) {
         console.log('this is the folderId ', folderId);
-        bookExp.container.innerHTML = '';
 
         if (parentId)
         {
@@ -34,12 +39,15 @@
     };
 
     function dislplayBookmarks(bookmarks) {
+        bookExp.container.innerHTML = '';
         console.log('Inside show bookmarks ', bookmarks);
 
         var folderId;
         var parentId = sessionStorage.getItem('parentId');
 
-        bookmarks.data.forEach(function (current) {
+        bookExp.bookmarks = bookmarks.data;
+
+        bookExp.bookmarks.forEach(function (current) {
             folderId = current.folderId;
             if (current.url)
             {
@@ -81,6 +89,21 @@
     function printBookmarkListItem(container, template, context) {
         container.innerHTML += template(context);
     }
+
+    BookmarkExplorer.prototype.search = function (event, element) {
+        if (event)
+        {
+            event.preventDefault();
+        }
+
+        var urlArr = ['/api/bookmarks'];
+        var elements = event.type === 'change' ? element.form : element.elements;
+        urlArr.push('?search=' + elements.search.value);
+        urlArr.push('&sortBy=' + elements.options.value);
+        
+        var url = urlArr.join('');
+        axios.get(url).then(dislplayBookmarks, app.errorDialog.show);
+    };
 
     app.bookmarkExplorer = new BookmarkExplorer();
 

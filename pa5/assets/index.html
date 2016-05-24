@@ -6,8 +6,11 @@
 
     <title>Your page title</title>
 
-    <link rel="stylesheet" href="assets/style/style.css">
-    <link rel="stylesheet" href="assets/lib/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/style/style.css">
+    <link rel="stylesheet" href="/assets/lib/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/lib/dropzone/dist/dropzone.css">
+    <script type="text/javascript" src="/assets/lib/dropzone/dist/dropzone.js"></script>
+
 
 </head>
 <body>
@@ -38,29 +41,32 @@
                         <a class="box" href="javascript: void(0);" onclick="App.bookmarkUploader.show()">
                             <span class="fa fa-cloud-upload"></span>
                         </a>
-                        <a class="box" href="/bookmarks/download"  download>
+                        <a class="box" href="/bookmarks/download" download>
                             <span class="fa fa-cloud-download"></span>
                         </a>
                     </div>
+                    <form onsubmit="app.bookmarkExplorer.search(event, this)">
+                        <div class="row">
+                            <div class="search-bar col-xs-8">
+                                <input type="search" name="search" placeholder="Search">
+                                <i class="fa fa-search" aria-hidden="true" title="Search"></i>
+                            </div>
+                            <div class="sort-dropdown col-xs-4">
 
-                    <div class="row">
-                        <div class="search-bar col-xs-8">
-                            <input type="search" placeholder="Search">
-                            <i class="fa fa-search" aria-hidden="true" title="Search"></i>
-                        </div>
-                        <div class="sort-dropdown col-xs-4">
-                            <form>
-                                <select>
-                                    <option>Title</option>
-                                    <option>Starred</option>
-                                    <option>Created</option>
-                                    <option>Last Visited</option>
-                                    <option>URL</option>
+                                <select name="options" onchange="app.bookmarkExplorer.search(event, this)">
+                                    <option value="name">Title</option>
+                                    <option value="favorite">Starred</option>
+                                    <option value="createdAt">Created</option>
+                                    <!--<option>Last Visited</option>-->
+                                    <option value="url">URL</option>
                                 </select>
-                            </form>
-                            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </div>
                         </div>
-                    </div>
+                        <input type="submit" style="display: none;" />
+                    </form>
+
                 </div>
 
                 <div style="background-color: #A2AEBB"></div>
@@ -83,7 +89,7 @@
 </bm-app>
 
 
-<script src="assets/javascript/scripts.min.js"></script>
-<script>window.onload = app.bookmarkExplorer.showBookmarks();</script>
+<script src="/assets/javascript/scripts.min.js"></script>
+<script>window.onload = App.bookmarkExplorer.showBookmarks();</script>
 </body>
 </html>

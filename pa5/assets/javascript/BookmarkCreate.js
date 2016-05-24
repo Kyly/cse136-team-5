@@ -66,10 +66,6 @@
     BookmarkCreate.prototype.addFolderRequest = function addFolderRequest(event, element) {
         var name = element.form.name.value;
         var description = element.form.description.value;
-        if (description == "")
-        {
-            description = "NULL";
-        }
 
         axios.post('/api/bookmarks/', {
                  name: name,

@@ -1,7 +1,9 @@
 /* Classes for elements - Everything gets attached to App class */
 (function () {
-    var app = this.app = this['App'];
 
+    history.pushState({ login: '' }, 'index', '/');
+
+    var app = this.app = this['App'];
     var dialogContainer = document.getElementById('bookmark-dialog');
 
     app.remove = function remove(event, el, tag) {
@@ -23,8 +25,9 @@
         {
             var element = elements[0];
             app.remove(null, element, tag);
-        }
 
+        }
+        //console.log(id);
         /* Inserts html as first child element */
         dialogContainer.insertAdjacentHTML('afterbegin', template(context));
     };
