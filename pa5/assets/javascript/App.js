@@ -1,6 +1,6 @@
 /* Classes for elements - Everything gets attached to App class */
 (function () {
-    
+
     history.pushState({ login: '' }, 'index', '/');
 
     var app = this.app = this['App'];
@@ -51,6 +51,7 @@
         {
             return;
         }
+        
         parent  = node.parentNode;
         tagname = tagname.toUpperCase();
 

@@ -4,7 +4,7 @@ var upload  = require('../modules/fileUploader').upload;
 var router  = express.Router();
 
 router.get('/', api.getRootFolder, api.getList);
-router.post('/', api.create);
+router.post('/', api.checkCreatePost, api.create);
 router.post('/:bookId(\\d+)', api.update);
 router.delete('/:bookId(\\d+)', api.delete);
 router.post('/upload', upload.single('file'), api.parseFile);

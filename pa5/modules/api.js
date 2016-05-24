@@ -31,10 +31,11 @@ BookmarkApi.prototype.getList = (req, res) => {
     req.session.folderId = folderId;
     req.session.sortBy   = sortBy;
 
-    var uid = req.session.uid;
+    var uid   = req.session.uid;
     var order = 'ASC';
 
-    if (sortBy === 'favorite') {
+    if (sortBy === 'favorite')
+    {
         order = 'DESC';
     }
 
@@ -104,6 +105,20 @@ BookmarkApi.prototype.update = (req, res) => {
     update.catch((error) => {
         res.status(400).json({message: error.message, errors: error.errors})
     });
+};
+
+BookmarkApi.prototype.checkCreatePost = (req, res, next) => {
+    var newBookmark = req.body;
+
+    if (!newBookmark.folderId) {
+        next();
+    }
+
+    var query = Bookmarks.find({id: newBookmark.folderId, userId});
+
+    query.then(next);
+    query.catch(() => res.status(403).json({message: 'Validation error', errors: ['Not your folder!']}));
+    
 };
 
 BookmarkApi.prototype.delete = (req, res) => {

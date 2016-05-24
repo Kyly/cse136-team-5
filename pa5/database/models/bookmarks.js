@@ -19,6 +19,14 @@ module.exports = function (sequelize, DataTypes) {
                             models.Bookmarks.hasMany(models.Bookmarks, {foreignKey: {name: 'folderId'}});
                         }
                     }
+                    // ,
+                    // hooks: {
+                    //     beforeCreate: function (bookmark) {
+                    //         if (!bookmark.folderId)  return;
+                    //        
+                    //         return sequelize.models.Bookmarks
+                    //     }
+                    // }
                 });
     return Bookmarks;
 };

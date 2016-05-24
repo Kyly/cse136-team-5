@@ -27,7 +27,7 @@
         var keywords    = element.form.keywords.value;
         var description = element.form.description.value;
         var folderId    = element.form.folderId.value;
-
+        
         axios.post('/api/bookmarks/', {
                  name: name,
                  url: url,
@@ -46,7 +46,7 @@
              .catch(function (res) {
                  console.log(res);
                 if(res.status == 401) {
-                    window.location.href = 'users/login';
+                    window.location.href = '/';
                 }
                 var error = {
                     name: res.data.message,
@@ -79,7 +79,7 @@
              .catch(function (res) {
                  console.log(res);
                 if(res.status == 401) {
-                    window.location.href = 'users/login';
+                    window.location.href = '/';
                 }
 
                 var error = {
