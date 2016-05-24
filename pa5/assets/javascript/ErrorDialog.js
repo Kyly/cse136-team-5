@@ -10,7 +10,7 @@
     }
 
     ErrorDialog.prototype.show = function showErrorDialog(error) {
-        if (error.status === 401) {
+        if (error.status === 401 || error.code === 401) {
             window.location = '/';
             return;
         }

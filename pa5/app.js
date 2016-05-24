@@ -5,6 +5,7 @@ var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var fallback     = require('express-history-api-fallback');
 
 var handlebars = require('./modules/handlebars');
 var session    = require('./modules/session');
@@ -28,7 +29,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+var assets = path.join(__dirname, 'assets');
+app.use('/assets', express.static(assets));
+// app.use(fallback('index.html', {root: assets}));
 app.use(session);
 
 app.use('/', users);

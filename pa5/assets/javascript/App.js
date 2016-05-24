@@ -1,10 +1,12 @@
 /* Classes for elements - Everything gets attached to App class */
 (function () {
 
-    history.pushState({ login: '' }, 'index', '/');
+    // history.pushState({ login: '' }, 'index', '/js/bookmarks');
+    
 
     var app = this.app = this['App'];
     var dialogContainer = app.dialogContainer = document.getElementById('bookmark-dialog');
+
 
     app.remove = function remove(event, el, tag) {
         if (event)

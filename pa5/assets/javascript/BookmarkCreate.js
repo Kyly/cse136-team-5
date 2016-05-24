@@ -1,21 +1,26 @@
 (function () {
     var app            = this['App'];
     app.bookmarkCreate = new BookmarkCreate();
+    var bCreate;
 
-    
-    
     /* Bookmark create */
     function BookmarkCreate() {
-        
-        this.template = app.templates['assets/templates/bm-create-dialog.hbs'];
-        
+        bCreate          = this;
+        bCreate.template = app.templates['assets/templates/bm-create-dialog.hbs'];
     }
 
     BookmarkCreate.prototype.show = function showBookmarkCreate() {
-        var folders = app.bookmarkExplorer.folders;
-        var context = {'folders': folders};
-        console.log('folders ', folders);
-        app.show('bm-create-dialog', this.template, context);
+
+        var request = axios.get('/api/bookmarks/folders');
+
+        request.then(function (folders) {
+            var context = {folders: folders.data};
+            console.log('folders ', folders);
+            app.show('bm-create-dialog', bCreate.template, context);
+        });
+
+        request.catch(app.errorDialog.show);
+
     };
 
     BookmarkCreate.prototype.remove = function removeBookmarkCreate(event) {
@@ -34,7 +39,7 @@
         var keywords    = element.form.keywords.value;
         var description = element.form.description.value;
         var folderId    = element.form.folderId.value;
-        
+
         axios.post('/api/bookmarks/', {
                  name: name,
                  url: url,
@@ -44,24 +49,20 @@
              })
              .then(function (res) {
                  console.log(res);
-                if(res.status == 204){
-                    app.bookmarkExplorer.showBookmarks();
-                    console.log("SUCCESFUL REQUEST");
-                }
+                 if (res.status == 204)
+                 {
+                     app.bookmarkExplorer.showBookmarks();
+                     console.log("SUCCESFUL REQUEST");
+                 }
 
              })
              .catch(function (res) {
-                 console.log(res);
-                if(res.status == 401) {
-                    window.location.href = '/';
-                }
-                var error = {
-                    name: res.data.message,
-                    code: res.status,
-                    message: res.data.errors[0].message
-                };
-            
-                App.errorDialog.show(error);
+                 var error = {
+                     name: res.data.message,
+                     code: res.status,
+                     message: res.data.errors[0].message
+                 };
+                 app.errorDialog.show(error);
              });
 
         if (event)
@@ -72,30 +73,27 @@
     };
 
     BookmarkCreate.prototype.addFolderRequest = function addFolderRequest(event, element) {
-        var name = element.form.name.value;
+        var name        = element.form.name.value;
         var description = element.form.description.value;
 
         axios.post('/api/bookmarks/', {
                  name: name,
-                 description: description
+                 description: description,
+                 isFolder: true
              })
              .then(function (res) {
                  console.log(res);
                  app.bookmarkExplorer.showBookmarks();
              })
              .catch(function (res) {
-                 console.log(res);
-                if(res.status == 401) {
-                    window.location.href = '/';
-                }
 
-                var error = {
-                    name: res.data.message,
-                    code: res.status,
-                    message: res.data.errors[0].message
-                };
-            
-                App.errorDialog.show(error);
+                 var error = {
+                     name: res.data.message,
+                     code: res.status,
+                     message: res.data.errors[0].message
+                 };
+
+                 app.errorDialog.show(error);
              });
 
         if (event)

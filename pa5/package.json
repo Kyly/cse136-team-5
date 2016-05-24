@@ -22,6 +22,7 @@
     "debug": "~2.1.1",
     "express": "~4.12.2",
     "express-handlebars": "^3.0.0",
+    "express-history-api-fallback": "^2.0.0",
     "express-session": "^1.13.0",
     "handlebars": "^4.0.5",
     "hbs": "~2.9.0",

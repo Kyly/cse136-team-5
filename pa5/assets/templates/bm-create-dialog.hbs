@@ -28,9 +28,8 @@
             </div>
             <div class="row">
                 <select name="folderId" class="dialog-select dialog-input">
-                    <option  value="1" selected="selected">Select folder</option>
                     {{#each folders}}
-                        <option value="{{this.this.id}}">{{this.this.name}}</option>
+                        <option value="{{id}}">{{name}}</option>
                     {{/each}}
                 </select>
             </div>

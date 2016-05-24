@@ -61,6 +61,22 @@ BookmarkApi.prototype.getList = (req, res) => {
     query.catch((error) => res.status(500).json({message: error.message, errors: error.errors}));
 };
 
+BookmarkApi.prototype.getFolders = function (req, res) {
+    var userId = req.session.uid;
+    var query  = {
+        where: {
+            userId: userId,
+            isFolder: true
+        }
+    };
+
+    var folderQ = Bookmarks.findAll(query);
+
+    folderQ.then(list => res.status(200).json(list));
+
+    folderQ.catch(error => res.status(500).json({message: error.message, errors: error.errors}));
+};
+
 BookmarkApi.prototype.create = (req, res) => {
     var newBookmark      = req.body;
     newBookmark.favorite = 0;
@@ -72,7 +88,9 @@ BookmarkApi.prototype.create = (req, res) => {
 
     var create = Bookmarks.create(newBookmark);
 
-    create.then(()=> res.status(204).send());
+    create.then(()=> {
+        res.status(204).send();
+    });
 
     create.catch((error) => {
         console.log(error);
@@ -107,18 +125,26 @@ BookmarkApi.prototype.update = (req, res) => {
     });
 };
 
-BookmarkApi.prototype.checkCreatePost = (req, res, next) => {
+BookmarkApi.prototype.createBookmarkPerm = (req, res, next) => {
     var newBookmark = req.body;
+    var userId      = req.session.uid;
 
-    if (!newBookmark.folderId) {
+    if (!newBookmark.folderId)
+    {
         next();
+        return;
     }
 
-    var query = Bookmarks.find({id: newBookmark.folderId, userId});
+    var query = Bookmarks.find({id: newBookmark.folderId, userId: userId});
 
-    query.then(next);
-    query.catch(() => res.status(403).json({message: 'Validation error', errors: ['Not your folder!']}));
+    query.then((result) => {
+        next();
+    });
     
+    query.catch(() => {
+        res.status(409).json({name: error.message, message: error.errors[0].message});
+    });
+
 };
 
 BookmarkApi.prototype.delete = (req, res) => {

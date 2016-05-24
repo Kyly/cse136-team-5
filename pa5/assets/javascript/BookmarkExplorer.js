@@ -4,7 +4,6 @@
     var bookExp;
 
     function BookmarkExplorer() {
-        this.folders        = [];
         this.container      = document.getElementById('bookmark-list');
         this.itemTemplate   = app.templates['assets/templates/bookmark-item.hbs'];
         this.folderTemplate = app.templates['assets/templates/bookmark-folder.hbs'];
@@ -53,11 +52,12 @@
             {
                 printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
             }
-            else
+
+            if(current.isFolder)
             {
-                bookExp.folders.push(current);
                 printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
             }
+
         });
 
         if (parentId != folderId)
