@@ -95,22 +95,10 @@
             event.preventDefault();
         }
 
-        if (event.type === 'change') {
-            sortBy = element.form.options.value;
-
-        }
-
-        console.log(element.form);
         var urlArr = ['/api/bookmarks'];
-        var fields = element.elements;
-        var search = fields.search.value;
-        var sortBy = fields.options.value;
-
-        if (element.form.options.value) {
-            urlArr.push('?sortBy=' + element.form.options.value);
-        }
-
-
+        var elements = event.type === 'change' ? element.form : element.elements;
+        urlArr.push('?search=' + elements.search.value);
+        urlArr.push('&sortBy=' + elements.options.value);
         var url = urlArr.join('');
         axios.get(url).then(dislplayBookmarks, app.errorDialog.show);
     };

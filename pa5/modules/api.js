@@ -32,19 +32,24 @@ BookmarkApi.prototype.getList = (req, res) => {
     req.session.sortBy   = sortBy;
 
     var uid = req.session.uid;
+    var order = 'ASC';
+
+    if (sortBy === 'favorite') {
+        order = 'DESC';
+    }
 
     var bookmarks = {
         where: {
             folderId: folderId,
             userId: uid
         },
-        order: [[sortBy, 'ASC']]
+        order: [[sortBy, order]]
     };
 
     if (search)
     {
         bookmarks.where.name = {
-            $like: search
+            $like: `%${search}%` 
         }
     }
 
