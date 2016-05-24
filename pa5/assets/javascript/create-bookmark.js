@@ -4,7 +4,7 @@
 
     /* Bookmark create */
     function BookmarkCreate() {
-        this.template = app.templates['assets/templates/bm-create-dialog.hbs'];
+        this.template = app.templates['/assets/templates/bm-create-dialog.hbs'];
     }
 
     BookmarkCreate.prototype.show = function showBookmarkCreate() {

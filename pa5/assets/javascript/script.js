@@ -179,19 +179,4 @@
     function printBookmarkListItem(container, template, context) {
         container.innerHTML += template(context);
     }
-
-    /* Bookmark uploader */
-    function BookmarkUploader() {
-        this.template = app.templates['assets/templates/upload-file.hbs'];
-    }
-
-    BookmarkUploader.prototype.show = function showBookmarkUploader() {
-        app.show('bm-upload-file-dialog', this.template);
-    };
-
-    BookmarkUploader.prototype.remove = function hideBookmarkUploader() {
-        hide('bm-upload-file-dialog');
-    };
-    
-
 })(window);
