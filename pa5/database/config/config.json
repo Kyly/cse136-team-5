@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "onramp",
-    "database": "cse136",
-    "host": "127.0.0.1",
+    "password": "Macgriff11",
+    "database": "mysql",
+    "host": "",
     "dialect": "mysql"
   },
   "test": {

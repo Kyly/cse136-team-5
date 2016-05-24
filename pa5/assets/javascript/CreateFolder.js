@@ -1,3 +1,4 @@
+
 /* Classes for elements - Everything gets attached to app class */
 (function () {
     var app              = this['App'];

@@ -24,6 +24,7 @@
 
     BookmarkExplorer.prototype.getById = function (id) {
         return _.find(bookExp.bookmarks, function(o) { return o.id === id; });
+
     };
 
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId, parentId) {
