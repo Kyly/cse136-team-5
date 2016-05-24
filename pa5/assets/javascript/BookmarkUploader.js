@@ -23,18 +23,11 @@
 
         dz.on('error', function (error, errorMessage) {
             console.log(error, errorMessage);
+            errorMessage.message = 'Upload failed: ' + errorMessage.message;
             app.errorDialog.show(errorMessage);
-            // app.dialogContainer.removeChild(parent);
+            var element = document.getElementsByTagName('bm-upload-file-dialog')[0];
+            app.dialogContainer.removeChild(element);
         });
-    };
-
-    BookmarkUploader.prototype.remove = function removeBookmarkCreate(event) {
-        if (event)
-        {
-            event.preventDefault();
-        }
-
-        app.hide('bm-upload-file-dialog');
     };
 
     app.bookmarkUploader = new BookmarkUploader();
