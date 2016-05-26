@@ -1,0 +1,44 @@
+<bm-create-dialog class="dialog">
+
+    <div class="dialog-header">
+        <div class="dialog-title">Create</div>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-create-dialog')" class="fa fa-times"></span></bm-dialog-close>
+    </div>
+
+    <bm-dialog-body>
+        <form class="dialog-form" id="create-bookmark-form">
+            <div class="row">
+                <div class="name col-xs-6">
+                    <input name="name" type="text"
+                           class="name dialog-input" placeholder="Name">
+                </div>
+                <div class="keywords col-xs-6">
+                    <input name="keywords" type="text" class="keywords dialog-input"
+                           placeholder="Keywords"/>
+                </div>
+            </div>
+            <div class="row">
+                <input name="url" type="text" class="url dialog-input"
+                       placeholder="Url"/>
+            </div>
+
+            <div class="row text">
+                <textarea name="description" class="description dialog-input" id="description"
+                          placeholder="Description"></textarea>
+            </div>
+            <div class="row">
+                <select name="folderId" class="dialog-select dialog-input">
+                    {{#each folders}}
+                        <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="row">
+                <section class="press">
+                    <button type="button" onclick="app.bookmarkCreate.addBookmarkRequest(event, this)">Create</button>
+                </section>
+            </div>
+        </form>
+    </bm-dialog-body>
+</bm-create-dialog>

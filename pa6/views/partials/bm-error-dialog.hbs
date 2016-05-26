@@ -1,0 +1,32 @@
+<bm-error-dialog class="dialog">
+    <!-- TODO close button -->
+    <div class="dialog-header">
+        <div class="dialog-title">Error</div>
+        <bm-dialog-close><span class="fa fa-exclamation-triangle"></span></bm-dialog-close>
+    </div>
+    <!-- TODO Widget title if needed -->
+    <bm-dialog-body>
+        <!-- TODO Content for dialog -->
+        <div class="row">
+            <div class="col-xs-6">
+                <p><span>Error: {{error.name}}</span></p>
+            </div>
+            {{#if error.code}}
+            <div class="col-xs-6">
+                <p><span>Code: {{error.code}}</span></p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p><span>{{error.message}}</span></p>
+            </div>
+        </div>
+        <div class="row">
+        <section class="press">
+            <a class="button" href="/bookmarks">OK</a>
+        </section>
+    </div>
+    </bm-dialog-body>
+    
+</bm-error-dialog>
