@@ -3,15 +3,15 @@
         <div>
             <a class="bookmark-link folder-text"
                onclick="app.bookmarkExplorer.showBookmarks('{{id}}', '{{folderId}}')">
-                <span class="fa fa-folder left-item bookmark-icons hand"></span> {{ name }}
+                <span class=" icon-folder left-item bookmark-icons hand"></span> {{ name }}
             </a>
         </div>
         <div>
-            <span class="fa fa-chevron-right edit-favorite-icons hand"
+            <span class="icon-right-open edit-favorite-icons hand"
                   onclick="app.bookmarkExplorer.showBookmarks('{{id}}', '{{folderId}}')">
             </span>
 
-            <span class="fa fa-edit edit-favorite-icons hand" onclick="app.bookmarkEdit.show(event, {{id}})"></span>
+            <span class="icon-edit edit-favorite-icons hand" onclick="app.bookmarkEdit.show(event, {{id}})"></span>
         </div>
     </div>
 </li>

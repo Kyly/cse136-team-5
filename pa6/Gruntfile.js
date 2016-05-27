@@ -43,6 +43,7 @@ module.exports = function (grunt) {
                     files: [{
                         'assets/style/style.min.css': [
                             './assets/lib/dropzone/dist/dropzone.css',
+                            './assets/style/fontello-embedded.css',
                             './assets/style/style.css'
                         ]
                     }]
@@ -52,7 +53,7 @@ module.exports = function (grunt) {
                 scripts: {
                     options: {
                         sourceMap: true,
-                        mangle: false
+                        mangle: true
                     },
                     files: {
                         'assets/javascript/scripts.min.js': [

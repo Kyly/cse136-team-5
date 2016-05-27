@@ -68,10 +68,10 @@
 
     BookmarkExplorer.prototype.toggleFavorite = function toggleFavorite(ele, id) {
 
-        if (ele.classList.contains('fa-star-o'))
+        if (ele.classList.contains('icon-star-empty'))
         {
-            ele.classList.toggle('fa-star-o');
-            ele.classList.add("fa-star");
+            ele.classList.toggle('icon-star-empty');
+            ele.classList.add("icon-star");
             axios.post('/api/bookmarks/' + id, {favorite: true}).then(function (payload) {
                 console.log(JSON.stringify(payload));
             });
@@ -79,8 +79,8 @@
             return;
         }
 
-        ele.classList.toggle('fa-star');
-        ele.classList.add('fa-star-o');
+        ele.classList.toggle('icon-star');
+        ele.classList.add('icon-star-empty');
         axios.post('/api/bookmarks/' + id, {favorite: false}).then(function (payload) {
             console.log(JSON.stringify(payload));
         });
