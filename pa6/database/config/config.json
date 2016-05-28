@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "onramp",
+    "password": "",
     "database": "cse136",
     "host": "",
     "dialect": "mysql"
