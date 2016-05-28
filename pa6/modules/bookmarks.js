@@ -274,6 +274,7 @@ module.exports.delete = function (req, res) {
  * Does a redirect to the list page
  */
 module.exports.insert = function (req, res) {
+    console.log('This i sa test bl bla bla');
     var sqlInsert           = sqlQuery.insert();
     var newBookmark         = {};
     newBookmark.url         = req.body.url;
@@ -282,7 +283,7 @@ module.exports.insert = function (req, res) {
     newBookmark.description = req.body.description;
     newBookmark.keywords    = req.body.keywords;
     newBookmark.favorite    = 0;
-    newBookmark.isFolder    = "FALSE";
+    newBookmark.isFolder    = 0;
     newBookmark.userId      = req.session.uid;
 
     if (validUrl.isUri(newBookmark.url))
@@ -309,6 +310,7 @@ module.exports.insert = function (req, res) {
 };
 
 function insertBookmark(bookmark, onError, done) {
+    bookmark.isFolder = 0;
     var sqlInsert = sqlQuery.insert();
     var sql       = sqlInsert.into('Bookmarks').set(bookmark).build();
 
