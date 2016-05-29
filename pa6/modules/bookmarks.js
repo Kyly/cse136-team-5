@@ -337,20 +337,19 @@ module.exports.insertFolder = function (req, res) {
     newFolder.name        = req.body.name;
     newFolder.description = req.body.description;
     newFolder.favorite    = 0;
-    newFolder.folder      = true;
-    newFolder.uid         = req.session.uid;
+    newFolder.isFolder    = 1;
+    newFolder.userId      = req.session.uid;
+
 
     var queryString = sqlInsert.into('Bookmarks').set(newFolder).build();
     console.log(queryString);
-    db.query(queryString, function (err) {
-        if (err)
-        {
-            req.reportedError = err;
-            console.error(err);
-        }
 
-        renderIndex(req, res);
-    });
+    var query = Bookmarks.create(newFolder);
+    query.then(()=> renderIndex(req, res));
+    query.catch((error) => {
+        req.reportedError = {message: error.message, name: 'Failed to create bookmark', status: 400};
+    renderIndex(req, res);
+});
 };
 
 /**
@@ -419,7 +418,7 @@ module.exports.favorite = function (req, res) {
     var uid = req.session.uid;
 
     fav             = (fav + 1) % 2;
-    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND uid = ' + uid;
+    var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND userId = ' + uid;
     db.query(queryString, function (err) {
         if (err)
         {
