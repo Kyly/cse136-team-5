@@ -213,7 +213,7 @@ function renderEdit(req, res) {
 }
 function getFolders(bookmarks) {
     return bookmarks.filter(function (bookmark) {
-        return bookmark.folder;
+        return bookmark.isFolder;
     });
 }
 
