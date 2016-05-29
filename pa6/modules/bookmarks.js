@@ -91,7 +91,8 @@ function renderIndex(req, res, scopeCallBack) {
         var folders;
         if (bookmarks)
         {
-            getFolders(bookmarks);
+            folders = getFolders(bookmarks);
+            console.log('We currently have these folders ', folders);
         }
 
         var showBack = parseInt(folderId) != req.session.rootId;
@@ -189,6 +190,7 @@ module.exports.create = function (req, res) {
     req.showCreateDialog = true;
     function editDialogeScope(scope) {
         scope.folders = getFolders(scope.bookmarks);
+        console.log('editDialogeScope show folders', scope.folders );
     }
 
     renderIndex(req, res, editDialogeScope);
@@ -417,7 +419,7 @@ module.exports.favorite = function (req, res) {
     var fav = req.query.fav;
     var uid = req.session.uid;
 
-    fav             = (fav + 1) % 2;
+    fav = fav == 0 ? 1 : 0;
     var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND userId = ' + uid;
     db.query(queryString, function (err) {
         if (err)
