@@ -1002,3 +1002,20 @@ header.login-header {
 .back-cursor {
     cursor:pointer;
 }
+
+.sort-dropdown-two select {
+    width: 70%;
+    background-color: rgba(75, 75, 96, 100);
+    color: rgba(122, 177, 223, 100);
+    border-bottom-color: rgba(57, 120, 159, 100);
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 1em;
+    line-height: 1;
+    border-bottom-width: 2px;
+    color: #c1bdba;
+    height: 1.3em;
+}
