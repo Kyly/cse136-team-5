@@ -417,7 +417,7 @@ module.exports.favorite = function (req, res) {
     var fav = req.query.fav;
     var uid = req.session.uid;
 
-    fav             = (fav + 1) % 2;
+    fav = fav == 0 ? 1 : 0;
     var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND userId = ' + uid;
     db.query(queryString, function (err) {
         if (err)
