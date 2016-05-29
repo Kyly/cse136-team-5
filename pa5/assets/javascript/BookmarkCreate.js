@@ -1,14 +1,26 @@
 (function () {
     var app            = this['App'];
     app.bookmarkCreate = new BookmarkCreate();
+    var bCreate;
 
     /* Bookmark create */
     function BookmarkCreate() {
-        this.template = app.templates['assets/templates/bm-create-dialog.hbs'];
+        bCreate          = this;
+        bCreate.template = app.templates['assets/templates/bm-create-dialog.hbs'];
     }
 
     BookmarkCreate.prototype.show = function showBookmarkCreate() {
-        app.show('bm-create-dialog', this.template);
+
+        var request = axios.get('/api/bookmarks/folders');
+
+        request.then(function (folders) {
+            var context = {folders: folders.data};
+            console.log('folders ', folders);
+            app.show('bm-create-dialog', bCreate.template, context);
+        });
+
+        request.catch(app.errorDialog.show);
+
     };
 
     BookmarkCreate.prototype.remove = function removeBookmarkCreate(event) {
@@ -37,67 +49,58 @@
              })
              .then(function (res) {
                  console.log(res);
-                if(res.status == 204){
-                    console.log("SUCCESFUL REQUEST");
-                }
+                 if (res.status == 204)
+                 {
+                     app.bookmarkExplorer.showBookmarks();
+                     console.log("SUCCESFUL REQUEST");
+                 }
 
              })
              .catch(function (res) {
-                 console.log(res);
-                if(res.status == 401) {
-                    window.location.href = 'users/login';
-                }
-                var error = {
-                    name: res.data.message,
-                    code: res.status,
-                    message: res.data.errors[0].message
-                };
-            
-                App.errorDialog.show(error);
+                 var error = {
+                     name: res.data.message,
+                     code: res.status,
+                     message: res.data.errors[0].message
+                 };
+                 app.errorDialog.show(error);
              });
 
         if (event)
         {
             event.preventDefault();
         }
-
+        app.remove(event, element, 'bm-create-dialog');
     };
 
     BookmarkCreate.prototype.addFolderRequest = function addFolderRequest(event, element) {
-        var name = element.form.name.value;
+        var name        = element.form.name.value;
         var description = element.form.description.value;
-        if (description == "")
-        {
-            description = "NULL";
-        }
 
         axios.post('/api/bookmarks/', {
                  name: name,
-                 description: description
+                 description: description,
+                 isFolder: true
              })
              .then(function (res) {
                  console.log(res);
+                 app.bookmarkExplorer.showBookmarks();
              })
              .catch(function (res) {
-                 console.log(res);
-                if(res.status == 401) {
-                    window.location.href = 'users/login';
-                }
 
-                var error = {
-                    name: res.data.message,
-                    code: res.status,
-                    message: res.data.errors[0].message
-                };
-            
-                App.errorDialog.show(error);
+                 var error = {
+                     name: res.data.message,
+                     code: res.status,
+                     message: res.data.errors[0].message
+                 };
+
+                 app.errorDialog.show(error);
              });
 
         if (event)
         {
             event.preventDefault();
         }
-
+        app.remove(event, element, 'bm-create-folder-dialog');
     }
 
 })(window);

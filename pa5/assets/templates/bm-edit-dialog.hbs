@@ -8,35 +8,34 @@
             <div class="row">
                 <div class="name col-xs-6">
                     <input name="name" type="text"
-                           class="dialog-input name" placeholder="Name">
+                           class="dialog-input name" value={{name}}>
                 </div>
                 <div class="keywords col-xs-6">
                     <input name="keywords" type="text" class="dialog-input keywords"
-                           placeholder="Keywords"/>
+                           value={{keywords}}>
                 </div>
             </div>
             <div class="row">
                 <input name="url" type="text" class="dialog-input url"
-                       placeholder="Url"/>
+                       value={{url}}>
             </div>
 
             <div class="row text">
-                <textarea name="text" class="dialog-input description"
-                          placeholder="Description"></textarea>
+                <textarea name="description" class="dialog-input description"
+                          >{{description}}</textarea>
             </div>
             <div class="row">
-                <select class="dialog-select dialog-input">
-                    <option value="" disabled selected>Select folder</option>
-                    <option>Folder 1</option>
-                    <option>Folder 1</option>
-                    <option>Porn</option>
-                    <option>NSFL</option>
+                <select name="folderId" class="dialog-select dialog-input">
+                    <option  value="1" selected="selected">Select folder</option>
+                    {{#each folders}}
+                        <option value="{{this.this.id}}">{{this.this.name}}</option>
+                    {{/each}}
                 </select>
             </div>
             <div class="row">
                 <section class="press">
-                    <button onclick="app.remove(event, this)">delete</button>
-                    <button onclick="app.bookmarkEdit.apply(event, this)">apply</button>
+                    <button onclick="app.bookmarkEdit.remove(event, this, '{{id}}')">delete</button>
+                    <button onclick="app.bookmarkEdit.apply(event, this, '{{id}}')">apply</button>
                 </section>
             </div>
         </form>

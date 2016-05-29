@@ -1,0 +1,7 @@
+{{#each bookmarks}}
+    {{#if isFolder}}
+        {{> bookmarks/bookmark-folder }}
+    {{else}}
+        {{> bookmarks/bookmark-item }}
+    {{/if}}
+{{/each}}

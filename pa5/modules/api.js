@@ -31,20 +31,26 @@ BookmarkApi.prototype.getList = (req, res) => {
     req.session.folderId = folderId;
     req.session.sortBy   = sortBy;
 
-    var uid = req.session.uid;
+    var uid   = req.session.uid;
+    var order = 'ASC';
+
+    if (sortBy === 'favorite')
+    {
+        order = 'DESC';
+    }
 
     var bookmarks = {
         where: {
             folderId: folderId,
             userId: uid
         },
-        order: [[sortBy, 'ASC']]
+        order: [[sortBy, order]]
     };
 
     if (search)
     {
         bookmarks.where.name = {
-            $like: search
+            $like: `%${search}%`
         }
     }
 
@@ -53,6 +59,22 @@ BookmarkApi.prototype.getList = (req, res) => {
     query.then((list) => res.json(list));
 
     query.catch((error) => res.status(500).json({message: error.message, errors: error.errors}));
+};
+
+BookmarkApi.prototype.getFolders = function (req, res) {
+    var userId = req.session.uid;
+    var query  = {
+        where: {
+            userId: userId,
+            isFolder: true
+        }
+    };
+
+    var folderQ = Bookmarks.findAll(query);
+
+    folderQ.then(list => res.status(200).json(list));
+
+    folderQ.catch(error => res.status(500).json({message: error.message, errors: error.errors}));
 };
 
 BookmarkApi.prototype.create = (req, res) => {
@@ -66,7 +88,9 @@ BookmarkApi.prototype.create = (req, res) => {
 
     var create = Bookmarks.create(newBookmark);
 
-    create.then(()=> res.status(204).send());
+    create.then(()=> {
+        res.status(204).send();
+    });
 
     create.catch((error) => {
         console.log(error);
@@ -99,6 +123,28 @@ BookmarkApi.prototype.update = (req, res) => {
     update.catch((error) => {
         res.status(400).json({message: error.message, errors: error.errors})
     });
+};
+
+BookmarkApi.prototype.createBookmarkPerm = (req, res, next) => {
+    var newBookmark = req.body;
+    var userId      = req.session.uid;
+
+    if (!newBookmark.folderId)
+    {
+        next();
+        return;
+    }
+
+    var query = Bookmarks.find({id: newBookmark.folderId, userId: userId});
+
+    query.then((result) => {
+        next();
+    });
+    
+    query.catch(() => {
+        res.status(409).json({name: error.message, message: error.errors[0].message});
+    });
+
 };
 
 BookmarkApi.prototype.delete = (req, res) => {
@@ -154,10 +200,10 @@ BookmarkApi.prototype.parseFile = (req, res) => {
         bulkCreate.catch((error) => {
             if (error.name === 'SequelizeUniqueConstraintError')
             {
-                res.status(409).json({message: error.message, errors: error.errors});
+                res.status(409).json({name: error.message, message: error.errors[0].message});
             }
 
-            res.status(400).json({message: error.message, errors: error.errors});
+            res.status(400).json({name: error.message, message: error.errors[0].message});
         });
     }
 

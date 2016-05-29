@@ -1,0 +1,43 @@
+<bm-edit-dialog class="dialog">
+    <div class="dialog-header">
+        <div class="dialog-title">Edit</div>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-edit-dialog')" class=" icon-cancel"></span></bm-dialog-close>
+    </div>
+    <bm-dialog-body>
+        <form class="dialog-form">
+            <div class="row">
+                <div class="name col-xs-6">
+                    <input name="name" type="text"
+                           class="dialog-input name" value={{name}}>
+                </div>
+                <div class="keywords col-xs-6">
+                    <input name="keywords" type="text" class="dialog-input keywords"
+                           value={{keywords}}>
+                </div>
+            </div>
+            <div class="row">
+                <input name="url" type="text" class="dialog-input url"
+                       value={{url}}>
+            </div>
+
+            <div class="row text">
+                <textarea name="description" class="dialog-input description"
+                          >{{description}}</textarea>
+            </div>
+            <div class="row">
+                <select name="folderId" class="dialog-select dialog-input">
+                    <option  value="1" selected="selected">Select folder</option>
+                    {{#each folders}}
+                        <option value="{{this.this.id}}">{{this.this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="row">
+                <section class="press">
+                    <button onclick="app.bookmarkEdit.remove(event, this, '{{id}}')">delete</button>
+                    <button onclick="app.bookmarkEdit.apply(event, this, '{{id}}')">apply</button>
+                </section>
+            </div>
+        </form>
+    </bm-dialog-body>
+</bm-edit-dialog>

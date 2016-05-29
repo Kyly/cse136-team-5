@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('default', ['validation', 'handlebars', 'uglify']);
+    grunt.registerTask('default', ['handlebars', 'uglify']);
     grunt.registerTask('server', [ 'express:dev', 'watch' ]);
 
     grunt.initConfig(
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
                 },
                 client: {
                     files: ['assets/**/*.html', 'assets/**/*.hbs', 'assets/**/*.js', '!assets/**/*.min.js'],
-                    tasks: ['validation', 'handlebars', 'uglify']
+                    tasks: ['handlebars', 'uglify']
                 }
             },
             uglify: {
@@ -45,6 +45,7 @@ module.exports = function (grunt) {
                     },
                     files: {
                         'assets/javascript/scripts.min.js': [
+                            'assets/lib/dropzone/dist/dropzone.js',
                             'assets/lib/lodash/dist/lodash.core.min.js',
                             'assets/lib/axios/dist/axios.js',
                             'assets/lib/handlebars/handlebars.js',
@@ -52,10 +53,12 @@ module.exports = function (grunt) {
                             'assets/javascript/Components.js',
                             'assets/javascript/App.js',
                             'assets/javascript/BookmarkExplorer.js',
+                            'assets/javascript/CreateFolder.js',
                             'assets/javascript/ErrorDialog.js',
                             'assets/javascript/BookmarkCreate.js',
-                            'assets/javascript/BookmarkEdit.js'
-                            /* Added modules here */
+                            'assets/javascript/CreateFolder.js',
+                            'assets/javascript/BookmarkEdit.js',
+                            'assets/javascript/BookmarkUploader.js'
                         ]
                     }
                 }
