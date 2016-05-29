@@ -53,18 +53,18 @@
                             <i class=" icon-search" aria-hidden="true" title="Search"></i>
                             </form>
                         </div>
-                        <div class="sort-dropdown col-xs-4">
-                            <form method="post" action="bookmarks/sort">
-                                <select name="options" onchange='this.form.submit()'>
-                                    <option>Sort</option>
+                        <div class="sort-dropdown col-xs-4" >
+                            <form method="post" class="sort-dropdown-two" action="bookmarks/sort">
+                                <select name="options">
                                     <option>url</option>
                                     <option>name</option>
                                     <option>description</option>
                                     <option>keywords</option>
                                     <option value="(case when favorite then 1 when favorite is null then 2 else 3 end)">favorite</option>
                                 </select>
+                                <input type="submit" value=">" style="min-width: 10px;">
                             </form>
-                            <i class="icon-down-open" aria-hidden="true"></i>
+                            <!--<i class="icon-down-open" aria-hidden="true"></i>-->
                         </div>
                     </div>
                 </div>
