@@ -39,8 +39,24 @@
         var keywords    = element.form.keywords.value;
         var description = element.form.description.value;
         var folderId    = element.form.folderId.value;
+        
+        if(url == "") {
+            var error = {
+                name: "No URL",
+                message: "Bookmark must have a URL"
+            };
+            app.errorDialog.show(error);
 
-        axios.post('/api/bookmarks/', {
+        }
+        else if(url.substring(0,7) != "http://" && url.substring(0,8) != "https://") {
+            var error = {
+                name: "Invalid URL format",
+                message: "URL must begin with http://"
+            }
+            app.errorDialog.show(error);
+        }
+        else {
+            axios.post('/api/bookmarks/', {
                  name: name,
                  url: url,
                  keywords: keywords,
@@ -64,11 +80,12 @@
                  };
                  app.errorDialog.show(error);
              });
-
+        }
         if (event)
         {
             event.preventDefault();
         }
+        
         app.remove(event, element, 'bm-create-dialog');
     };
 
