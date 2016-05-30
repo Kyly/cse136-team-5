@@ -6,21 +6,42 @@
         this.template = app.templates['assets/templates/bm-edit-dialog.hbs'];
     }
 
+    function getFolders(bookmarks) {
+        return bookmarks.filter(function (bookmark) {
+            return bookmark.isFolder;
+        });
+    }
+
     BookmarkEdit.prototype.show = function showBookmarkEdit(event, id) {
+        var current = this;
         if (event)
         {
             event.preventDefault();
         }
-       // console.log("SHOW EDIT FOR BOOKMARK WITH ID: ", id);
+        console.log("SHOW EDIT FOR BOOKMARK WITH ID: ", id);
         console.log(id);
         var bookmark = app.bookmarkExplorer.getById(id);
-        console.log(bookmark.url);
-        if(bookmark.url == null) {
-            bookmark.url = "";
-        }
-        var folders = app.bookmarkExplorer.folders;
-        bookmark.folders = folders;
-        app.show('bm-edit-dialog', this.template, bookmark);
+        app.bookmarkExplorer.getFolders().then(
+            function (f) {
+                console.log('found these folders ', f);
+                console.log(bookmark.url);
+                if(bookmark.url == null) {
+                    bookmark.url = "";
+                }
+                
+                bookmark.folders = f;
+                app.show('bm-edit-dialog', current.template, bookmark);
+                
+            }    
+        );
+        
+        // console.log(bookmark.url);
+        // if(bookmark.url == null) {
+        //     bookmark.url = "";
+        // }
+        // var folders = app.bookmarkExplorer.folders;
+        // bookmark.folders = folders;
+        // app.show('bm-edit-dialog', current.template, bookmark);
     };
 
     BookmarkEdit.prototype.apply = function apply(event, element, id) {

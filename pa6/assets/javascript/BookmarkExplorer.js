@@ -26,6 +26,8 @@
 
     };
 
+    
+    
     BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId, parentId) {
         console.log('this is the folderId ', folderId);
 
@@ -105,6 +107,21 @@
         axios.get(url).then(dislplayBookmarks, app.errorDialog.show);
     };
 
+
+    BookmarkExplorer.prototype.getFolders = function () {
+
+        var request = axios.get('/api/bookmarks/folders');
+
+        var folders;
+        return request.then(function (response) {
+            return response.data;
+        });
+
+        request.catch(app.errorDialog.show);
+
+    };
+    
+    
     app.bookmarkExplorer = new BookmarkExplorer();
 
 })(window);
