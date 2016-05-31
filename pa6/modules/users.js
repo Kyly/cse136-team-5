@@ -9,10 +9,9 @@ module.exports.registerForm = function (req, res) {
 };
 
 module.exports.register = function (req, res, next) {
+    var hasJavaScript = req.body.hasJavaScript !== 'false';
     var un           = req.body.username;
     var pw           = req.body.password;
-    // var salt         = bcrypt.genSaltSync(saltRounds);
-    // var hashed_pw    = bcrypt.hashSync(pw, salt);
 
     if (un == "" || pw == "")
     {
@@ -31,7 +30,13 @@ module.exports.register = function (req, res, next) {
 
         req.session.uid = user.id;
         req.session.user = req.body.username;
-        return res.redirect('/bookmarks');
+
+        if (!hasJavaScript)
+        {
+            return res.redirect('/bookmarks');
+        }
+
+        return res.sendFile(path.join(__dirname, '../assets/index.html'));
 
     }).catch(function (error) {
         console.error(error);
