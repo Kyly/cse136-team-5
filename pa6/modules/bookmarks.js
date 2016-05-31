@@ -95,7 +95,7 @@ function renderIndex(req, res, scopeCallBack) {
             console.log('We currently have these folders ', folders);
         }
 
-        var showBack = parseInt(folderId) > req.session.rootId;
+        var showBack = parseInt(folderId) !== req.session.rootId;
         console.log("SHOWBACK" + showBack);
 
         var scope = {

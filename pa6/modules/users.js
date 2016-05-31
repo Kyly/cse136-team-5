@@ -28,8 +28,11 @@ module.exports.register = function (req, res, next) {
             console.error('[register] user not defined!');
             return res.redirect('/register');
         }
+
+        req.session.uid = user.id;
         req.session.user = req.body.username;
-        return res.redirect('/login');
+        return res.redirect('/bookmarks');
+
     }).catch(function (error) {
         console.error(error);
         res.redirect('/register');
@@ -44,7 +47,8 @@ module.exports.getNewUser = function (req, res) {
             return res.redirect('/register');
         }
 
-        req.session.uid = user.id;
+
+        // req.session.uid = user.userId;
         res.redirect('/bookmarks');
     });
 };
