@@ -26,7 +26,7 @@
             </div>
             <div class="row">
                 <select required name="folderId" class="dialog-select dialog-input">
-                    <option value="1" selected>Select folder</option>
+                    <option value="{{folderId}}" selected>Select folder</option>
                     {{#each folders}}
                         <option value="{{id}}">{{name}}</option>
                     {{/each}}

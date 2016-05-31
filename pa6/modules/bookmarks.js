@@ -188,7 +188,9 @@ module.exports.import = function (req, res) {
 
 module.exports.create = function (req, res) {
     req.showCreateDialog = true;
+    
     function editDialogeScope(scope) {
+        scope.folderId    = req.session.folderId ? req.session.folderId : 1;
         scope.folders = getFolders(scope.bookmarks);
         console.log('editDialogeScope show folders', scope.folders );
     }
