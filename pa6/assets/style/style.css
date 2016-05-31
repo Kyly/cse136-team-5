@@ -970,6 +970,7 @@ header.login-header {
 }
 
 #loginBtn {
+    min-width: 120px;
     margin-right: 0;
 }
 
