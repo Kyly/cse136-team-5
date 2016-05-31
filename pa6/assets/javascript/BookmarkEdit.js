@@ -6,12 +6,6 @@
         this.template = app.templates['assets/templates/bm-edit-dialog.hbs'];
     }
 
-    function getFolders(bookmarks) {
-        return bookmarks.filter(function (bookmark) {
-            return bookmark.isFolder;
-        });
-    }
-
     BookmarkEdit.prototype.show = function showBookmarkEdit(event, id) {
         var current = this;
         if (event)
@@ -22,26 +16,26 @@
         console.log(id);
         var bookmark = app.bookmarkExplorer.getById(id);
         app.bookmarkExplorer.getFolders().then(
-            function (f) {
-                console.log('found these folders ', f);
+            function (folders) {
+                console.log('found these folders ', folders);
                 console.log(bookmark.url);
-                if(bookmark.url == null) {
+                if (bookmark.url == null)
+                {
                     bookmark.url = "";
                 }
+
+                bookmark.folders = folders;
+                console.log('Showing edit for ', bookmark);
+                if (!bookmark.isFolder) {
+                    delete bookmark.isFolder;
+                    bookmark.isBookmark = true;
+                }
                 
-                bookmark.folders = f;
                 app.show('bm-edit-dialog', current.template, bookmark);
-                
-            }    
+
+            }
         );
-        
-        // console.log(bookmark.url);
-        // if(bookmark.url == null) {
-        //     bookmark.url = "";
-        // }
-        // var folders = app.bookmarkExplorer.folders;
-        // bookmark.folders = folders;
-        // app.show('bm-edit-dialog', current.template, bookmark);
+
     };
 
     BookmarkEdit.prototype.apply = function apply(event, element, id) {
@@ -49,41 +43,40 @@
         {
             event.preventDefault();
         }
-        
+
         console.log(id);
         var name        = element.form.name.value;
         var url         = element.form.url.value;
         var keywords    = element.form.keywords.value;
         var description = element.form.description.value;
         var folderId    = element.form.folderId.value;
-        axios.post('/api/bookmarks/' + id, { 
-                name: name,
-                url: url,
-                keywords: keywords,
-                description: description,
-                folderId: folderId
-            })
+        axios.post('/api/bookmarks/' + id, {
+                 name: name,
+                 url: url,
+                 keywords: keywords,
+                 description: description,
+                 folderId: folderId
+             })
              .then(function (res) {
                  console.log(res);
-                app.bookmarkExplorer.showBookmarks();
+                 app.bookmarkExplorer.showBookmarks();
              })
              .catch(function (res) {
                  console.log(res);
-                if(res.status == 401) {
-                    window.location.href = 'users/login';
-                }
+                 if (res.status == 401)
+                 {
+                     window.location.href = 'users/login';
+                 }
 
-                var error = {
-                    name: res.data.message,
-                    code: res.status,
-                    message: res.data.errors[0].message
-                };
-            
-                App.errorDialog.show(error);
+                 var error = {
+                     name: res.data.message,
+                     code: res.status,
+                     message: res.data.errors[0].message
+                 };
+
+                 App.errorDialog.show(error);
              });
-    
-        //console.log(JSON.stringify(element.form));
-        
+
         app.remove(event, element, 'bm-edit-dialog');
     };
 
@@ -92,27 +85,28 @@
         {
             event.preventDefault();
         }
-        
-        console.log("DELETE");
-        
-        axios.delete('/api/bookmarks/' + id, {})
-            .then(function (res) {
-                 console.log(res);
-                app.bookmarkExplorer.showBookmarks();
-             })
-            .catch(function (res) {
-                 console.log(res);
-                if(res.status == 401) {
-                    window.location.href = 'users/login';
-                }
 
-                var error = {
-                    name: res.data.message,
-                    code: res.status,
-                    message: res.data.errors[0].message
-                };
-            
-                App.errorDialog.show(error);
+        console.log("DELETE");
+
+        axios.delete('/api/bookmarks/' + id, {})
+             .then(function (res) {
+                 console.log(res);
+                 app.bookmarkExplorer.showBookmarks();
+             })
+             .catch(function (res) {
+                 console.log(res);
+                 if (res.status == 401)
+                 {
+                     window.location.href = 'users/login';
+                 }
+
+                 var error = {
+                     name: res.data.message,
+                     code: res.status,
+                     message: res.data.errors[0].message
+                 };
+
+                 App.errorDialog.show(error);
              });
 
         app.remove(event, element, 'bm-edit-dialog');

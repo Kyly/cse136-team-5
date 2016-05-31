@@ -1,7 +1,8 @@
 <bm-edit-dialog class="dialog">
     <div class="dialog-header">
         <div class="dialog-title">Edit</div>
-        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-edit-dialog')" class=" icon-cancel"></span></bm-dialog-close>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-edit-dialog')" class=" icon-cancel"></span>
+        </bm-dialog-close>
     </div>
     <bm-dialog-body>
         <form class="dialog-form">
@@ -15,17 +16,19 @@
                            value="{{keywords}}">
                 </div>
             </div>
-            <div class="row">
-                <input name="url" type="text" class="dialog-input url"
-                       value="{{url}}">
-            </div>
+            {{#if isBookmark}}
+                <div class="row">
+                    <input name="url" type="text" class="dialog-input url"
+                           value="{{url}}">
+                </div>
+            {{/if}}
 
             <div class="row text">
                 <textarea name="description" class="dialog-input description">{{description}}</textarea>
             </div>
             <div class="row">
                 <select name="folderId" class="dialog-select dialog-input">
-                    <option  value="1" selected="selected">Select folder</option>
+                    <option value="1" selected="selected">Select folder</option>
                     {{#each folders}}
                         <option value="{{this.this.id}}">{{this.this.name}}</option>
                     {{/each}}
