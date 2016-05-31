@@ -39,24 +39,31 @@
         var keywords    = element.form.keywords.value;
         var description = element.form.description.value;
         var folderId    = element.form.folderId.value;
-        
-        if(url == "") {
-            var error = {
-                name: "No URL",
-                message: "Bookmark must have a URL"
-            };
-            app.errorDialog.show(error);
+
+        if (url == "")
+        {
+            app.errorDialog
+               .show({
+                         name: "No URL",
+                         message: "Bookmark must have a URL"
+                     });
+
+            return;
 
         }
-        else if(url.substring(0,7) != "http://" && url.substring(0,8) != "https://") {
-            var error = {
-                name: "Invalid URL format",
-                message: "URL must begin with http://"
-            }
-            app.errorDialog.show(error);
+
+        if (url.substring(0, 7) != "http://" && url.substring(0, 8) != "https://")
+        {
+            app.errorDialog
+               .show({
+                         name: "Invalid URL format",
+                         message: "URL must begin with http://"
+                     });
+
+            return;
         }
-        else {
-            axios.post('/api/bookmarks/', {
+
+        axios.post('/api/bookmarks/', {
                  name: name,
                  url: url,
                  keywords: keywords,
@@ -80,24 +87,26 @@
                  };
                  app.errorDialog.show(error);
              });
-        }
+        
         if (event)
         {
             event.preventDefault();
         }
-        
+
         app.remove(event, element, 'bm-create-dialog');
     };
 
     BookmarkCreate.prototype.addFolderRequest = function addFolderRequest(event, element) {
-        var name        = element.form.name.value;
-        var description = element.form.description.value;
+        var folder = {
+            name: element.form.name.value,
+            keywords: element.form.keywords.value,
+            description: element.form.description.value,
+            folderId: element.form.folderId.value,
+            isFolder: true
+        };
 
-        axios.post('/api/bookmarks/', {
-                 name: name,
-                 description: description,
-                 isFolder: true
-             })
+        console.log('New folder request', folder);
+        axios.post('/api/bookmarks/', folder)
              .then(function (res) {
                  console.log(res);
                  app.bookmarkExplorer.showBookmarks();

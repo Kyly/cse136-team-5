@@ -1,8 +1,9 @@
 <bm-create-dialog class="dialog">
 
     <div class="dialog-header">
-        <div class="dialog-title">Create</div>
-        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-create-dialog')" class=" icon-cancel"></span></bm-dialog-close>
+        <div class="dialog-title">Create Bookmark</div>
+        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-create-dialog')" class=" icon-cancel"></span>
+        </bm-dialog-close>
     </div>
 
     <bm-dialog-body>
@@ -36,7 +37,9 @@
 
             <div class="row">
                 <section class="press">
-                    <button type="button" onclick="app.bookmarkCreate.addBookmarkRequest(event, this)">Create</button>
+                    <button type="button" onclick="app.bookmarkCreate.addBookmarkRequest(event, this)">Create
+                        Bookmark
+                    </button>
                 </section>
             </div>
         </form>

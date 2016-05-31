@@ -53,7 +53,7 @@ module.exports = function (grunt) {
                 scripts: {
                     options: {
                         sourceMap: true,
-                        mangle: true
+                        mangle: false
                     },
                     files: {
                         'assets/javascript/scripts.min.js': [
