@@ -5,11 +5,18 @@ PA5/6
     * Added minification/concatenation for javascript and css. 
     * Restructured client to be more OO. 
     * Debugged searching and filtering (Post/Ajax).
-    * Debugged beck button functionality (Post/Ajax).
+    * Debugged back button functionality (Post/Ajax).
     * Debugged upload/download functionality (Post/Ajax).
     * Optimized font-awesome to contain only the icons we use (Post/Ajax).
     * Created Rollbar account and added rollbarjs for client side error tracking.
     * Implemented change password functionality, auto login on register, and error handling for user management. 
+- __Braxton__
+    * Implemented and stylized register form.
+    * Stylized login form.
+    * Implemented password salt and hashing with bcrypt
+    * Created error dialog
+    * Initial implementation of Dropzone for drag n' drop bookmark upload.
+    * Made UI adjustments
 
 Setup
 -----
