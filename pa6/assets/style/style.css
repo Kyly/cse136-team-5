@@ -841,6 +841,17 @@ section.press .button.active {
     transform: translateY(1px);
 }
 
+#reg {
+    margin-right: auto;
+}
+#chg {
+    margin-right: auto;
+    margin-left: auto;
+}
+#lgn {
+    margin-left: auto;
+}
+
 .dialog section.press {
     display: flex;
     align-self: flex-end;

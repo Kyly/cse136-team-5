@@ -125,10 +125,6 @@ module.exports.login = function (req, res) {
             console.log('[login] Valid login');
             req.session.user = user.name;
             req.session.uid  = user.id;
-            
-            if (action === 'change-pass') {
-                return res.redirect('/change-password');
-            }
 
             if (!hasJavaScript)
             {
