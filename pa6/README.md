@@ -1,7 +1,7 @@
 PA5/6
 =====
 
-- _Kyly_ 
+- __Kyly__ 
     * Added minification/concatenation for javascript and css. 
     * Restructured client to be more OO. 
     * Debugged searching and filtering (Post/Ajax).
