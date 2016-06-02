@@ -1,7 +1,7 @@
 <bm-confirm-delete class="dialog">
     <div class="dialog-header">
         <div class="dialog-title">Confirm Delete</div>
-        <bm-dialog-close><a href="/bookmarks"><span class=" icon-cancel"></span></a></bm-dialog-close>
+        <bm-dialog-close><a class="action-button" href="/bookmarks"><span class="icon-cancel"></span></a></bm-dialog-close>
     </div>
     <bm-dialog-body>
         <form class="dialog-form" action="/bookmarks/edit/{{#each bookmarkItem}}{{this.id}}{{/each}}" method="post">

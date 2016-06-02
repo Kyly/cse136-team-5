@@ -62,7 +62,7 @@ var list = module.exports.list = function (req, res) {
 function renderIndex(req, res, scopeCallBack) {
 
     var sql;
-    var search       = req.query['search'] ? req.query.search : null;
+    var search       = req.query['search'] ? "%"+req.query.search+"%" : null;
     var prevFolderId = req.session.folderId || 1;
     var folderId     = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : req.session.rootId;
     var sortBy       = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
@@ -71,22 +71,33 @@ function renderIndex(req, res, scopeCallBack) {
     req.session.sortBy   = sortBy;
 
     var uid = req.session.uid;
-    if (search)
-    {
-        search = '% ' + req.query['search'] ? db.escape(req.query.search) : null + ' %';
-        sql    = `SELECT * FROM Bookmarks WHERE name LIKE ${search} AND folderId = ${folderId} AND userId = ${uid} ORDER BY ${sortBy} ASC`;
-    }
-    else
-    {
-        sql = `SELECT * FROM Bookmarks WHERE folderId = ${folderId} AND userId = ${uid} ORDER BY ${sortBy} ASC`;
-    }
     console.log(sql);
-    db.query(sql, function (err, bookmarks) {
-        if (err)
-        {
-            console.error(err);
-            req.reportedError = err;
+    if (sortBy == 'favorite') {
+        sortBy = [sortBy, 'DESC'];
+    } else {
+        sortBy = [sortBy, 'ASC'];
+    }
+    var options = {
+         where: {
+                folderId: folderId,
+                userId: uid
+            },
+            order: [sortBy]
+    }
+    if (search) {
+        options = {
+             where: {
+                name: {
+                    $like: search
+                },
+                folderId: folderId,
+                userId: uid
+            },
+            order: [sortBy]
         }
+    }
+    var bookmarks = Bookmarks.findAll(options);
+  bookmarks.then((bookmarks) => {
 
         var folders;
         if (bookmarks)
@@ -109,14 +120,33 @@ function renderIndex(req, res, scopeCallBack) {
             folders: folders,
             error: req.reportedError,
             showBack: showBack,
-            prevFolderId: prevFolderId
+            prevFolderId: prevFolderId,
         };
-
+        
+        if (sortBy[0] == "url") {
+            scope.sortedByURL = true;
+        } else if (sortBy[0] == "name") {
+            scope.sortedByName = true;
+        } else if (sortBy[0] == "createdAt") {
+            scope.sortedByCreated = true;
+        } else if (sortBy[0] == "description") {
+            scope.sortedByDescription = true;
+        } else if (sortBy[0] == "keywords") {
+            scope.sortedByKeywords = true;
+        } else if (sortBy[0] == "favorite") {
+            scope.sortedByFavorite = true;
+        }
+        console.log(scope);
         if (scopeCallBack)
         {
             scopeCallBack(scope);
         }
 
+        res.render('index', scope);
+    });
+    bookmarks.catch((error) => {
+        req.reportedError = error;
+        var scope = {error: req.reportedError}
         res.render('index', scope);
     });
 }

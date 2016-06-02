@@ -21,10 +21,22 @@
             addRemoveLinks: true
         });
 
-        dz.on('error', function (error, errorMessage) {
-            console.log(error, errorMessage);
-            errorMessage.message = 'Upload failed: ' + errorMessage.message;
-            app.errorDialog.show(errorMessage);
+        dz.on('error', function (file, errorMessage, xhr) {
+            console.log(file, errorMessage, xhr);
+            if (typeof errorMessage !== "String") {
+                if (errorMessage.name && errorMessage.message) {
+                    errorMessage.name = "Upload Error: " + errorMessage.name;
+                    app.errorDialog.show(errorMessage);
+                } else {
+                    var error = new Error("Something went wrong!");
+                    error.name = "Upload Error";
+                    app.errorDialog.show(error);
+                }
+            } else {
+                var error = new Error(errorMessage);
+                error.name = "Upload Error";
+                app.errorDialog.show(error);
+            }
             var element = document.getElementsByTagName('bm-upload-file-dialog')[0];
             app.dialogContainer.removeChild(element);
         });

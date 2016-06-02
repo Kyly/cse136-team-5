@@ -28,17 +28,17 @@
             <div id="bookmark-explorer">
                 <div id="bookmark-actions">
                     <div class="action-button-group">
-                        <a class="box" href="javascript: void(0);" onclick="App.bookmarkCreate.show()">
+                        <a class="box action-button" href="javascript: void(0);" onclick="App.bookmarkCreate.show()">
                             <span class="icon-plus-squared"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="App.createFolder.show()">
+                        <a class="box action-button" href="javascript: void(0);" onclick="App.createFolder.show()">
                             <span class="icon-folder-open"></span>
                         </a>
-                        <a class="box" href="javascript: void(0);" onclick="App.bookmarkUploader.show()">
-                            <span class="icon-upload-cloud-1"></span>
+                        <a class="box action-button" href="javascript: void(0);" onclick="App.bookmarkUploader.show()">
+                            <span class="icon-upload-cloud"></span>
                         </a>
-                        <a class="box" href="/bookmarks/download" download>
-                            <span class="icon-download-cloud-1"></span>
+                        <a class="box action-button" href="/bookmarks/download" download>
+                            <span class="icon-download-cloud"></span>
                         </a>
                     </div>
                     <form onsubmit="app.bookmarkExplorer.search(event, this)">
@@ -50,14 +50,13 @@
                             <div class="sort-dropdown col-xs-4">
 
                                 <select name="options" onchange="app.bookmarkExplorer.search(event, this)">
-                                    <option value="name">Title</option>
-                                    <option value="favorite">Starred</option>
-                                    <option value="createdAt">Created</option>
-                                    <!--<option>Last Visited</option>-->
                                     <option value="url">URL</option>
+                                    <option value="name">Name</option>
+                                    <option value="createdAt">Created</option>
+                                    <option value="description">Description</option>
+                                    <option value="keywords">Keywords</option>
+                                    <option value="favorite">Favorite</option>
                                 </select>
-
-                                <i class="icon-down-open" aria-hidden="true"></i>
                             </div>
                         </div>
                         <input type="submit" style="display: none;" />

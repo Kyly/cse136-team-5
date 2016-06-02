@@ -2,11 +2,11 @@
     <div class="bookmark-item split-list">
         <div>
             <a class="bookmark-link folder-text" href="/bookmarks?folderId={{id}}">
-                <span class="icon-folder left-item bookmark-icons hand"></span> {{ name }}
+                <span class="icon-folder left-item bookmark-icons hand"></span>{{ name }}
             </a>
         </div>
         <div>
-            <a title="Favorite" class="action-button" href="/bookmarks?folderId={{id}}"><span class="icon-right-open edit-favorite-icons hand"></span></a>
+            <a title="Go Into" class="action-button" href="/bookmarks?folderId={{id}}"><span class="icon-right-open edit-favorite-icons hand"></span></a>
             <!--<span class="icon-edit edit-favorite-icons hand" onclick="App.bookmarkEdit.show({{toJSON this}})"></span>-->
             <a title="Edit" class="action-button" href="/bookmarks/editfolder?id={{id}}"><span class="icon-edit edit-favorite-icons hand"></span></a>
         </div>

@@ -2,12 +2,16 @@
     <div class="bookmark-item split-list" >
         <div>
             <a class="bookmark-link" href="{{url}}" target="_blank">
-                <span class=" icon-bookmark bookmark-icons hand"></span> {{ name }}
+                <span class="icon-bookmark bookmark-icons hand"></span>{{ name }}
             </a>
         </div>
-       <div>
-           <span class="{{#if favorite}}icon-star{{else}}icon-star-empty{{/if}} edit-favorite-icons hand" onclick="App.bookmarkExplorer.toggleFavorite(this, '{{id}}')"></span>
-           <span class="icon-edit edit-favorite-icons hand" onclick="app.bookmarkEdit.show(event, {{id}})"></span>
-       </div>
+        <div>
+            <a title="Favorite" class="action-button" href="javascript: void(0);">
+                <span class="{{#if favorite}}icon-star{{else}}icon-star-empty{{/if}} edit-favorite-icons hand" onclick="App.bookmarkExplorer.toggleFavorite(this, '{{id}}')"></span>
+            </a>
+            <a title="Edit" class="action-button" href="javascript: void(0);">
+                <span class="icon-edit edit-favorite-icons hand" onclick="app.bookmarkEdit.show(event, {{id}})"></span>
+            </a>
+        </div>
     </div>
 </li>
