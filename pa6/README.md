@@ -11,6 +11,11 @@ PA5/6
     * Created Rollbar account and added rollbarjs for client side error tracking.
     * Implemented change password functionality, auto login on register, and error handling for user management. 
 
+- __Mike__
+    * Debbuged create and edit bookmark and folder modal and functionality
+    * Added validation before creation of bookmark 
+    * Error message when bookmark input is not valid
+
 Setup
 -----
 - The database interface has changed too. You can find the configurations in `database/config/config.json`. 
