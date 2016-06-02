@@ -37,37 +37,52 @@
                             <span class="icon-plus-squared"></span>
                         </a>
                         <a title="Create folder" class="box action-button" href="/bookmarks/createfolder">
-                            <span class="  icon-folder-open"></span>
+                            <span class="icon-folder-open"></span>
                         </a>
                         <a title="Import bookmarks" class="box action-button" href="/bookmarks/upload-dialog">
-                            <span class="icon-upload-cloud-1"></span>
+                            <span class="icon-upload-cloud"></span>
                         </a>
-                        <a class="box action-button" href="/bookmarks/download" target="_blank">
-                            <span class="icon-download-cloud-1"></span>
+                        <a title="Export bookmarks" class="box action-button" href="/bookmarks/download"
+                           target="_blank">
+                            <span class="icon-download-cloud"></span>
                         </a>
                     </div>
-                    <div class="row">
-                        <div class="search-bar col-xs-8">
-                            <form method="post" action="bookmarks/search">
-                            <input type="search" name="keywords" placeholder="Search">
-                            <i class=" icon-search" aria-hidden="true" title="Search"></i>
-                            </form>
+                    <!--<div class="row">-->
+                    <form method="get" action="/bookmarks" class="row">
+                        <div class="search-bar col-xs-6">
+                            <!--<form method="post" action="bookmarks/search">-->
+                            <input type="search" name="search" placeholder="Search">
+                            <!--<i class="icon-search" aria-hidden="true" title="Search"></i>-->
+                            <!--</form>-->
                         </div>
-                        <div class="sort-dropdown col-xs-4" >
-                            <form method="post" class="sort-dropdown-two" action="bookmarks/sort">
-                                <select name="options">
-                                    <option>url</option>
-                                    <option>name</option>
-                                    <option>description</option>
-                                    <option>keywords</option>
-                                    <option value="(case when favorite then 1 when favorite is null then 2 else 3 end)">favorite</option>
-                                </select>
-                                <input type="submit" value=">" style="min-width: 10px;">
-                            </form>
+                        <div class="sort-dropdown col-xs-4">
+                            <!--<form method="post" action="bookmarks/sort">-->
+                            <select name="sortBy">
+                                <option value="url"{{#if sortedByURL}} selected{{/if}}>URL</option>
+                                <option value="name"{{#if sortedByName}} selected{{/if}}>Name</option>
+                                <option value="createdAt"{{#if sortedByCreated}} selected{{/if}}>Created
+                                </option>
+                                <option value="description"{{#if sortedByDescription}} selected{{/if}}>
+                                    Description
+                                </option>
+                                <option value="keywords"{{#if sortedByKeywords}} selected{{/if}}>Keywords
+                                </option>
+                                <option value="favorite"{{#if sortedByFavorite}} selected{{/if}}>Favorite
+                                </option>
+                            </select>
+                            <!--<input type="submit" value="Sort By" id="smallbutton">-->
+                            <!--</form>-->
                             <!--<i class="icon-down-open" aria-hidden="true"></i>-->
                         </div>
-                    </div>
+                        <div class="col-xs-1">
+                            <section class="press">
+                                <button style="cursor: pointer; color: #39789F; font-size: larger; margin: 0; padding: 0; background-color: inherit; box-shadow: none" type="submit"><i class="icon-search action-button" aria-hidden="true" title="Search"></i></button>
+                            </section>
+
+                        </div>
+                    </form>
                 </div>
+                <!--</div>-->
 
                 <div style="background-color: #A2AEBB"></div>
 
@@ -104,7 +119,7 @@
                 {{> bookmarks/upload-file }}
             {{/if}}
 
-            
+
             {{#if showConfirmDeleteDialog }}
                 {{> bookmarks/confirm-delete }}
             {{/if}}
@@ -127,7 +142,8 @@
                     'bm-error-dialog', 'bm-confirm-delete'
         ];
 
-        for(var i = 0; i < tags.length; ++i) {
+        for (var i = 0; i < tags.length; ++i)
+        {
             document.createElement(tags[i]);
         }
     })(window);

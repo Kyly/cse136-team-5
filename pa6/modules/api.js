@@ -11,15 +11,17 @@ BookmarkApi.prototype.getRootFolder = (req, res, next) => {
     var session = req.session;
     var userId  = session.uid;
 
-    if (session.folderId)
-    {
-        return next();
-    }
+    // if (session.folderId)
+    // {
+    //     return next();
+    // }
 
     Bookmarks.find({where: {userId: userId, name: 'root'}}).then((root) => {
         session.rootId = root.id;
         next();
-    }).catch((error)=> res.status(400).json({message: error.message, errors: error.errors})); // FIXME Need version for post back
+    }).catch((error)=> {
+        res.status(400).json({message: error.message, errors: error.errors});
+    }); // FIXME Need version for post back
 
 };
 
@@ -53,10 +55,23 @@ BookmarkApi.prototype.getList = (req, res) => {
             $like: `%${search}%`
         }
     }
+    var query;
+    var parentId = undefined;
+    if (req.session.rootId != folderId)
+    {
+        query = Bookmarks.find({where: {id: folderId}}).then((parent) => {
+            parentId = parent.folderId;
+            return Bookmarks.findAll(bookmarks);
+        });
+    }
+    else
+    {
+        query = Bookmarks.findAll(bookmarks);
+    }
 
-    var query = Bookmarks.findAll(bookmarks);
-
-    query.then((list) => res.json(list));
+    query.then((list) => {
+        res.json({rootId: req.session.rootId, parentId: parentId, bookmarks: list});
+    });
 
     query.catch((error) => res.status(500).json({message: error.message, errors: error.errors}));
 };
@@ -140,7 +155,7 @@ BookmarkApi.prototype.createBookmarkPerm = (req, res, next) => {
     query.then((result) => {
         next();
     });
-    
+
     query.catch((error) => {
         res.status(409).json({name: error.message, message: error.errors[0].message});
     });
@@ -188,6 +203,7 @@ BookmarkApi.prototype.parseFile = (req, res) => {
 
         bookmarks.forEach((bookmark) => {
             bookmark.userId = req.session.uid;
+            bookmark.folderId = req.session.rootId;
         });
 
         var bulkCreate = Bookmarks.bulkCreate(bookmarks);

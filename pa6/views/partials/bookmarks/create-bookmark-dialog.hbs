@@ -1,7 +1,7 @@
 <bm-create-dialog class="dialog">
     <div class="dialog-header">
         <div class="dialog-title">Create</div>
-        <bm-dialog-close><a href="/bookmarks"><span class=" con-cancel"></span></a></bm-dialog-close>
+        <bm-dialog-close><a class="action-button" href="/bookmarks"><span class="icon-cancel"></span></a></bm-dialog-close>
     </div>
     <bm-dialog-body>
         <form class="dialog-form" method='post' action='/bookmarks/insert'>
@@ -25,8 +25,8 @@
                           placeholder="Description"></textarea>
             </div>
             <div class="row">
-                <select required name="folderId" class="dialog-select dialog-input">
-                    <option value="1" selected>Select folder</option>
+                <select name="folderId" class="dialog-select dialog-input">
+                    <option value="{{folderId}}" selected>Select folder</option>
                     {{#each folders}}
                         <option value="{{id}}">{{name}}</option>
                     {{/each}}

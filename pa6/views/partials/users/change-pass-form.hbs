@@ -1,0 +1,27 @@
+<form class="dialog-form" method="post" action="/change-password">
+    <div class="col-xs-12">
+        <h2 class="form-header">Reset Password</h2>
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="password">New Password</label>
+                <input id="password" name="password" type="password"
+                       class="dialog-input" autocomplete="off">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="confirm">Confirm new password</label>
+                <input id="confirm" type="password" name="confirm"
+                       class="dialog-input" autocomplete="off">
+            </div>
+        </div>
+        <div class="row button-row">
+            <section class="press">
+                <a class="button" href="/">Cancel</a>
+            </section>
+            <section id="login-section" class="press">
+                <button id="loginBtn" type="submit" value="reset password">Change</button>
+            </section>
+        </div>
+    </div>
+</form>

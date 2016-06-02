@@ -513,7 +513,6 @@ bm-upload-file-dialog .drag-and-drop-container {
 
 .search-bar i {
     position: absolute;
-    bottom: 0.80em;
     cursor: pointer;
     padding-right: 1.5em;
     color: rgba(122, 177, 223, 100);
@@ -550,14 +549,6 @@ bm-upload-file-dialog .drag-and-drop-container {
 
 .sort-dropdown select:focus {
     background-color: rgba(75, 75, 96, 100);
-}
-
-.sort-dropdown i {
-    position: absolute;
-    right: 0.5em;
-    bottom: 0.80em;
-    color: rgba(122, 177, 223, 100);
-    cursor: default;
 }
 
 /*colors {*/
@@ -812,12 +803,12 @@ button, .button {
     line-height: 1.8;
 }
 
-button:focus, .button:focus {
+button:focus, .button:focus, #smallbutton:focus {
     outline: none
 }
 
 section.press button,
-section.press .button {
+section.press .button, #smallbutton {
     color: #fff;
     background-color: #6496c8;
     border: none;
@@ -827,18 +818,27 @@ section.press .button {
 
 section.press button:hover,
 section.press .button:hover,
-section.press button.hover,
-section.press .button.hover {
+#smallbutton:hover {
     background-color: #417cb8
 }
 
 section.press button:active,
 section.press .button:active,
-section.press button.active
-section.press .button.active {
+#smallbutton:active {
     background-color: #417cb8;
     box-shadow: 0 5px #27496d;
     transform: translateY(1px);
+}
+
+#reg {
+    margin-right: auto;
+}
+#chg {
+    margin-right: auto;
+    margin-left: auto;
+}
+#lgn {
+    margin-left: auto;
 }
 
 .dialog section.press {
@@ -970,6 +970,7 @@ header.login-header {
 }
 
 #loginBtn {
+    min-width: 120px;
     margin-right: 0;
 }
 
@@ -1001,21 +1002,4 @@ header.login-header {
 
 .back-cursor {
     cursor:pointer;
-}
-
-.sort-dropdown-two select {
-    width: 70%;
-    background-color: rgba(75, 75, 96, 100);
-    color: rgba(122, 177, 223, 100);
-    border-bottom-color: rgba(57, 120, 159, 100);
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    font-size: 1em;
-    line-height: 1;
-    border-bottom-width: 2px;
-    color: #c1bdba;
-    height: 1.3em;
 }

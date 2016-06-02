@@ -28,28 +28,22 @@
 
     
     
-    BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId, parentId) {
+    BookmarkExplorer.prototype.showBookmarks = function showBookmarks(folderId) {
         console.log('this is the folderId ', folderId);
-
-        if (parentId)
-        {
-            sessionStorage.setItem('parentId', parentId);
-        }
 
         getBookmarks(folderId).then(dislplayBookmarks, app.errorDialog.show);
     };
 
     function dislplayBookmarks(bookmarks) {
         bookExp.container.innerHTML = '';
+
+        var rootId = bookmarks.data.rootId;
+        var parentId = bookmarks.data.parentId;
+        bookExp.bookmarks = bookmarks.data.bookmarks;
+
         console.log('Inside show bookmarks ', bookmarks);
 
-        var folderId;
-        var parentId = sessionStorage.getItem('parentId');
-
-        bookExp.bookmarks = bookmarks.data;
-
         bookExp.bookmarks.forEach(function (current) {
-            folderId = current.folderId;
             if (current.url)
             {
                 printBookmarkListItem(bookExp.container, bookExp.itemTemplate, current);
@@ -59,10 +53,9 @@
             {
                 printBookmarkListItem(bookExp.container, bookExp.folderTemplate, current);
             }
-
         });
 
-        if (parentId != folderId)
+        if (parentId)
         {
             bookExp.container.insertAdjacentHTML('afterbegin', bookExp.subFolderBack({parent: parentId}));
         }
@@ -115,13 +108,23 @@
         var folders;
         return request.then(function (response) {
             return response.data;
+        }).catch(function (res) {
+            console.log(res);
+            if (res.status == 401)
+            {
+                window.location.href = 'users/login';
+            }
+
+            var error = {
+                name: res.data.message,
+                code: res.status,
+                message: res.data.errors[0].message
+            };
+
+            App.errorDialog.show(error);
         });
-
-        request.catch(app.errorDialog.show);
-
     };
-    
-    
+
     app.bookmarkExplorer = new BookmarkExplorer();
 
 })(window);
