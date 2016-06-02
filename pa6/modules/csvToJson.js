@@ -6,7 +6,7 @@ var headers = ['name', 'url', 'description', 'keywords', 'favorite'];
 function parseCSVFile(buffer, onNewRecord, handleError, done) {
     var source = String.fromCharCode.apply(null, buffer);
     var converter = new Converter({
-        noheader: true,
+        noheader: false,
         headers: headers,
         maxRowLength: '2000',
         checkColumn: true

@@ -22,11 +22,11 @@ router.post('/editbookmark', bookmarks.editBookmark);
 
 router.get('/editbookmark', bookmarks.editBookmark);
 router.get('/upload-dialog', bookmarks.uploadDialog);
-router.post('/upload', upload.single('csvFile'), bookmarks.parseFile);
+router.post('/upload', upload.single('csvFile'), api.getRootFolder, bookmarks.parseFile);
 router.get('/download', bookmarks.getBookmarks, bookmarks.getCSV);
 
-router.post('/search', bookmarks.search);
-router.post('/sort', bookmarks.sort);
+router.post('/search', api.getRootFolder, bookmarks.list);
+// router.post('/sort', bookmarks.sort);
 router.get('/home', bookmarks.home);
 
 module.exports = router;
