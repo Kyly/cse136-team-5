@@ -8,6 +8,6 @@ router.get('/folders', api.getFolders);
 router.post('/', api.createBookmarkPerm, api.create);
 router.post('/:bookId(\\d+)', api.update);
 router.delete('/:bookId(\\d+)', api.delete);
-router.post('/upload', upload.single('file'), api.parseFile);
+router.post('/upload', upload.single('file'), api.getRootFolder, api.parseFile);
 
 module.exports = router;

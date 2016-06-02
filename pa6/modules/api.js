@@ -11,10 +11,10 @@ BookmarkApi.prototype.getRootFolder = (req, res, next) => {
     var session = req.session;
     var userId  = session.uid;
 
-    if (session.folderId)
-    {
-        return next();
-    }
+    // if (session.folderId)
+    // {
+    //     return next();
+    // }
 
     Bookmarks.find({where: {userId: userId, name: 'root'}}).then((root) => {
         session.rootId = root.id;
@@ -203,6 +203,7 @@ BookmarkApi.prototype.parseFile = (req, res) => {
 
         bookmarks.forEach((bookmark) => {
             bookmark.userId = req.session.uid;
+            bookmark.folderId = req.session.rootId;
         });
 
         var bulkCreate = Bookmarks.bulkCreate(bookmarks);

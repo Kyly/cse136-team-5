@@ -23,7 +23,8 @@ module.exports.parseFile = function parseFile(req, res) {
                 continue;
             }
 
-            record[key].uid = req.session.uid;
+            record[key].userId   = req.session.uid;
+            record[key].folderId = req.session.rootId;
             insertBookmark(record[key], function (err) {
                 console.error(err);
                 req.reportedError = err;
@@ -40,7 +41,8 @@ module.exports.parseFile = function parseFile(req, res) {
 
     function done() {
         req.message = "Upload successful!";
-        renderIndex(req, res);
+        setTimeout(()=> renderIndex(req, res), 1000);
+        // renderIndex(req, res);
     }
 
     if (req.file && req.file.buffer)
@@ -59,10 +61,17 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
-function renderIndex(req, res, scopeCallBack) {
+module.exports.getParent = function (req, res, next) {
+    var session = req.session;
+    Bookmarks.find({where: {id: folderId}}).then((parent) => {
+        session.parentId = parent.folderId;
+    }).catch(next);
+};
 
-    var sql;
-    var search       = req.query['search'] ? "%"+req.query.search+"%" : null;
+function renderIndex(req, res, scopeCallBack) {
+    // req.query.sortBy = req.body.options;
+    var parentId     = req.session.rootId;
+    var search       = req.query['search'] ? "%" + req.query.search + "%" : null;
     var prevFolderId = req.session.folderId || 1;
     var folderId     = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : req.session.rootId;
     var sortBy       = req.query['sortBy'] ? req.query.sortBy : req.session.sortBy ? req.session.sortBy : 'name';
@@ -71,22 +80,28 @@ function renderIndex(req, res, scopeCallBack) {
     req.session.sortBy   = sortBy;
 
     var uid = req.session.uid;
-    console.log(sql);
-    if (sortBy == 'favorite') {
+
+    if (sortBy == 'favorite')
+    {
         sortBy = [sortBy, 'DESC'];
-    } else {
+    }
+    else
+    {
         sortBy = [sortBy, 'ASC'];
     }
+
     var options = {
-         where: {
-                folderId: folderId,
-                userId: uid
-            },
-            order: [sortBy]
-    }
-    if (search) {
+        where: {
+            folderId: folderId,
+            userId: uid
+        },
+        order: [sortBy]
+    };
+
+    if (search)
+    {
         options = {
-             where: {
+            where: {
                 name: {
                     $like: search
                 },
@@ -96,59 +111,80 @@ function renderIndex(req, res, scopeCallBack) {
             order: [sortBy]
         }
     }
-    var bookmarks = Bookmarks.findAll(options);
-  bookmarks.then((bookmarks) => {
-
-        var folders;
-        if (bookmarks)
-        {
-            folders = getFolders(bookmarks);
-            console.log('We currently have these folders ', folders);
-        }
-
-        var showBack = parseInt(folderId) !== req.session.rootId;
-        console.log("SHOWBACK" + showBack);
-
-        var scope = {
-            bookmarks: bookmarks,
-            showCreateDialog: req.showCreateDialog,
-            showEditDialog: req.showEditDialog,
-            showUploadDialog: req.showUploadDialog,
-            showCreateFolderDialog: req.showCreateFolderDialog,
-            showConfirmDeleteDialog: req.showConfirmDeleteDialog,
-            showEditFolderDialog: req.showEditFolderDialog,
-            folders: folders,
-            error: req.reportedError,
-            showBack: showBack,
-            prevFolderId: prevFolderId,
-        };
-        
-        if (sortBy[0] == "url") {
-            scope.sortedByURL = true;
-        } else if (sortBy[0] == "name") {
-            scope.sortedByName = true;
-        } else if (sortBy[0] == "createdAt") {
-            scope.sortedByCreated = true;
-        } else if (sortBy[0] == "description") {
-            scope.sortedByDescription = true;
-        } else if (sortBy[0] == "keywords") {
-            scope.sortedByKeywords = true;
-        } else if (sortBy[0] == "favorite") {
-            scope.sortedByFavorite = true;
-        }
-        console.log(scope);
-        if (scopeCallBack)
-        {
-            scopeCallBack(scope);
-        }
-
-        res.render('index', scope);
+    var getParent = Bookmarks.find({where: {id: folderId}}).then((parent) => {
+        parentId = parent.folderId;
     });
-    bookmarks.catch((error) => {
-        req.reportedError = error;
-        var scope = {error: req.reportedError}
-        res.render('index', scope);
-    });
+
+    getParent.then(getBookmarks).catch(getBookmarks);
+
+    function getBookmarks() {
+        var bookmarks = Bookmarks.findAll(options);
+        bookmarks.then((bookmarks) => {
+
+            var folders;
+            if (bookmarks)
+            {
+                folders = getFolders(bookmarks);
+                console.log('We currently have these folders ', folders);
+            }
+
+            var showBack = parseInt(folderId) !== req.session.rootId;
+            console.log("SHOWBACK" + showBack);
+
+            var scope = {
+                bookmarks: bookmarks,
+                showCreateDialog: req.showCreateDialog,
+                showEditDialog: req.showEditDialog,
+                showUploadDialog: req.showUploadDialog,
+                showCreateFolderDialog: req.showCreateFolderDialog,
+                showConfirmDeleteDialog: req.showConfirmDeleteDialog,
+                showEditFolderDialog: req.showEditFolderDialog,
+                folders: folders,
+                error: req.reportedError,
+                showBack: showBack,
+                prevFolderId: parentId
+            };
+
+            if (sortBy[0] == "url")
+            {
+                scope.sortedByURL = true;
+            }
+            else if (sortBy[0] == "name")
+            {
+                scope.sortedByName = true;
+            }
+            else if (sortBy[0] == "createdAt")
+            {
+                scope.sortedByCreated = true;
+            }
+            else if (sortBy[0] == "description")
+            {
+                scope.sortedByDescription = true;
+            }
+            else if (sortBy[0] == "keywords")
+            {
+                scope.sortedByKeywords = true;
+            }
+            else if (sortBy[0] == "favorite")
+            {
+                scope.sortedByFavorite = true;
+            }
+
+            console.log(scope);
+            if (scopeCallBack)
+            {
+                scopeCallBack(scope);
+            }
+
+            res.render('index', scope);
+        });
+        bookmarks.catch((error) => {
+            req.reportedError = error;
+            var scope         = {error: req.reportedError};
+            res.render('index', scope);
+        });
+    }
+
 }
 
 module.exports.getBookmarks = function (req, res, next) {
@@ -218,11 +254,11 @@ module.exports.import = function (req, res) {
 
 module.exports.create = function (req, res) {
     req.showCreateDialog = true;
-    
+
     function editDialogeScope(scope) {
-        scope.folderId    = req.session.folderId ? req.session.folderId : 1;
-        scope.folders = getFolders(scope.bookmarks);
-        console.log('editDialogeScope show folders', scope.folders );
+        scope.folderId = req.session.folderId ? req.session.folderId : 1;
+        scope.folders  = getFolders(scope.bookmarks);
+        console.log('editDialogeScope show folders', scope.folders);
     }
 
     renderIndex(req, res, editDialogeScope);
@@ -345,8 +381,8 @@ module.exports.insert = function (req, res) {
 
 function insertBookmark(bookmark, onError, done) {
     bookmark.isFolder = 0;
-    var sqlInsert = sqlQuery.insert();
-    var sql       = sqlInsert.into('Bookmarks').set(bookmark).build();
+    var sqlInsert     = sqlQuery.insert();
+    var sql           = sqlInsert.into('Bookmarks').set(bookmark).build();
 
     db.query(sql, function (err) {
         if (err)
@@ -374,7 +410,6 @@ module.exports.insertFolder = function (req, res) {
     newFolder.isFolder    = 1;
     newFolder.userId      = req.session.uid;
 
-
     var queryString = sqlInsert.into('Bookmarks').set(newFolder).build();
     console.log(queryString);
 
@@ -382,8 +417,8 @@ module.exports.insertFolder = function (req, res) {
     query.then(()=> renderIndex(req, res));
     query.catch((error) => {
         req.reportedError = {message: error.message, name: 'Failed to create bookmark', status: 400};
-    renderIndex(req, res);
-});
+        renderIndex(req, res);
+    });
 };
 
 /**
@@ -440,18 +475,18 @@ function search(req, res) {
     });
 }
 
-module.exports.search = function (req, res) {
-    var search       = req.body.keywords;
-    req.query.search = search;
-    renderIndex(req, res);
-};
+// module.exports.search = function (req, res) {
+//     var search       = req.body.keywords;
+//     req.query.search = search;
+//     renderIndex(req, res);
+// };
 
 module.exports.favorite = function (req, res) {
     var id  = req.query.id;
     var fav = req.query.fav;
     var uid = req.session.uid;
 
-    fav = fav == 0 ? 1 : 0;
+    fav             = fav == 0 ? 1 : 0;
     var queryString = 'UPDATE Bookmarks SET favorite = ' + fav + ' WHERE id = ' + id + ' AND userId = ' + uid;
     db.query(queryString, function (err) {
         if (err)
@@ -484,11 +519,11 @@ module.exports.defaultView = function (req, res) {
     renderIndex(req, res);
 };
 
-module.exports.sort = function (req, res) {
-    var option       = req.body.options;
-    req.query.sortBy = option;
-    renderIndex(req, res);
-};
+// module.exports.sort = function (req, res) {
+//     var option       = req.body.options;
+//     req.query.sortBy = option;
+//     renderIndex(req, res);
+// };
 
 module.exports.createFolder = function (req, res) {
     req.showCreateFolderDialog = true;
