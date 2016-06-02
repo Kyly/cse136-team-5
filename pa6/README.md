@@ -1,6 +1,16 @@
 PA5/6
 =====
 
+- _Kyly_ 
+    * Added minification/concatenation for javascript and css. 
+    * Restructured client to be more OO. 
+    * Debugged searching and filtering (Post/Ajax).
+    * Debugged beck button functionality (Post/Ajax).
+    * Debugged upload/download functionality (Post/Ajax).
+    * Optimized font-awesome to contain only the icons we use (Post/Ajax).
+    * Created Rollbar account and added rollbarjs for client side error tracking.
+    * Implemented change password functionality, auto login on register, and error handling for user management. 
+
 Setup
 -----
 - The database interface has changed too. You can find the configurations in `database/config/config.json`. 
