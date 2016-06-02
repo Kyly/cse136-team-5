@@ -1,7 +1,7 @@
 <bm-error-dialog class="dialog">
     <div class="dialog-header">
         <div class="dialog-title"><span class="icon-attention"></span>&nbsp;{{name}} {{code}}</div>
-        <bm-dialog-close><span onclick="app.remove(event, this, 'bm-error-dialog')" class="icon-cancel"></span>
+        <bm-dialog-close><a href="/bookmarks"><span class="icon-cancel"></span></a></bm-dialog-close>
         </bm-dialog-close>
     </div>
     <bm-dialog-body>
@@ -10,7 +10,7 @@
         </div>
         <div class="row">
             <section class="press">
-                <a href="javascript: void(0)" onclick="app.remove(event, this, 'bm-error-dialog')" class="button">OK</a>
+                <a href="/bookmarks" class="button">OK</a>
             </section>
         </div>
     </bm-dialog-body>
