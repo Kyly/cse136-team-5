@@ -61,8 +61,16 @@ var list = module.exports.list = function (req, res) {
     renderIndex(req, res);
 };
 
+module.exports.getParent = function (req, res, next) {
+    var session = req.session;
+    Bookmarks.find({where: {id: folderId}}).then((parent) => {
+        session.parentId = parent.folderId;
+    }).catch(next);
+};
+
 function renderIndex(req, res, scopeCallBack) {
     // req.query.sortBy = req.body.options;
+    var parentId     = req.session.rootId;
     var search       = req.query['search'] ? "%" + req.query.search + "%" : null;
     var prevFolderId = req.session.folderId || 1;
     var folderId     = req.query['folderId'] ? req.query.folderId : req.session.folderId ? req.session.folderId : req.session.rootId;
@@ -103,72 +111,80 @@ function renderIndex(req, res, scopeCallBack) {
             order: [sortBy]
         }
     }
-    
-    var bookmarks = Bookmarks.findAll(options);
-    bookmarks.then((bookmarks) => {
-
-        var folders;
-        if (bookmarks)
-        {
-            folders = getFolders(bookmarks);
-            console.log('We currently have these folders ', folders);
-        }
-
-        var showBack = parseInt(folderId) !== req.session.rootId;
-        console.log("SHOWBACK" + showBack);
-
-        var scope = {
-            bookmarks: bookmarks,
-            showCreateDialog: req.showCreateDialog,
-            showEditDialog: req.showEditDialog,
-            showUploadDialog: req.showUploadDialog,
-            showCreateFolderDialog: req.showCreateFolderDialog,
-            showConfirmDeleteDialog: req.showConfirmDeleteDialog,
-            showEditFolderDialog: req.showEditFolderDialog,
-            folders: folders,
-            error: req.reportedError,
-            showBack: showBack,
-            prevFolderId: prevFolderId
-        };
-
-        if (sortBy[0] == "url")
-        {
-            scope.sortedByURL = true;
-        }
-        else if (sortBy[0] == "name")
-        {
-            scope.sortedByName = true;
-        }
-        else if (sortBy[0] == "createdAt")
-        {
-            scope.sortedByCreated = true;
-        }
-        else if (sortBy[0] == "description")
-        {
-            scope.sortedByDescription = true;
-        }
-        else if (sortBy[0] == "keywords")
-        {
-            scope.sortedByKeywords = true;
-        }
-        else if (sortBy[0] == "favorite")
-        {
-            scope.sortedByFavorite = true;
-        }
-        
-        console.log(scope);
-        if (scopeCallBack)
-        {
-            scopeCallBack(scope);
-        }
-
-        res.render('index', scope);
+    var getParent = Bookmarks.find({where: {id: folderId}}).then((parent) => {
+        parentId = parent.folderId;
     });
-    bookmarks.catch((error) => {
-        req.reportedError = error;
-        var scope         = {error: req.reportedError};
-        res.render('index', scope);
-    });
+
+    getParent.then(getBookmarks).catch(getBookmarks);
+
+    function getBookmarks() {
+        var bookmarks = Bookmarks.findAll(options);
+        bookmarks.then((bookmarks) => {
+
+            var folders;
+            if (bookmarks)
+            {
+                folders = getFolders(bookmarks);
+                console.log('We currently have these folders ', folders);
+            }
+
+            var showBack = parseInt(folderId) !== req.session.rootId;
+            console.log("SHOWBACK" + showBack);
+
+            var scope = {
+                bookmarks: bookmarks,
+                showCreateDialog: req.showCreateDialog,
+                showEditDialog: req.showEditDialog,
+                showUploadDialog: req.showUploadDialog,
+                showCreateFolderDialog: req.showCreateFolderDialog,
+                showConfirmDeleteDialog: req.showConfirmDeleteDialog,
+                showEditFolderDialog: req.showEditFolderDialog,
+                folders: folders,
+                error: req.reportedError,
+                showBack: showBack,
+                prevFolderId: parentId
+            };
+
+            if (sortBy[0] == "url")
+            {
+                scope.sortedByURL = true;
+            }
+            else if (sortBy[0] == "name")
+            {
+                scope.sortedByName = true;
+            }
+            else if (sortBy[0] == "createdAt")
+            {
+                scope.sortedByCreated = true;
+            }
+            else if (sortBy[0] == "description")
+            {
+                scope.sortedByDescription = true;
+            }
+            else if (sortBy[0] == "keywords")
+            {
+                scope.sortedByKeywords = true;
+            }
+            else if (sortBy[0] == "favorite")
+            {
+                scope.sortedByFavorite = true;
+            }
+
+            console.log(scope);
+            if (scopeCallBack)
+            {
+                scopeCallBack(scope);
+            }
+
+            res.render('index', scope);
+        });
+        bookmarks.catch((error) => {
+            req.reportedError = error;
+            var scope         = {error: req.reportedError};
+            res.render('index', scope);
+        });
+    }
+
 }
 
 module.exports.getBookmarks = function (req, res, next) {
