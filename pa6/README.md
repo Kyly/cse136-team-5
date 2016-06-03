@@ -26,6 +26,14 @@ PA5/6
     * Added validation before creation of bookmark 
     * Error message when bookmark input is not valid
 
+- __Braxton__
+     * Implemented and stylized register form.
+     * Stylized login form.
+     * Implemented password salt and hashing with bcrypt
+     * Created error dialog
+     * Initial implementation of Dropzone for drag n' drop bookmark upload.
+     * Made UI adjustments
+     
 Setup
 -----
 - The database interface has changed too. You can find the configurations in `database/config/config.json`. 
