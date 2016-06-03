@@ -11,6 +11,11 @@ PA5/6
     * Created Rollbar account and added rollbarjs for client side error tracking.
     * Implemented change password functionality, auto login on register, and error handling for user management. 
 
+- Kevin
+    * search and sort for handlebars
+    * favorites for handlebars
+    * back and home folder navigation
+    * debugging
 Setup
 -----
 - The database interface has changed too. You can find the configurations in `database/config/config.json`. 
