@@ -21,6 +21,11 @@ PA5/6
     * Minor HTML and CSS tweaks 
 
 
+- __Mike__
+    * Debbuged create and edit bookmark and folder modal and functionality
+    * Added validation before creation of bookmark 
+    * Error message when bookmark input is not valid
+
 Setup
 -----
 - The database interface has changed too. You can find the configurations in `database/config/config.json`. 
