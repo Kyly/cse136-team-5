@@ -1,21 +1,44 @@
 PA5/6
 =====
 
-- __Kyly__ 
-    * Added minification/concatenation for javascript and css. 
-    * Restructured client to be more OO. 
+- __Kyly__
+    * Added minification/concatenation for javascript and css.
+    * Restructured client to be more OO.
     * Debugged searching and filtering (Post/Ajax).
     * Debugged beck button functionality (Post/Ajax).
     * Debugged upload/download functionality (Post/Ajax).
     * Optimized font-awesome to contain only the icons we use (Post/Ajax).
     * Created Rollbar account and added rollbarjs for client side error tracking.
-    * Implemented change password functionality, auto login on register, and error handling for user management. 
+    * Implemented change password functionality, auto login on register, and error handling for user management.
+- __Sage__
+    * Spend time debugging and fixing queries in postback
+    * Got folders and functionality with addiding a bookmark to a folder woring in ajax and postback
+    * Got favorirtes working in postback/ ajax
+    * Fixed numerous small bugs in the project
+    * Set up of the server environment and database on server
+    * Did the deployment to the server on all projects
+    * Minor fixes to add bookmark in ajax
+    * Minor HTML and CSS tweaks
 
-- Kevin
-    * search and sort for handlebars
-    * favorites for handlebars
-    * back and home folder navigation
-    * debugging
+- __Mike__
+    * Debbuged create and edit bookmark and folder modal and functionality
+    * Added validation before creation of bookmark
+    * Error message when bookmark input is not valid
+
+- __Braxton__
+     * Implemented and stylized register form.
+     * Stylized login form.
+     * Implemented password salt and hashing with bcrypt
+     * Created error dialog
+     * Initial implementation of Dropzone for drag n' drop bookmark upload.
+     * Made UI adjustments
+
+- __Kevin__
+     * search and sort
+     * favorites
+     * back and home folder navigation
+     * debugging
+
 Setup
 -----
 - The database interface has changed too. You can find the configurations in `database/config/config.json`. 
