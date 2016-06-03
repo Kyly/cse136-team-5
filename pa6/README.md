@@ -19,7 +19,12 @@ PA5/6
     * Did the deployment to the server on all projects
     * Minor fixes to add bookmark in ajax 
     * Minor HTML and CSS tweaks 
-
+    
+- __Kevin__
+    * search and sort
+    * favorites
+    * back and home folder navigation
+    * debugging
 
 - __Mike__
     * Debbuged create and edit bookmark and folder modal and functionality
