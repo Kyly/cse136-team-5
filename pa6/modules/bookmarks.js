@@ -445,7 +445,8 @@ module.exports.update = function (req, res) {
     }
 
     var queryString = 'UPDATE Bookmarks SET url = ' + url + ', name = ' + name + ', description = '
-        + description + ', keywords = ' + keywords + ' WHERE id = ' + id + ' AND userid = ' + uid;
+        + description + ', keywords = ' + keywords + ' WHERE id = ' + id + ' AND userId = ' + uid;
+    
     db.query(queryString, function (err) {
         if (err)
         {
