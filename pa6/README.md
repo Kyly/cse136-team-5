@@ -1,19 +1,25 @@
 PA5/6
 =====
 
-- __Kyly__ 
-    * Added minification/concatenation for javascript and css. 
-    * Restructured client to be more OO. 
-    * Debugged searching and filtering (Post/Ajax).
-    * Debugged beck button functionality (Post/Ajax).
-    * Debugged upload/download functionality (Post/Ajax).
-    * Optimized font-awesome to contain only the icons we use (Post/Ajax).
-    * Created Rollbar account and added rollbarjs for client side error tracking.
-    * Implemented change password functionality, auto login on register, and error handling for user management. 
+- __Kyly__ : Team Lead
+    * Created general frontend layout (css, layout, javascript, handlebars)
+    * Selected and built up server framework
+    * Selected and put in place frontend templating and build tools
+    * Added functionality for upload/download server side
+    * Designed bookmark/folder/user schema
+    * Added minification/concatenation for javascript and css 
+    * Restructured client to be more OO 
+    * Debugged searching and filtering (Post/Ajax)
+    * Debugged back button functionality (Post/Ajax)
+    * Debugged upload/download functionality (Post/Ajax)
+    * Optimized font-awesome to contain only the icons we use (Post/Ajax)
+    * Created Rollbar account and added rollbarjs for client side error tracking
+    * Implemented change password functionality, auto login on register, and error handling for user management 
+    
 - __Sage__
     * Spend time debugging and fixing queries in postback
     * Got folders and functionality with addiding a bookmark to a folder woring in ajax and postback
-    * Got favorirtes working in postback/ ajax
+    * Got favorites working in postback/ ajax
     * Fixed numerous small bugs in the project 
     * Set up of the server environment and database on server 
     * Did the deployment to the server on all projects
